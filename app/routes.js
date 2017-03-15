@@ -1,5 +1,24 @@
+
+
 // app/routes.js
 module.exports = function(app, passport) {
+
+
+	var multer = require('multer');
+
+	var storage = multer.diskStorage({
+	destination: function (req, file, cb) {
+		cb(null, './upload/')
+	},
+	filename: function (req, file, cb) {
+		cb(null,'test.csv');
+	}
+});
+
+	var upload = multer({storage: storage}).single('csv');
+
+
+
 
 	// =====================================
 	// HOME PAGE (with login links) ========
@@ -17,6 +36,33 @@ module.exports = function(app, passport) {
 		// render the page and pass in any flash data if it exists
 		res.render('login.ejs', { message: req.flash('loginMessage') });
 	});
+
+//=======================================
+//UPLOAD=================================
+//=======================================
+// show upload form
+app.get('/upload',isLoggedIn, function(req, res){
+	res.render('upload.ejs');
+});
+
+// show result from input
+app.post('/upload',isLoggedIn, function(req,res){
+	upload(req,res, function (err){
+		if(err){
+			console.log(err);
+		}
+
+		 console.log("Inside");
+		  console.log(req.file);
+			res.render('sql.ejs', { file: req.file });
+	})
+
+
+
+
+});
+
+
 
 	// process the login form
 	app.post('/login', passport.authenticate('local-login', {
@@ -39,9 +85,15 @@ module.exports = function(app, passport) {
 	// SIGNUP ==============================
 	// =====================================
 	// show the signup form
-	app.get('/signup', function(req, res) {
+	app.get('/signup', isLoggedIn, function(req, res) {
 		// render the page and pass in any flash data if it exists
+		console.log(req.user.id);
+		if(req.user.id==1){
 		res.render('signup.ejs', { message: req.flash('signupMessage') });
+	}
+	else {
+		res.redirect('/');
+	}
 	});
 
 	// process the signup form

@@ -1,0 +1,47 @@
+<!doctype html>
+<html>
+<head>
+	<title>CSV Upload</title>
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css"> <!-- load bootstrap css -->
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"> <!-- load fontawesome -->
+	<style>
+		body 		{ padding-top:80px; }
+	</style>
+</head>
+<body>
+	<div class="page-header text-center">
+		<h1><span class="fa fa-upload"></span> CSV Upload</h1>
+		<a href="/logout" class="btn btn-default btn-sm">Logout</a>
+	</div>
+<div class="container">
+
+<div class="col-sm-6 col-sm-offset-3">
+
+
+
+
+
+
+	<!-- LOGIN FORM -->
+	<form action='/upload' method="post" enctype="multipart/form-data">
+		<div class="form-group">
+			<label>CSV</label>
+			<input type="file" name="csv" accept=".csv"/>
+
+		</div>
+
+
+		<input type="submit" class="btn btn-warning btn-lg" />
+	</form>
+
+	<hr>
+
+
+
+
+
+</div>
+
+</div>
+</body>
+</html>
