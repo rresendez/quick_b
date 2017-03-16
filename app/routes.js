@@ -5,6 +5,12 @@ module.exports = function(app, passport) {
 
 
 	var multer = require('multer');
+	var fs = require('fs');
+	var csv = require('fast-csv');
+	var mysql = require("mysql");
+	var keys = require('./keys');
+  var passw = keys.pass;
+
 
 	var storage = multer.diskStorage({
 	destination: function (req, file, cb) {
@@ -56,11 +62,91 @@ app.post('/upload',isLoggedIn, function(req,res){
 		  console.log(req.file);
 			res.render('sql.ejs', { file: req.file });
 	})
-
-
-
-
 });
+//=======================================
+//FORM_PROCESS===========================
+//=======================================
+app.post('/sql',isLoggedIn, function(req, res){
+//FILE_SYSTEM_CSV========================
+	//File location
+
+	var stream = fs.createReadStream('./upload/test.csv');
+	//Opening CSV
+	  console.log("Retriving info from CSV");
+	//CSV fast-csv object setup
+
+	csv
+	  .fromStream(stream, {headers: true})
+	// Validation
+
+	  .on("data", function(data){
+			console.log(data);
+//MYSQL_CONNECTION=======================
+
+    //MySQL conneciton to db
+
+    var con = mysql.createConnection({
+      host: "localhost",
+      user:"root",
+      password:passw,
+      database: "ingenium"
+    });
+
+    //Estabilishg connection
+
+    con.connect(function(err){
+      if(err){
+        console.log('Error conecting to MySQL');
+        return;
+      }
+      console.log('Connection to MySQL established');
+    });
+
+    //Creating query
+    var qry_cnt = "SELECT count(1) AS num,count(statecode) AS state from csv where policyID=";
+    qry_cnt=qry_cnt+data.policyID;
+
+    con.query(qry_cnt,function(err,rows){
+      if(err) throw err;
+
+
+     console.log(rows[0].num);
+     //Insert
+     //Check if no record
+     if(rows[0].num<1){
+
+       console.log("Entry on CSV not found in SQL, adding entry")
+       var qry_inst = "INSERT INTO csv VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+     //Insert unexistend rows
+     con.query(qry_inst,[data.policyID,data.statecode,data.county,data.eq_site_limit,data.hu_site_limit,data.fl_site_limit,data.fr_site_limit,data.tiv_2011,data.tiv_2012,data.eq_site_deductible,data.hu_site_deductible,0,0,data.point_latitude,data.point_longitude,data.line,data.construction,data.point_granularity],
+       function(err,result){
+         if(err) throw err;
+				 console.log(result);
+         console.log('Changed '+ result.affectedRows + ' rows');
+
+       }
+
+
+     )
+   }
+
+
+		})
+	})
+		//MYSQL_CONNECTION_END=======================
+
+		//CSV_END====================================
+
+
+
+		.on("end", function(){
+      console.log("CSV file closed, have a nice day ;)");
+    });
+
+
+	res.render('sql_done');
+})
+
 
 
 
