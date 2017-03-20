@@ -11,7 +11,7 @@ module.exports = function(app, passport) {
 	var keys = require('./keys');
   var passw = keys.pass;
 
-
+// Configure multer for file name and location
 	var storage = multer.diskStorage({
 	destination: function (req, file, cb) {
 		cb(null, './upload/')
@@ -20,7 +20,7 @@ module.exports = function(app, passport) {
 		cb(null,'test.csv');
 	}
 });
-
+// initialize upload object with multer for single file
 	var upload = multer({storage: storage}).single('csv');
 
 
@@ -41,6 +41,41 @@ module.exports = function(app, passport) {
 
 		// render the page and pass in any flash data if it exists
 		res.render('login.ejs', { message: req.flash('loginMessage') });
+	});
+
+	// =====================================
+	// LOGS ===============================
+	// =====================================
+	// show the logs
+	app.get('/logs', isLoggedIn,function(req,res){
+
+		//MYSQL_CONNECTION=======================
+
+				//MySQL conneciton to db
+
+				var con = mysql.createConnection({
+					host: "localhost",
+					user:"root",
+					password:passw,
+					database: "local_auth"
+				});
+
+				//Estabilishg connection
+
+				con.connect(function(err){
+					if(err){
+						console.log('Error conecting to MySQL');
+						return;
+					}
+					console.log('Connection to MySQL established');
+				});
+				con.query("SELECT * FROM logs ORDER BY date DESC ",function(err,rows){
+         console.log(rows);
+				 res.render('logs.ejs',{data:rows});
+
+				})
+
+
 	});
 
 //=======================================
@@ -89,7 +124,7 @@ app.post('/sql',isLoggedIn, function(req, res){
       host: "localhost",
       user:"root",
       password:passw,
-      database: "ingenium"
+      database: "local_auth"
     });
 
     //Estabilishg connection
@@ -123,6 +158,18 @@ app.post('/sql',isLoggedIn, function(req, res){
          if(err) throw err;
 				 console.log(result);
          console.log('Changed '+ result.affectedRows + ' rows');
+				 var d = new Date();
+
+
+				 con.query("INSERT INTO logs (date, rows_affected,username) VALUES(?,?,?) ON DUPLICATE KEY UPDATE rows_affected = rows_affected + 1",[d.toString(),1,req.user.username],
+				function(err){
+					if(err) throw err;
+
+				console.log("Log created!");
+			}
+			)
+
+
 
        }
 
@@ -133,7 +180,7 @@ app.post('/sql',isLoggedIn, function(req, res){
 
 		})
 	})
-		//MYSQL_CONNECTION_END=======================
+
 
 		//CSV_END====================================
 
@@ -143,8 +190,14 @@ app.post('/sql',isLoggedIn, function(req, res){
       console.log("CSV file closed, have a nice day ;)");
     });
 
+	//Retrive affected rows
 
+	//Create conection
+
+
+//MYSQL_CONNECTION_END=======================
 	res.render('sql_done');
+
 })
 
 

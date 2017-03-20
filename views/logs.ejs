@@ -1,0 +1,49 @@
+<!doctype html>
+<html>
+<head>
+	<title>Logs</title>
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css"> <!-- load bootstrap css -->
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"> <!-- load fontawesome -->
+	<style>
+		body 		{ padding-top:80px; }
+	</style>
+
+</head>
+<body>
+<div class="container">
+
+<div class="col-sm-6 col-sm-offset-3">
+
+	<h1><span class="fa fa-check-circle"></span>Logs</h1>
+  <table border="2">
+    <col width="120">
+    <col width="100">
+
+    <thead>
+      <tr>
+        <th>User</th>
+        <th>Affected Rows </th>
+        <th>Date</th>
+      </tr>
+    </thead>
+  <tbody>
+
+    <% data.forEach(function(row){ %>
+      <tr>
+      <td align="center"><%= row.username %> </td>
+     <td align="center"><%= row.rows_affected %> </td>
+     <td align="center"><%= row.date %> </td>
+   </tr>
+    <% }); %>
+
+
+
+
+
+	<p>Go back <a href="/profile">profile</a></p>
+
+</div>
+
+</div>
+</body>
+</html>

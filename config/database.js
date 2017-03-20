@@ -6,5 +6,7 @@ module.exports = {
         'password': 'Rodriguez24'
     },
 	'database': 'local_auth',
-    'users_table': 'users'
+    'users_table': 'users',
+    'log_table': 'logs'
+
 };
