@@ -1,0 +1,3 @@
+id,cod_consult,iswalkin_consult,date_consult,start_consult,end_consult,id_provider,maxwtime_consult,id_patient,id_state,checkin_consult,checkout_consult
+49072,49068,0,3/16/17,8:45:00,9:00:00,12,0:00:00,1812,1,NULL,NULL
+,,,-,-,,,,*1,,,
