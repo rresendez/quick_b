@@ -60,10 +60,10 @@ module.exports = function(app, passport) {
 				//MySQL conneciton to db
 
 				var con = mysql.createConnection({
-					host: "localhost",
-					user:"root",
-					password:passw,
-					database: "local_auth"
+					host: "inartec-db1.caqs6gipj1jl.sa-east-1.rds.amazonaws.com",
+					user:"swe",
+					password:"ingenium2015",
+					database: "it01_db_beta01e_medicalpractice"
 				});
 
 				//Estabilishg connection
@@ -145,12 +145,12 @@ app.post('/sql',isLoggedIn, function(req, res){
 
     //MySQL conneciton to db
 
-    var con = mysql.createConnection({
-      host: "localhost",
-      user:"root",
-      password:passw,
-      database: "local_auth"
-    });
+		var con = mysql.createConnection({
+			host: "inartec-db1.caqs6gipj1jl.sa-east-1.rds.amazonaws.com",
+			user:"swe",
+			password:"ingenium2015",
+			database: "it01_db_beta01e_medicalpractice"
+		});
 
     //Estabilishg connection
 
@@ -245,11 +245,11 @@ app.post('/sql',isLoggedIn, function(req, res){
 			console.log("Date: "+ format_date + " Time: "+ data_time);
 			// New conection
 			var con = mysql.createConnection({
-	      host: "localhost",
-	      user:"root",
-	      password:passw,
-	      database: "local_auth"
-	    });
+				host: "inartec-db1.caqs6gipj1jl.sa-east-1.rds.amazonaws.com",
+				user:"swe",
+				password:"ingenium2015",
+				database: "it01_db_beta01e_medicalpractice"
+			});
 			//Second query
 			con.query("SELECT * FROM tbl_consult WHERE id_patient=? and date_consult=?",[real_id,format_date],function (err_b,result_b){
 
