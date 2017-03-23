@@ -223,21 +223,40 @@ app.post('/sql',isLoggedIn, function(req, res){
 			//Begin second query on tbl_patient
 			//Split csv date into date and time
 			var temp_data = data.t_ap_starttime.split(" ");
+
+			//Check for missing 0 in date format
+			if(temp_data[0][1]=="/"){
+				temp_data[0]="0"+temp_data[0];
+			}
+			//Assing date to variable
 			var data_date = temp_data[0];
-			//Check for wrong time format
+
+			//Check for missing 0 in time format
 			if(temp_data[1][1]==":"){
 				temp_data[1]="0"+temp_data[1];
 			}
-			//Finish correcting wrong time format 
+			//Finish correcting wrong time format
 			var data_time = temp_data[1]+":00";
+			//Correct CSV date format
+			var format_date=data_date.split("/");
+
+			format_date= format_date[2]+"-"+format_date[0]+"-"+format_date[1];
 			// Testing for correct splitashion XD
-			console.log("Date: "+ data_date + " Time: "+ data_time);
+			console.log("Date: "+ format_date + " Time: "+ data_time);
+			// New conection
+			var con = mysql.createConnection({
+	      host: "localhost",
+	      user:"root",
+	      password:passw,
+	      database: "local_auth"
+	    });
 			//Second query
-			con.query("SELECT * FROM tbl_consult WHERE id_patient=? and date_consult=?",[real_id,data_date],function (err_b,result_b){
+			con.query("SELECT * FROM tbl_consult WHERE id_patient=? and date_consult=?",[real_id,format_date],function (err_b,result_b){
+
 			if(err_b) throw err_b;
 			//Loop trough results
 			for(var i =0; i<result_b.length;i++){
-			console.log("Result date from 2nd Query:"+ result_b[i].end_consult);
+			console.log("Result date from 2nd Query:"+ result_b[i].date_consult);
 			//Check state for row completion
 			if(result_b[i].id_state!=4){
 			//Check for no time match in DB
@@ -256,12 +275,14 @@ app.post('/sql',isLoggedIn, function(req, res){
 		}
 		})
 	}
-
-	})
+	con.end();
+	console.log("MySql conneciton ended");
+	} )
 
 
 		.on("end", function(){
       console.log("CSV file closed, have a nice day ;)");
+
     });
 
 	//Retrive affected rows
