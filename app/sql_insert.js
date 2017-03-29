@@ -1,20 +1,25 @@
 module.exports = function(app, passport) {
 
+
+	var multer = require('multer');
 	var fs = require('fs');
 	var csv = require('fast-csv');
 	var mysql = require("mysql");
+	var dialog = require('dialog');
+	const csv_a="c_staffname,c_office_name,d_ap_date,t_ap_starttime,t_ap_endtime,c_ap_confirm,c_pe_patient_id,c_pe_name,n_pe_age,c_ap_code,c_ap_desc,c_pe_wphone,c_pe_hphone,c_pe_w_ext,c_ref_name,c_ap_note,c_pe_chart,n_bl_id,d_pe_dob,m_pe_ins_due,m_pe_pat_due,n_pe_id,name_1,c_apc_id,c_user_id,c_vrc_desc,l_apt_new_patient,c_st_id";
+	var keys = require('./keys');
+	var ids=[];
 	var ids_ind=0;
 	var call =0;
 
 
-
+  var passw = keys.pass;
 
 
   //=======================================
   //FORM_PROCESS===========================
   //=======================================
   app.post('/sql',isLoggedIn, function(req, res){
-		var ids=[];
   //FILE_SYSTEM_CSV========================
   	//File location
 
@@ -112,7 +117,7 @@ module.exports = function(app, passport) {
 					//Insert
 					con.query("INSERT INTO tbl_tmp_id VALUES (? ,?)",[real_id,format_date],function(err,resu){
 						if(err){
-							console.log("Error attempting to insert new row");
+							console.log(err);
 						};
 						console.log(resu);
 					});
@@ -131,14 +136,9 @@ module.exports = function(app, passport) {
   			con.query("SELECT * FROM tbl_consult WHERE id_patient=? and date_consult=?",[real_id,format_date],function (err_b,result_b){
 
   			if(err_b) throw err_b;
-				//Check for option 4 no record found
+				//Check for option 3 no record found
 				if(result_b.length<=0){
 					console.log("Option 4 ,No entries found, creating entry");
-					//Call store procedure
-					con.query("CALL 00000_Create_APP_RECORD(?,?,?,?)",[format_date,real_id,data.t_ap_starttime,data.c_ap_confirm],function(err_c,result_c){
-						if(err_c) console.log(err_c);
-						else console.log(result_c);
-					})
 				}
   			//Loop trough results
   			for(var i =0; i<result_b.length;i++){
@@ -169,8 +169,7 @@ module.exports = function(app, passport) {
 
 
   				}
-
-
+					console.log("Call n: "+call);
 
 
   		}
@@ -178,7 +177,7 @@ module.exports = function(app, passport) {
 
       con.end();
       console.log("MySql conneciton ended");
-
+			call++;
 
 
 
