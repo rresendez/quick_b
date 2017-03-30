@@ -114,6 +114,7 @@ module.exports = function(app, passport) {
 						if(err){
 							console.log("Error attempting to insert new row");
 						};
+						console.log("Temp table result\n");
 						console.log(resu);
 					});
 					con.end();
@@ -135,37 +136,75 @@ module.exports = function(app, passport) {
 				if(result_b.length<=0){
 					console.log("Option 4 ,No entries found, creating entry");
 					//Call store procedure
-					con.query("CALL 00000_Create_APP_RECORD(?,?,?,?)",[format_date,real_id,data.t_ap_starttime,data.c_ap_confirm],function(err_c,result_c){
-						if(err_c) console.log(err_c);
-						else console.log(result_c);
-					})
+
 				}
+				//Del count
+				var del_count=0;
   			//Loop trough results
   			for(var i =0; i<result_b.length;i++){
   			console.log("Result date from 2nd Query:"+ result_b[i].date_consult);
-  			//Check state for row completion
-				//Check for option 1
+
+
+				//Check for option 1 and 3
   			if(result_b[i].id_state==4){
-					console.log("Option 1 and 3, State 4 found\nDelete other entries");
-
-
-
+					console.log("Option 1 and 3 found, deleting all non 4 states")
+					remove_not(con,real_id,format_date,function(err,result){
+						if(err)console.log(err);
+						else {
+							console.log("Found 4 state result\n");
+							console.log(result);
+						}
+					})
 				}
   			//Check for option 2 no time match in DB
-  				if(result_b[i].end_consult!=data_time){
+  				if(result_b[i].start_consult!=data_time){
+						var temp_id =result_b[i].id;
+						console.log(temp_id);
   					console.log("Option 2, Time from DB does not match CSV");
+				//Call update time
+						update_time (con,data_time,temp_id,function(err,result){
+							if(err)console.log(err);
+							else {
+									console.log("Time update result\n");
+									console.log(result);
+									//Create new sql connection
+									var con = mysql.createConnection({
+					  				host: "inartec-db1.caqs6gipj1jl.sa-east-1.rds.amazonaws.com",
+					  				user:"swe",
+					  				password:"ingenium2015",
+					  				database: "it01_db_beta01e_medicalpractice"
+					  			});
+									//Delete wrong times
+									if(result.length>1){
+									del_two(con,format_date,real_id,temp_id,function(err,result){
+										if(err) console.log(err);
+										else{
+											console.log("Delete wrong time result");
+											console.log(result);
+										}
+									})
+																		}
+								}
+						})
 
 
-            //Third inner Query
-            /*con.query("SELECT * FROM tbl_consult WHERE id_patient=? ",[real_id],function (err_c,result_c){
-              if(err_c) throw err_c;
-              console.log("Result c: "+result_c[0].id);
-            })*/
 
 
   				}
-  				else{
+  				else if(del_count<1){
+
   					console.log("Time from DB matches CSV");
+						var temp_id_2 =result_b[i].id;
+						del_two(con,format_date,real_id,temp_id_2,function(err,result){
+							if(err) console.log(err);
+							else{
+								console.log("Delete all but one matching time");
+								console.log(result);
+							}
+
+
+					})
+							del_count++;
 
 
   				}
@@ -216,6 +255,35 @@ module.exports = function(app, passport) {
 
 
   };
+	//Function Remove not 4 for option 1 and 3
+
+	function remove_not (con,real_id,format_date,callback){
+	  con.query('DELETE from tbl_consult WHERE id_patient=? AND date_consult=? AND id_state!=4 ',[real_id,format_date],function(err,result){
+	    if(err) callback(err,null);
+	      else {
+	        callback(null,result);
+	      }
+	  })
+
+	}
+	// Function update wrong time for option 2
+	function update_time (con,data_time,temp_id,callback){
+		con.query('UPDATE tbl_consult SET start_consult=? WHERE id=?',[data_time,temp_id],function(err,result){
+			if(err) callback(err,null);
+			else callback(null,result);
+
+		})
+	}
+	//Function delete all other entries with wrong time for option 2
+	function del_two (con,format_date,real_id,temp_id,callback){
+		con.query('DELETE from tbl_consult WHERE date_consult=? AND id_patient=? AND id!=? AND id_state!=4',[format_date,real_id,temp_id],function(err,result){
+			if(err) callback(err,null);
+			else callback(null,result);
+		})
+	}
+	//Function delete all but one entrie where time match option 2.5
+
+
 
   // route middleware to make sure
   function isLoggedIn(req, res, next) {
