@@ -135,6 +135,41 @@ module.exports = function(app, passport) {
 				//Check for option 4 no record found
 				if(result_b.length<=0){
 					console.log("Option 4 ,No entries found, creating entry");
+
+					//Formating provider name
+					var prov_name = data.c_staffname.split(",");
+					var prov_last = prov_name[0];
+					var prov_fname = prov_name[1].slice(1);
+					console.log("Provider first name: "+ prov_fname);
+					console.log("Provider last name: "+ prov_last);
+					//Retriving real provider id
+
+					get_prov(con,prov_fname,prov_last,function(err,id){
+						if(err)console.log(err);
+						else{
+							console.log("Real provider id: "+ id[0].id);
+							//Create new connection for subquery
+							var con = mysql.createConnection({
+			  				host: "inartec-db1.caqs6gipj1jl.sa-east-1.rds.amazonaws.com",
+			  				user:"swe",
+			  				password:"ingenium2015",
+			  				database: "it01_db_beta01e_medicalpractice"
+			  			});
+							//Creating new entries
+						add_new(con,format_date,data_time,real_id,id[0].id,function(err,result){
+								if(err) console.log(err);
+								else{
+									console.log("Result for entry creation");
+									console.log(result);
+								}
+							})
+
+						}
+					})
+
+
+
+
 					//Call store procedure
 
 				}
@@ -174,13 +209,15 @@ module.exports = function(app, passport) {
 					  				password:"ingenium2015",
 					  				database: "it01_db_beta01e_medicalpractice"
 					  			});
+
 									//Delete wrong times
-									if(result.length>1){
+									if(result_b.length>1){
 									del_two(con,format_date,real_id,temp_id,function(err,result){
 										if(err) console.log(err);
 										else{
 											console.log("Delete wrong time result");
 											console.log(result);
+											del_count++;
 										}
 									})
 																		}
@@ -281,7 +318,20 @@ module.exports = function(app, passport) {
 			else callback(null,result);
 		})
 	}
-	//Function delete all but one entrie where time match option 2.5
+	function get_prov(con,prov_fname,prov_last,callback){
+		con.query('SELECT id FROM tbl_user WHERE fristname_user=? AND lastname_user=?',[prov_fname,prov_last],function(err,id){
+			if(err) callback(err,null);
+			else callback(null,id);
+		})
+	}
+	//Function to add new entry
+	function add_new(con,format_date,data_time,real_id,id_provider,callback){
+		con.query('CALL 00000_Create_APP_RECORD(?,?,?,?)',[format_date,data_time,real_id,id_provider],function(err,result){
+			if(err) callback(err,null);
+			else callback(null,result);
+		})
+	}
+
 
 
 
