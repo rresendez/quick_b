@@ -1,108 +1,1 @@
-c_staffname,c_office_name,d_ap_date,t_ap_starttime,t_ap_endtime,c_ap_confirm,c_pe_patient_id,c_pe_name,n_pe_age,c_ap_code,c_ap_desc,c_pe_wphone,c_pe_hphone,c_pe_w_ext,c_ref_name,c_ap_note,c_pe_chart,n_bl_id,d_pe_dob,m_pe_ins_due,m_pe_pat_due,n_pe_id,name_1,c_apc_id,c_user_id,c_vrc_desc,l_apt_new_patient,c_st_id
-"Argenal, Rodrigo",Rodrigo Argenal MD PA,3/16/2017 0:00,3/16/2017 8:00,,,,,,,,,,,,,,,,,,,0,,,,0,RA
-"Argenal, Rodrigo",Rodrigo Argenal MD PA,3/16/2017 0:00,3/16/2017 8:15,,,,,,,,,,,,,,,,,,,0,,,,0,RA
-"Argenal, Rodrigo",Rodrigo Argenal MD PA,3/16/2017 0:00,3/16/2017 8:30,,,,,,,,,,,,,,,,,,,0,,,,0,RA
-"Argenal, Rodrigo",Rodrigo Argenal MD PA,3/16/2017 0:00,3/16/2017 8:45,,,,,,,,,,,,,,,,,,,0,,,,0,RA
-"Argenal, Rodrigo",Rodrigo Argenal MD PA,3/16/2017 0:00,3/16/2017 9:00,3/16/2017 9:15,1,6996,"MENA, LUIS",38,WC,Well Child,,9564677859,,,4 MONTH WCC ,,,6/7/1978 0:00,315,18.74,76780,0,EP,BRIANMCGRAW,,0,RA
-"Argenal, Rodrigo",Rodrigo Argenal MD PA,3/16/2017 0:00,3/16/2017 9:15,,,,,,,,,,,,,,,,,,,0,,,,0,RA
-"Argenal, Rodrigo",Rodrigo Argenal MD PA,3/16/2017 0:00,3/16/2017 9:30,3/16/2017 9:15,1,6996,"MENA, LUIS",38,WC,Well Child,,9564677859,,,4 MONTH WCC ,,,6/7/1978 0:00,315,18.74,76780,0,EP,BRIANMCGRAW,,0,RA
-"Argenal, Rodrigo",Rodrigo Argenal MD PA,3/16/2017 0:00,3/16/2017 9:45,3/16/2017 9:15,1,6969,"MENA, LUIS",38,WC,Well Child,,9564677859,,,4 MONTH WCC ,,,6/7/1978 0:00,315,18.74,76780,0,EP,BRIANMCGRAW,,0,RA
-"Argenal, Rodrigo",Rodrigo Argenal MD PA,3/16/2017 0:00,3/16/2017 10:00,3/16/2017 9:15,1,7678,"MENA, LUIS",38,WC,Well Child,,9564677859,,,4 MONTH WCC ,,,6/7/1978 0:00,315,18.74,76780,0,EP,BRIANMCGRAW,,0,RA
-"Argenal, Rodrigo",Rodrigo Argenal MD PA,3/16/2017 0:00,3/16/2017 10:15,3/16/2017 9:15,1,7678,"MENA, LUIS",38,WC,Well Child,,9564677859,,,4 MONTH WCC ,,,6/7/1978 0:00,315,18.74,76780,0,EP,BRIANMCGRAW,,0,RA
-"Argenal, Rodrigo",Rodrigo Argenal MD PA,3/16/2017 0:00,3/16/2017 10:30,3/16/2017 9:15,1,7678,"MENA, LUIS",38,WC,Well Child,,9564677859,,,4 MONTH WCC ,,,6/7/1978 0:00,315,18.74,76780,0,EP,BRIANMCGRAW,,0,RA
-"Argenal, Rodrigo",Rodrigo Argenal MD PA,3/16/2017 0:00,3/16/2017 10:45,3/16/2017 9:15,1,7678,"MENA, LUIS",38,WC,Well Child,,9564677859,,,4 MONTH WCC ,,,6/7/1978 0:00,315,18.74,76780,0,EP,BRIANMCGRAW,,0,RA
-"Argenal, Rodrigo",Rodrigo Argenal MD PA,3/16/2017 0:00,3/16/2017 11:00,3/16/2017 9:15,1,7678,"MENA, LUIS",38,WC,Well Child,,9564677859,,,4 MONTH WCC ,,,6/7/1978 0:00,315,18.74,76780,0,EP,BRIANMCGRAW,,0,RA
-"Argenal, Rodrigo",Rodrigo Argenal MD PA,3/16/2017 0:00,3/16/2017 11:00,3/16/2017 9:15,1,7678,"MENA, LUIS",38,WC,Well Child,,9564677859,,,4 MONTH WCC ,,,6/7/1978 0:00,315,18.74,76780,0,EP,BRIANMCGRAW,,0,RA
-"Argenal, Rodrigo",Rodrigo Argenal MD PA,3/16/2017 0:00,3/16/2017 11:15,3/16/2017 9:15,1,7678,"MENA, LUIS",38,WC,Well Child,,9564677859,,,4 MONTH WCC ,,,6/7/1978 0:00,315,18.74,76780,0,EP,BRIANMCGRAW,,0,RA
-"Argenal, Rodrigo",Rodrigo Argenal MD PA,3/16/2017 0:00,3/16/2017 11:30,3/16/2017 9:15,1,7678,"MENA, LUIS",38,WC,Well Child,,9564677859,,,4 MONTH WCC ,,,6/7/1978 0:00,315,18.74,76780,0,EP,BRIANMCGRAW,,0,RA
-"Argenal, Rodrigo",Rodrigo Argenal MD PA,3/16/2017 0:00,3/16/2017 11:45,3/16/2017 9:15,1,7678,"MENA, LUIS",38,WC,Well Child,,9564677859,,,4 MONTH WCC ,,,6/7/1978 0:00,315,18.74,76780,0,EP,BRIANMCGRAW,,0,RA
-"Argenal, Rodrigo",Rodrigo Argenal MD PA,3/16/2017 0:00,3/16/2017 11:45,3/16/2017 9:15,1,7678,"MENA, LUIS",38,WC,Well Child,,9564677859,,,4 MONTH WCC ,,,6/7/1978 0:00,315,18.74,76780,0,EP,BRIANMCGRAW,,0,RA
-"Argenal, Rodrigo",Rodrigo Argenal MD PA,3/16/2017 0:00,3/16/2017 12:00,3/16/2017 9:15,1,7678,"MENA, LUIS",38,WC,Well Child,,9564677859,,,4 MONTH WCC ,,,6/7/1978 0:00,315,18.74,76780,0,EP,BRIANMCGRAW,,0,RA
-"Argenal, Rodrigo",Rodrigo Argenal MD PA,3/16/2017 0:00,3/16/2017 12:15,,,,,,,,,,,,,,,,,,,0,,,,0,RA
-"Argenal, Rodrigo",Rodrigo Argenal MD PA,3/16/2017 0:00,3/16/2017 12:30,,,,,,,,,,,,,,,,,,,0,,,,0,RA
-"Argenal, Rodrigo",Rodrigo Argenal MD PA,3/16/2017 0:00,3/16/2017 12:45,,,,,,,,,,,,,,,,,,,0,,,,0,RA
-"Argenal, Rodrigo",Rodrigo Argenal MD PA,3/16/2017 0:00,3/16/2017 13:00,,,,,,,,,,,,,,,,,,,0,,,,0,RA
-"Argenal, Rodrigo",Rodrigo Argenal MD PA,3/16/2017 0:00,3/16/2017 13:15,,,,,,,,,,,,,,,,,,,0,,,,0,RA
-"Argenal, Rodrigo",Rodrigo Argenal MD PA,3/16/2017 0:00,3/16/2017 13:30,,,,,,,,,,,,,,,,,,,0,,,,0,RA
-"Argenal, Rodrigo",Rodrigo Argenal MD PA,3/16/2017 0:00,3/16/2017 13:45,,,,,,,,,,,,,,,,,,,0,,,,0,RA
-"Argenal, Rodrigo",Rodrigo Argenal MD PA,3/16/2017 0:00,3/16/2017 14:00,,,,,,,,,,,,,,,,,,,0,,,,0,RA
-"Argenal, Rodrigo",Rodrigo Argenal MD PA,3/16/2017 0:00,3/16/2017 14:15,,,,,,,,,,,,,,,,,,,0,,,,0,RA
-"Argenal, Rodrigo",Rodrigo Argenal MD PA,3/16/2017 0:00,3/16/2017 14:30,3/16/2017 9:15,1,7678,"MENA, LUIS",38,WC,Well Child,,9564677859,,,4 MONTH WCC ,,,6/7/1978 0:00,315,18.74,76780,0,EP,BRIANMCGRAW,,0,RA
-"Argenal, Rodrigo",Rodrigo Argenal MD PA,3/16/2017 0:00,3/16/2017 14:45,3/16/2017 9:15,1,7678,"MENA, LUIS",38,WC,Well Child,,9564677859,,,4 MONTH WCC ,,,6/7/1978 0:00,315,18.74,76780,0,EP,BRIANMCGRAW,,0,RA
-"Argenal, Rodrigo",Rodrigo Argenal MD PA,3/16/2017 0:00,3/16/2017 15:00,3/16/2017 9:15,1,7678,"MENA, LUIS",38,WC,Well Child,,9564677859,,,4 MONTH WCC ,,,6/7/1978 0:00,315,18.74,76780,0,EP,BRIANMCGRAW,,0,RA
-"Argenal, Rodrigo",Rodrigo Argenal MD PA,3/16/2017 0:00,3/16/2017 15:15,3/16/2017 9:15,1,7678,"MENA, LUIS",38,WC,Well Child,,9564677859,,,4 MONTH WCC ,,,6/7/1978 0:00,315,18.74,76780,0,EP,BRIANMCGRAW,,0,RA
-"Argenal, Rodrigo",Rodrigo Argenal MD PA,3/16/2017 0:00,3/16/2017 15:30,3/16/2017 9:15,1,7678,"MENA, LUIS",38,WC,Well Child,,9564677859,,,4 MONTH WCC ,,,6/7/1978 0:00,315,18.74,76780,0,EP,BRIANMCGRAW,,0,RA
-"Argenal, Rodrigo",Rodrigo Argenal MD PA,3/16/2017 0:00,3/16/2017 15:45,3/16/2017 9:15,1,7678,"MENA, LUIS",38,WC,Well Child,,9564677859,,,4 MONTH WCC ,,,6/7/1978 0:00,315,18.74,76780,0,EP,BRIANMCGRAW,,0,RA
-"Argenal, Rodrigo",Rodrigo Argenal MD PA,3/16/2017 0:00,3/16/2017 16:00,,,,,,,,,,,,,,,,,,,0,,,,0,RA
-"Argenal, Rodrigo",Rodrigo Argenal MD PA,3/16/2017 0:00,3/16/2017 16:15,3/16/2017 9:15,1,7678,"MENA, LUIS",38,WC,Well Child,,9564677859,,,4 MONTH WCC ,,,6/7/1978 0:00,315,18.74,76780,0,EP,BRIANMCGRAW,,0,RA
-"Argenal, Rodrigo",Rodrigo Argenal MD PA,3/16/2017 0:00,3/16/2017 16:30,3/16/2017 9:15,1,7678,"MENA, LUIS",38,WC,Well Child,,9564677859,,,4 MONTH WCC ,,,6/7/1978 0:00,315,18.74,76780,0,EP,BRIANMCGRAW,,0,RA
-"Argenal, Rodrigo",Rodrigo Argenal MD PA,3/16/2017 0:00,3/16/2017 16:45,3/16/2017 9:15,1,7678,"MENA, LUIS",38,WC,Well Child,,9564677859,,,4 MONTH WCC ,,,6/7/1978 0:00,315,18.74,76780,0,EP,BRIANMCGRAW,,0,RA
-"Argenal, Rodrigo",Rodrigo Argenal MD PA,3/16/2017 0:00,3/16/2017 17:00,3/16/2017 9:15,1,7678,"MENA, LUIS",38,WC,Well Child,,9564677859,,,4 MONTH WCC ,,,6/7/1978 0:00,315,18.74,76780,0,EP,BRIANMCGRAW,,0,RA
-"Argenal, Rodrigo",Rodrigo Argenal MD PA,3/16/2017 0:00,3/16/2017 17:15,,,,,,,,,,,,,,,,,,,0,,,,0,RA
-"Argenal, Rodrigo",Rodrigo Argenal MD PA,3/16/2017 0:00,3/16/2017 17:30,,,,,,,,,,,,,,,,,,,0,,,,0,RA
-"Argenal, Rodrigo",Rodrigo Argenal MD PA,3/16/2017 0:00,3/16/2017 17:45,,,,,,,,,,,,,,,,,,,0,,,,0,RA
-"Argenal, Rodrigo",Rodrigo Argenal MD PA,3/16/2017 0:00,3/16/2017 18:00,,,,,,,,,,,,,,,,,,,0,,,,0,RA
-"Argenal, Rodrigo",Rodrigo Argenal MD PA,3/16/2017 0:00,3/16/2017 18:15,,,,,,,,,,,,,,,,,,,0,,,,0,RA
-"Argenal, Rodrigo",Rodrigo Argenal MD PA,3/16/2017 0:00,3/16/2017 18:30,,,,,,,,,,,,,,,,,,,0,,,,0,RA
-"Argenal, Rodrigo",Rodrigo Argenal MD PA,3/16/2017 0:00,3/16/2017 18:45,,,,,,,,,,,,,,,,,,,0,,,,0,RA
-"Argenal, Rodrigo",Rodrigo Argenal MD PA,3/16/2017 0:00,3/16/2017 19:00,,,,,,,,,,,,,,,,,,,0,,,,0,RA
-"Argenal, Rodrigo",Rodrigo Argenal MD PA,3/16/2017 0:00,3/16/2017 19:15,,,,,,,,,,,,,,,,,,,0,,,,0,RA
-"Argenal, Rodrigo",Rodrigo Argenal MD PA,3/16/2017 0:00,3/16/2017 19:30,,,,,,,,,,,,,,,,,,,0,,,,0,RA
-"Argenal, Rodrigo",Rodrigo Argenal MD PA,3/16/2017 0:00,3/16/2017 19:45,,,,,,,,,,,,,,,,,,,0,,,,0,RA
-"Argenal, Rodrigo",Rodrigo Argenal MD PA,3/16/2017 0:00,3/16/2017 20:00,,,,,,,,,,,,,,,,,,,0,,,,0,RA
-"Argenal, Rodrigo",Rodrigo Argenal MD PA,3/16/2017 0:00,3/16/2017 20:15,,,,,,,,,,,,,,,,,,,0,,,,0,RA
-"Argenal, Rodrigo",Rodrigo Argenal MD PA,3/16/2017 0:00,3/16/2017 20:30,,,,,,,,,,,,,,,,,,,0,,,,0,RA
-"Argenal, Rodrigo",Rodrigo Argenal MD PA,3/16/2017 0:00,3/16/2017 20:45,,,,,,,,,,,,,,,,,,,0,,,,0,RA
-"Ochoa, Kristy",Rodrigo Argenal MD PA,3/16/2017 0:00,3/16/2017 8:00,,,,,,,,,,,,,,,,,,,0,,,,0,KO
-"Ochoa, Kristy",Rodrigo Argenal MD PA,3/16/2017 0:00,3/16/2017 8:15,,,,,,,,,,,,,,,,,,,0,,,,0,KO
-"Ochoa, Kristy",Rodrigo Argenal MD PA,3/16/2017 0:00,3/16/2017 8:30,,,,,,,,,,,,,,,,,,,0,,,,0,KO
-"Ochoa, Kristy",Rodrigo Argenal MD PA,3/16/2017 0:00,3/16/2017 8:45,3/16/2017 9:15,1,7678,"MENA, LUIS",38,WC,Well Child,,9564677859,,,4 MONTH WCC ,,,6/7/1978 0:00,315,18.74,76780,0,EP,BRIANMCGRAW,,0,RA
-"Ochoa, Kristy",Rodrigo Argenal MD PA,3/16/2017 0:00,3/16/2017 9:00,,,,,,,,,,,,,,,,,,,0,,,,0,KO
-"Ochoa, Kristy",Rodrigo Argenal MD PA,3/16/2017 0:00,3/16/2017 9:15,,,,,,,,,,,,,,,,,,,0,,,,0,KO
-"Ochoa, Kristy",Rodrigo Argenal MD PA,3/16/2017 0:00,3/16/2017 9:30,,,,,,,,,,,,,,,,,,,0,,,,0,KO
-"Ochoa, Kristy",Rodrigo Argenal MD PA,3/16/2017 0:00,3/16/2017 9:45,3/16/2017 9:15,1,7678,"MENA, LUIS",38,WC,Well Child,,9564677859,,,4 MONTH WCC ,,,6/7/1978 0:00,315,18.74,76780,0,EP,BRIANMCGRAW,,0,RA
-"Ochoa, Kristy",Rodrigo Argenal MD PA,3/16/2017 0:00,3/16/2017 10:00,3/16/2017 9:15,1,7678,"MENA, LUIS",38,WC,Well Child,,9564677859,,,4 MONTH WCC ,,,6/7/1978 0:00,315,18.74,76780,0,EP,BRIANMCGRAW,,0,RA
-"Ochoa, Kristy",Rodrigo Argenal MD PA,3/16/2017 0:00,3/16/2017 10:15,3/16/2017 9:15,1,7678,"MENA, LUIS",38,WC,Well Child,,9564677859,,,4 MONTH WCC ,,,6/7/1978 0:00,315,18.74,76780,0,EP,BRIANMCGRAW,,0,RA
-"Ochoa, Kristy",Rodrigo Argenal MD PA,3/16/2017 0:00,3/16/2017 10:30,3/16/2017 9:15,1,7678,"MENA, LUIS",38,WC,Well Child,,9564677859,,,4 MONTH WCC ,,,6/7/1978 0:00,315,18.74,76780,0,EP,BRIANMCGRAW,,0,RA
-"Ochoa, Kristy",Rodrigo Argenal MD PA,3/16/2017 0:00,3/16/2017 10:45,3/16/2017 9:15,1,7678,"MENA, LUIS",38,WC,Well Child,,9564677859,,,4 MONTH WCC ,,,6/7/1978 0:00,315,18.74,76780,0,EP,BRIANMCGRAW,,0,RA
-"Ochoa, Kristy",Rodrigo Argenal MD PA,3/16/2017 0:00,3/16/2017 11:00,3/16/2017 9:15,1,7678,"MENA, LUIS",38,WC,Well Child,,9564677859,,,4 MONTH WCC ,,,6/7/1978 0:00,315,18.74,76780,0,EP,BRIANMCGRAW,,0,RA
-"Ochoa, Kristy",Rodrigo Argenal MD PA,3/16/2017 0:00,3/16/2017 11:00,3/16/2017 9:15,1,7678,"MENA, LUIS",38,WC,Well Child,,9564677859,,,4 MONTH WCC ,,,6/7/1978 0:00,315,18.74,76780,0,EP,BRIANMCGRAW,,0,RA
-"Ochoa, Kristy",Rodrigo Argenal MD PA,3/16/2017 0:00,3/16/2017 11:15,3/16/2017 9:15,1,7678,"MENA, LUIS",38,WC,Well Child,,9564677859,,,4 MONTH WCC ,,,6/7/1978 0:00,315,18.74,76780,0,EP,BRIANMCGRAW,,0,RA
-"Ochoa, Kristy",Rodrigo Argenal MD PA,3/16/2017 0:00,3/16/2017 11:30,3/16/2017 9:15,1,7678,"MENA, LUIS",38,WC,Well Child,,9564677859,,,4 MONTH WCC ,,,6/7/1978 0:00,315,18.74,76780,0,EP,BRIANMCGRAW,,0,RA
-"Ochoa, Kristy",Rodrigo Argenal MD PA,3/16/2017 0:00,3/16/2017 11:45,,,,,,,,,,,,,,,,,,,0,,,,0,KO
-"Ochoa, Kristy",Rodrigo Argenal MD PA,3/16/2017 0:00,3/16/2017 12:00,,,,,,,,,,,,,,,,,,,0,,,,0,KO
-"Ochoa, Kristy",Rodrigo Argenal MD PA,3/16/2017 0:00,3/16/2017 12:15,,,,,,,,,,,,,,,,,,,0,,,,0,KO
-"Ochoa, Kristy",Rodrigo Argenal MD PA,3/16/2017 0:00,3/16/2017 12:30,,,,,,,,,,,,,,,,,,,0,,,,0,KO
-"Ochoa, Kristy",Rodrigo Argenal MD PA,3/16/2017 0:00,3/16/2017 12:45,,,,,,,,,,,,,,,,,,,0,,,,0,KO
-"Ochoa, Kristy",Rodrigo Argenal MD PA,3/16/2017 0:00,3/16/2017 13:00,3/16/2017 9:15,1,7678,"MENA, LUIS",38,WC,Well Child,,9564677859,,,4 MONTH WCC ,,,6/7/1978 0:00,315,18.74,76780,0,EP,BRIANMCGRAW,,0,RA
-"Ochoa, Kristy",Rodrigo Argenal MD PA,3/16/2017 0:00,3/16/2017 13:15,3/16/2017 9:15,1,7678,"MENA, LUIS",38,WC,Well Child,,9564677859,,,4 MONTH WCC ,,,6/7/1978 0:00,315,18.74,76780,0,EP,BRIANMCGRAW,,0,RA
-"Ochoa, Kristy",Rodrigo Argenal MD PA,3/16/2017 0:00,3/16/2017 13:30,3/16/2017 9:15,1,7678,"MENA, LUIS",38,WC,Well Child,,9564677859,,,4 MONTH WCC ,,,6/7/1978 0:00,315,18.74,76780,0,EP,BRIANMCGRAW,,0,RA
-"Ochoa, Kristy",Rodrigo Argenal MD PA,3/16/2017 0:00,3/16/2017 13:45,3/16/2017 9:15,1,7678,"MENA, LUIS",38,WC,Well Child,,9564677859,,,4 MONTH WCC ,,,6/7/1978 0:00,315,18.74,76780,0,EP,BRIANMCGRAW,,0,RA
-"Ochoa, Kristy",Rodrigo Argenal MD PA,3/16/2017 0:00,3/16/2017 14:00,,,,,,,,,,,,,,,,,,,0,,,,0,KO
-"Ochoa, Kristy",Rodrigo Argenal MD PA,3/16/2017 0:00,3/16/2017 14:15,3/16/2017 9:15,1,7678,"MENA, LUIS",38,WC,Well Child,,9564677859,,,4 MONTH WCC ,,,6/7/1978 0:00,315,18.74,76780,0,EP,BRIANMCGRAW,,0,RA
-"Ochoa, Kristy",Rodrigo Argenal MD PA,3/16/2017 0:00,3/16/2017 14:30,,,,,,,,,,,,,,,,,,,0,,,,0,KO
-"Ochoa, Kristy",Rodrigo Argenal MD PA,3/16/2017 0:00,3/16/2017 14:45,,,,,,,,,,,,,,,,,,,0,,,,0,KO
-"Ochoa, Kristy",Rodrigo Argenal MD PA,3/16/2017 0:00,3/16/2017 15:00,,,,,,,,,,,,,,,,,,,0,,,,0,KO
-"Ochoa, Kristy",Rodrigo Argenal MD PA,3/16/2017 0:00,3/16/2017 15:15,,,,,,,,,,,,,,,,,,,0,,,,0,KO
-"Ochoa, Kristy",Rodrigo Argenal MD PA,3/16/2017 0:00,3/16/2017 15:30,,,,,,,,,,,,,,,,,,,0,,,,0,KO
-"Ochoa, Kristy",Rodrigo Argenal MD PA,3/16/2017 0:00,3/16/2017 15:45,,,,,,,,,,,,,,,,,,,0,,,,0,KO
-"Ochoa, Kristy",Rodrigo Argenal MD PA,3/16/2017 0:00,3/16/2017 16:00,,,,,,,,,,,,,,,,,,,0,,,,0,KO
-"Ochoa, Kristy",Rodrigo Argenal MD PA,3/16/2017 0:00,3/16/2017 16:15,,,,,,,,,,,,,,,,,,,0,,,,0,KO
-"Ochoa, Kristy",Rodrigo Argenal MD PA,3/16/2017 0:00,3/16/2017 16:30,,,,,,,,,,,,,,,,,,,0,,,,0,KO
-"Ochoa, Kristy",Rodrigo Argenal MD PA,3/16/2017 0:00,3/16/2017 16:45,,,,,,,,,,,,,,,,,,,0,,,,0,KO
-"Ochoa, Kristy",Rodrigo Argenal MD PA,3/16/2017 0:00,3/16/2017 17:00,,,,,,,,,,,,,,,,,,,0,,,,0,KO
-"Ochoa, Kristy",Rodrigo Argenal MD PA,3/16/2017 0:00,3/16/2017 17:15,,,,,,,,,,,,,,,,,,,0,,,,0,KO
-"Ochoa, Kristy",Rodrigo Argenal MD PA,3/16/2017 0:00,3/16/2017 17:30,,,,,,,,,,,,,,,,,,,0,,,,0,KO
-"Ochoa, Kristy",Rodrigo Argenal MD PA,3/16/2017 0:00,3/16/2017 17:45,,,,,,,,,,,,,,,,,,,0,,,,0,KO
-"Ochoa, Kristy",Rodrigo Argenal MD PA,3/16/2017 0:00,3/16/2017 18:00,,,,,,,,,,,,,,,,,,,0,,,,0,KO
-"Ochoa, Kristy",Rodrigo Argenal MD PA,3/16/2017 0:00,3/16/2017 18:15,,,,,,,,,,,,,,,,,,,0,,,,0,KO
-"Ochoa, Kristy",Rodrigo Argenal MD PA,3/16/2017 0:00,3/16/2017 18:30,,,,,,,,,,,,,,,,,,,0,,,,0,KO
-"Ochoa, Kristy",Rodrigo Argenal MD PA,3/16/2017 0:00,3/16/2017 18:45,,,,,,,,,,,,,,,,,,,0,,,,0,KO
-"Ochoa, Kristy",Rodrigo Argenal MD PA,3/16/2017 0:00,3/16/2017 19:00,,,,,,,,,,,,,,,,,,,0,,,,0,KO
-"Ochoa, Kristy",Rodrigo Argenal MD PA,3/16/2017 0:00,3/16/2017 19:15,,,,,,,,,,,,,,,,,,,0,,,,0,KO
-"Ochoa, Kristy",Rodrigo Argenal MD PA,3/16/2017 0:00,3/16/2017 19:30,,,,,,,,,,,,,,,,,,,0,,,,0,KO
-"Ochoa, Kristy",Rodrigo Argenal MD PA,3/16/2017 0:00,3/16/2017 19:45,,,,,,,,,,,,,,,,,,,0,,,,0,KO
-"Ochoa, Kristy",Rodrigo Argenal MD PA,3/16/2017 0:00,3/16/2017 20:00,,,,,,,,,,,,,,,,,,,0,,,,0,KO
-"Ochoa, Kristy",Rodrigo Argenal MD PA,3/16/2017 0:00,3/16/2017 20:15,,,,,,,,,,,,,,,,,,,0,,,,0,KO
-"Ochoa, Kristy",Rodrigo Argenal MD PA,3/16/2017 0:00,3/16/2017 20:30,,,,,,,,,,,,,,,,,,,0,,,,0,KO
-"Ochoa, Kristy",Rodrigo Argenal MD PA,3/16/2017 0:00,3/16/2017 20:45,,,,,,,,,,,,,,,,,,,0,,,,0,KO
+apptdate,statusdate,patid,patname,status,hphone,wphone,ext,apptcode,purpose,note,n_pe_id,c_of_id,c_of_name,c_st_id,c_st_name,c_crc_desc3/17/17,3/16/17,7678,"MENA, LUIS",1CA,9564677859,9564677859,DAD,WC,Well Child,18 YRS WCC,76780,2,Rodrigo Argenal MD PA,JG,"Garza, Joaquin",3/17/17,3/16/17,7678,"MENA, LUIS",1CA,9564677859,9564677859,,SV,Sick Visit,f/u ,76780,2,Rodrigo Argenal MD PA,JG,"Garza, Joaquin",3/17/17,3/16/17,7678,"MENA, LUIS",1CA,9564677859,9564677859,,WC,Well Child,12 YRS WCC,76780,2,Rodrigo Argenal MD PA,JG,"Garza, Joaquin",3/17/17,3/16/17,7678,"MENA, LUIS",1CA,9564677859,9564677859,,WC,Well Child,15 MONTH  MAILBOX FULL,76780,2,Rodrigo Argenal MD PA,KO,"Ochoa PA, Kristy",3/16/17,3/16/17,7678,"MENA, LUIS",1CA,9564677859,9564677859,,SV,Sick Visit,F/U ,76780,2,Rodrigo Argenal MD PA,KO,"Ochoa PA, Kristy",3/16/17,3/16/17,7678,"MENA, LUIS",1CA,9564677859,9564677859,,WI,Walk In,"PT HAS A COLD ,CONGESTION,COUGH SDA ",76780,2,Rodrigo Argenal MD PA,KO,"Ochoa PA, Kristy",3/17/17,3/16/17,7678,"MENA, LUIS",1CA,9564677859,9564677859,DAD,SV,Sick Visit,REFILL CONCERTA,76780,2,Rodrigo Argenal MD PA,KO,"Ochoa PA, Kristy",3/16/17,3/16/17,7678,"MENA, LUIS",2NS,9564677859,9564677859,,SV,Sick Visit,F/U DOS 3/13/17,76780,2,Rodrigo Argenal MD PA,KO,"Ochoa PA, Kristy",3/17/17,3/16/17,7678,"MENA, LUIS",1CA,9564677859,9564677859,,SV,Sick Visit,LABS ,76780,2,Rodrigo Argenal MD PA,KO,"Ochoa PA, Kristy",3/17/17,3/16/17,7678,"MENA, LUIS",1CA,9564677859,9564677859,DAD,WC,Well Child,12M WCC ,76780,2,Rodrigo Argenal MD PA,KO,"Ochoa PA, Kristy",3/16/17,3/16/17,7678,"MENA, LUIS",1CA,9564677859,9564677859,,SV,Sick Visit,F/U ,76780,2,Rodrigo Argenal MD PA,KO,"Ochoa PA, Kristy",3/16/17,3/16/17,7678,"MENA, LUIS",2NS,9564677859,9564677859,,WC,Well Child,7 YRS WCC(T) MOM AWARE OF CHADIS,76780,2,Rodrigo Argenal MD PA,R2,"ARGENAL MD, RODRIGO",3/16/17,3/16/17,7678,"MENA, LUIS",1CA,9564677859,9564677859,,NPWC,New Patient Well Check,12MO WC(AWARE OF CHADIS),76780,2,Rodrigo Argenal MD PA,R2,"ARGENAL MD, RODRIGO",3/20/17,3/16/17,7678,"MENA, LUIS",1CA,9564677859,9564677859,,NPSV,New Patient sick visit,,76780,2,Rodrigo Argenal MD PA,R2,"ARGENAL MD, RODRIGO",3/16/17,3/16/17,7678,"MENA, LUIS",2NS,9564677859,9564677859,,WC,Well Child,18M WCC *MUST PAY BAL OF $67.99 IN FULL PT MOM AWARE**CC  LM CHADIS,76780,2,Rodrigo Argenal MD PA,R2,"ARGENAL MD, RODRIGO",3/17/17,3/16/17,7678,"MENA, LUIS",1CA,9564677859,9564677859,,NV,NURSE VISIT,HPV #2,76780,2,Rodrigo Argenal MD PA,R3,"NURSE, VISITS",6/16/17,3/16/17,7678,"MENA, LUIS",3DE,9564677859,9564677859,,WC,Well Child,24M WCC ,76780,2,Rodrigo Argenal MD PA,RA,"Argenal MD, Rodrigo",

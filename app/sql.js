@@ -3,6 +3,7 @@ module.exports = function(app, passport) {
 	var fs = require('fs');
 	var csv = require('fast-csv');
 	var mysql = require("mysql");
+	var date_ind=0;
 	var ids_ind=0;
 	var call =0;
 
@@ -14,7 +15,9 @@ module.exports = function(app, passport) {
   //FORM_PROCESS===========================
   //=======================================
   app.post('/sql',isLoggedIn, function(req, res){
+		//Declare ids and dates
 		var ids=[];
+		var dates=[];
   //FILE_SYSTEM_CSV========================
   	//File location
 
@@ -100,8 +103,15 @@ module.exports = function(app, passport) {
   			// Testing for correct splitashion XD
   			console.log("Date: "+ format_date + " Time: "+ data_time);
 				//Add entry of ids on table
-				if(!ids.includes(real_id)){
-					ids[ids_ind]=real_id;
+				if(!dates.includes(format_date)||!ids.includes(real_id)){
+					if(!dates.includes(format_date)){
+					dates[date_ind]=format_date;
+					date_ind++;
+					}
+					else{
+						ids[ids_ind]=real_id;
+						ids_ind++;
+					}
 					// New conection
 	  			var con = mysql.createConnection({
 	  				host: "inartec-db1.caqs6gipj1jl.sa-east-1.rds.amazonaws.com",
@@ -110,16 +120,16 @@ module.exports = function(app, passport) {
 	  				database: "it01_db_beta01e_medicalpractice"
 	  			});
 					//Insert
-					con.query("INSERT INTO tbl_tmp_id VALUES (? ,?)",[real_id,format_date],function(err,resu){
+					con.query("INSERT INTO tbl_tmp_id(id,date) VALUES (? ,?)",[real_id,format_date],function(err,resu){
 						if(err){
-							console.log("Error attempting to insert new row");
+							console.log(err);
 						};
-						console.log("Temp table result\n");
+						console.log("Temp table result");
 						console.log(resu);
 					});
 					con.end();
 
-					ids_ind++;
+
 				}
   			// New conection
   			var con = mysql.createConnection({

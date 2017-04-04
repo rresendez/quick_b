@@ -23,19 +23,25 @@ app.post('/clean',isLoggedIn, function(req,res){
     // Get ID using function
         getID(con, function(err,data){
           if(err){
-            console.log("error");
+            console.log(err);
           }
           else{
-            data.forEach(function (row,err){
-              console.log(row);
-              remove(con,row,function(err,res){
-                if(err){
-                  console.log(err);
-                }
+
+            data.forEach(function(result){
+              console.log(result.id);
+              remove(con,result,function(err,res){
+                if(err)console.log(err);
                 else{
                   console.log(res);
                 }
               })
+            });
+            //Delete table after used
+            del_table(con,function(err,result){
+              if(err)console.log(err);
+              else{
+                console.log(result);
+              }
             })
             con.end();
             res.render('clean_done');
@@ -53,9 +59,11 @@ app.post('/clean',isLoggedIn, function(req,res){
 }
 //Function to get table numbers
 function getID (con,callback){
-  con.query('SELECT * from tbl_tmp_id', function(err,result){
-    if(err)
+  con.query('SELECT tbl_consult.id FROM tbl_consult , tbl_tmp_id  WHERE tbl_consult.date_consult=tbl_tmp_id.date AND tbl_consult.id_patient NOT IN(SELECT id FROM tbl_tmp_id) ', function(err,result){
+    if(err){
+      console.log(err);
       callback(err,null);
+    }
       else {
         callback(null,result);
       }
@@ -65,7 +73,7 @@ function getID (con,callback){
 
 //Function to remove entries
 function remove (con,row,callback){
-  con.query('DELETE from tbl_tmp_id WHERE id=?',[row.id],function(err,result){
+  con.query('CALL 00000_Delete_APP_RECORD(?)',[row.id],function(err,result){
     if(err)
       callback(err,null);
       else {
@@ -73,6 +81,16 @@ function remove (con,row,callback){
       }
   })
 
+}
+//Function drop table
+function del_table (con,callback){
+  con.query('TRUNCATE tbl_tmp_id ',function(err,result){
+    if(err)callback(err,null);
+    else{
+      console.log("Table tbl_tmp_id deleted");
+      callback(null,result);
+    }
+  })
 }
 // route middleware to make sure
   function isLoggedIn(req, res, next) {
