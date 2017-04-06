@@ -1,5 +1,5 @@
 apptdate,statusdate,patid,patname,status,hphone,wphone,ext,apptcode,purpose,note,n_pe_id,c_of_id,c_of_name,c_st_id,c_st_name,c_crc_desc
-3/16/2017,3/16/2017,6969,"MENA, LUIS",2CA,9564677859,9564677859,DAD,WC,Well Child,18 YRS WCC,76780,2,Rodrigo Argenal MD PA,JG,"Garza, Joaquin",
+3/16/2017,3/16/2017,6969,"MENA, LUIS",3CA,9564677859,9564677859,DAD,WC,Well Child,18 YRS WCC,76780,2,Rodrigo Argenal MD PA,JG,"Garza, Joaquin",
 3/17/2017,3/16/2017,7678,"MENA, LUIS",1CA,9564677859,9564677859,,SV,Sick Visit,f/u ,76780,2,Rodrigo Argenal MD PA,JG,"Garza, Joaquin",
 3/17/2017,3/16/2017,7678,"MENA, LUIS",1CA,9564677859,9564677859,,WC,Well Child,12 YRS WCC,76780,2,Rodrigo Argenal MD PA,JG,"Garza, Joaquin",
 3/17/2017,3/16/2017,7678,"MENA, LUIS",1CA,9564677859,9564677859,,WC,Well Child,15 MONTH  MAILBOX FULL,76780,2,Rodrigo Argenal MD PA,KO,"Ochoa PA, Kristy",

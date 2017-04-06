@@ -2,6 +2,8 @@ module.exports = function (app,passport){
   var fs= require('fs');
   var csv = require('fast-csv');
   var mysql = require ("mysql");
+  var keys= require('./keys.js')
+	var password = keys.pass;
 
 //=======================================
 //Second stage csv===========================
@@ -17,7 +19,7 @@ app.post('/sql2', isLoggedIn, function(req,res){
   var con = mysql.createConnection({
     host: "inartec-db1.caqs6gipj1jl.sa-east-1.rds.amazonaws.com",
     user:"swe",
-    password:"ingenium2015",
+    password:password,
     database: "it01_db_beta01e_medicalpractice"
   });
   //Open CSV

@@ -11,7 +11,7 @@ module.exports = function(app, passport) {
 	var dialog = require('dialog');
 	const csv_a="c_staffname,c_office_name,d_ap_date,t_ap_starttime,t_ap_endtime,c_ap_confirm,c_pe_patient_id,c_pe_name,n_pe_age,c_ap_code,c_ap_desc,c_pe_wphone,c_pe_hphone,c_pe_w_ext,c_ref_name,c_ap_note,c_pe_chart,n_bl_id,d_pe_dob,m_pe_ins_due,m_pe_pat_due,n_pe_id,name_1,c_apc_id,c_user_id,c_vrc_desc,l_apt_new_patient,c_st_id";
 	var keys = require('./keys');
-  var passw = keys.pass;
+  var password = keys.pass;
 
 // Configure multer for file name and location
 	var storage = multer.diskStorage({
@@ -62,7 +62,7 @@ module.exports = function(app, passport) {
 				var con = mysql.createConnection({
 					host: "inartec-db1.caqs6gipj1jl.sa-east-1.rds.amazonaws.com",
 					user:"swe",
-					password:"ingenium2015",
+					password:password,
 					database: "it01_db_beta01e_medicalpractice"
 				});
 

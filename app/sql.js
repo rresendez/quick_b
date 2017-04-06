@@ -6,8 +6,8 @@ module.exports = function(app, passport) {
 	var date_ind=0;
 	var ids_ind=0;
 	var call =0;
-
-
+	var keys= require('./keys.js')
+	var password = keys.pass;
 
 
 
@@ -36,7 +36,7 @@ module.exports = function(app, passport) {
     var con = mysql.createConnection({
       host: "inartec-db1.caqs6gipj1jl.sa-east-1.rds.amazonaws.com",
       user:"swe",
-      password:"ingenium2015",
+      password:password,
       database: "it01_db_beta01e_medicalpractice"
     });
 
@@ -116,7 +116,7 @@ module.exports = function(app, passport) {
 	  			var con = mysql.createConnection({
 	  				host: "inartec-db1.caqs6gipj1jl.sa-east-1.rds.amazonaws.com",
 	  				user:"swe",
-	  				password:"ingenium2015",
+	  				password:password,
 	  				database: "it01_db_beta01e_medicalpractice"
 	  			});
 					//Insert
@@ -135,7 +135,7 @@ module.exports = function(app, passport) {
   			var con = mysql.createConnection({
   				host: "inartec-db1.caqs6gipj1jl.sa-east-1.rds.amazonaws.com",
   				user:"swe",
-  				password:"ingenium2015",
+  				password:password,
   				database: "it01_db_beta01e_medicalpractice"
   			});
   			//Second query
@@ -156,13 +156,13 @@ module.exports = function(app, passport) {
 
 					get_prov(con,prov_fname,prov_last,function(err,id){
 						if(err)console.log(err);
-						else{
+						else if (id.length>0){
 							console.log("Real provider id: "+ id[0].id);
 							//Create new connection for subquery
 							var con = mysql.createConnection({
 			  				host: "inartec-db1.caqs6gipj1jl.sa-east-1.rds.amazonaws.com",
 			  				user:"swe",
-			  				password:"ingenium2015",
+			  				password:password,
 			  				database: "it01_db_beta01e_medicalpractice"
 			  			});
 							//Creating new entries
@@ -216,7 +216,7 @@ module.exports = function(app, passport) {
 									var con = mysql.createConnection({
 					  				host: "inartec-db1.caqs6gipj1jl.sa-east-1.rds.amazonaws.com",
 					  				user:"swe",
-					  				password:"ingenium2015",
+					  				password:password,
 					  				database: "it01_db_beta01e_medicalpractice"
 					  			});
 
