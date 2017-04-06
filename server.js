@@ -48,6 +48,7 @@ require('./app/routes.js')(app, passport); // load our routes and pass in our ap
 require('./app/sql.js')(app, passport);
 require('./app/clean.js')(app, passport);
 require('./app/bupload.js')(app, passport);
+require('./app/sql2.js')(app, passport);
 // launch ======================================================================
 app.listen(port);
 console.log('The magic happens on port ' + port);
