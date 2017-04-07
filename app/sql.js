@@ -6,6 +6,8 @@ module.exports = function(app, passport) {
 	var date_ind=0;
 	var ids_ind=0;
 	var call =0;
+	var csv_count =0;
+	var log_id=0;
 	var keys= require('./keys.js')
 	var password = keys.pass;
 
@@ -39,6 +41,23 @@ module.exports = function(app, passport) {
       password:password,
       database: "it01_db_beta01e_medicalpractice"
     });
+		//Create log
+		var date = new Date();
+		date =date.toLocaleDateString();
+		var log_date=date.split("/");
+		//Format date
+
+		log_date= log_date[2]+"-"+log_date[0]+"-"+log_date[1];
+		console.log("Lod date: "+log_date);
+		//Create entry for log table
+		create_log(con,req,log_date,function(err,result){
+			if(err) console.error(err);
+			else{
+				console.log("Log created ");
+				log_id=result[0].last;
+
+			}
+		})
 
 
   	csv
@@ -48,6 +67,7 @@ module.exports = function(app, passport) {
 
 
   	  .on("data", function(data){
+
 
 
 
@@ -171,6 +191,21 @@ module.exports = function(app, passport) {
 								else{
 									console.log("Result for entry creation");
 									console.log(result);
+									//Create log
+									var qry1="UPDATE tbl_log_csv SET create_entry=create_entry+? WHERE id=?";
+									var value= result.affectedRows;
+									console.log("affectedrows: "+ value);
+									update_log(con,qry1,value,log_id,function(err,res){
+										if(err)console.error(err);
+										else{
+											console.log(res);
+										}
+									})
+
+
+
+
+
 								}
 							})
 
@@ -268,6 +303,7 @@ module.exports = function(app, passport) {
 
 
 
+
     })
   		}
 
@@ -281,6 +317,9 @@ module.exports = function(app, passport) {
 
   		.on("end", function(){
         console.log("CSV file closed");
+
+
+
 
 
       });
@@ -339,6 +378,32 @@ module.exports = function(app, passport) {
 		con.query('CALL 00000_Create_APP_RECORD(?,?,?,?)',[format_date,data_time,real_id,id_provider],function(err,result){
 			if(err) callback(err,null);
 			else callback(null,result);
+		})
+	}
+	//Function add log
+
+	function create_log(con,req,date,callback){
+
+		//date = date.toString();
+		con.query('INSERT INTO tbl_log_csv (username,date) VALUES (?,?)',[req.user.username,date],function(err,result){
+			if(err) callback(err,null);
+			else{
+				con.query("SELECT LAST_INSERT_ID() as last",function(err,res){
+					if(err) callback(err,null);
+					else{
+						callback(null,res);
+					}
+				})
+			}
+		})
+	}
+	//Function update log
+	function update_log(con,query,value,id,callback){
+		con.query(query,[value,id],function(err,result){
+			if(err)callback(err,null);
+			else{
+				callback(null,result);
+			}
 		})
 	}
 
