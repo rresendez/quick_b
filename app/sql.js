@@ -233,6 +233,24 @@ module.exports = function(app, passport) {
 						else {
 							console.log("Found 4 state result\n");
 							console.log(result);
+							//Create log
+							//New connection needed for log
+							var con = mysql.createConnection({
+			  				host: "inartec-db1.caqs6gipj1jl.sa-east-1.rds.amazonaws.com",
+			  				user:"swe",
+			  				password:password,
+			  				database: "it01_db_beta01e_medicalpractice"
+			  			});
+							//Query builder
+							var qry2="UPDATE tbl_log_csv SET del_non_4=del_non_4+? WHERE id=?";
+							var value= result.affectedRows;
+							console.log("affectedrows: "+ value);
+							update_log(con,qry2,value,log_id,function(err,res){
+								if(err)console.error(err);
+								else{
+									console.log(res);
+								}
+							})
 						}
 					})
 				}
@@ -262,6 +280,16 @@ module.exports = function(app, passport) {
 										else{
 											console.log("Delete wrong time result");
 											console.log(result);
+											//Query builder
+											var qry3="UPDATE tbl_log_csv SET time_non_match=time_non_match+? WHERE id=?";
+											var value= result.affectedRows;
+											console.log("affectedrows: "+ value);
+											update_log(con,qry3,value,log_id,function(err,res){
+												if(err)console.error(err);
+												else{
+													console.log(res);
+												}
+											})
 											del_count++;
 										}
 									})
@@ -282,6 +310,25 @@ module.exports = function(app, passport) {
 							else{
 								console.log("Delete all but one matching time");
 								console.log(result);
+								//Create new sql connection
+								var con = mysql.createConnection({
+									host: "inartec-db1.caqs6gipj1jl.sa-east-1.rds.amazonaws.com",
+									user:"swe",
+									password:password,
+									database: "it01_db_beta01e_medicalpractice"
+								});
+								//Query builder
+								var qry4="UPDATE tbl_log_csv SET time_match=time_match+? WHERE id=?";
+								var value= result.affectedRows;
+								console.log("affectedrows: "+ value);
+								update_log(con,qry4,value,log_id,function(err,res){
+									if(err)console.error(err);
+									else{
+										console.log(res);
+									}
+								})
+
+
 							}
 
 
@@ -334,7 +381,7 @@ module.exports = function(app, passport) {
 
 
   //MYSQL_CONNECTION_END=======================
-  	res.render('sql_done');
+  	res.render('sql_done',{log:log_id});
 
 
   })

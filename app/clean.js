@@ -22,6 +22,13 @@ app.post('/clean',isLoggedIn, function(req,res){
 	  				password:password,
 	  				database: "it01_db_beta01e_medicalpractice"
 	  			});
+    //Get log ID
+    get_log_id(con,function(err,result){
+      if(err)console.log(err);
+      else{
+        console.log(result);
+      }
+    })
     // Get ID using function
         getID(con, function(err,data){
           if(err){
@@ -94,6 +101,17 @@ function del_table (con,callback){
     }
   })
 }
+//Function to get las id
+
+function get_log_id (con,callback){
+  con.query("SELECT LAST_INSERT_ID() as last FROM tbl_log_csv", function(err,result){
+    if(err)callback(err,null);
+    else{
+      callback(null,result);
+    }
+  })
+}
+
 // route middleware to make sure
   function isLoggedIn(req, res, next) {
 
