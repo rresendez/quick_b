@@ -58,6 +58,7 @@ module.exports = function(app, passport) {
 				console.log("Log created ");
 				log_id=result[0].last;
 				exports.log=log_id;
+				con.end();
 
 			}
 		})
@@ -84,13 +85,14 @@ module.exports = function(app, passport) {
 
       //Estabilishg connection
 
-      con.connect(function(err){
+    /*  con.connect(function(err){
         if(err){
           console.log('Error conecting to MySQL');
           return;
         }
         console.log('Connection to MySQL established');
       });
+			*/
 
 
 
@@ -155,6 +157,7 @@ module.exports = function(app, passport) {
 
 
 				}
+
   			// New conection
   			var con = mysql.createConnection({
   				host: "inartec-db1.caqs6gipj1jl.sa-east-1.rds.amazonaws.com",
@@ -165,9 +168,10 @@ module.exports = function(app, passport) {
   			//Second query
   			con.query("SELECT * FROM tbl_consult WHERE id_patient=? and date_consult=?",[real_id,format_date],function (err_b,result_b){
 
-  			if(err_b) throw err_b;
+  			if(err_b) {console.log(err_b);}
+
 				//Check for option 4 no record found
-				if(result_b.length<=0){
+				else if(result_b.length<=0){
 					console.log("Option 4 ,No entries found, creating entry");
 
 					//Formating provider name
@@ -211,6 +215,8 @@ module.exports = function(app, passport) {
 										if(err)console.error(err);
 										else{
 											console.log(res);
+											//End conection
+											con.end();
 										}
 									})
 
@@ -223,6 +229,7 @@ module.exports = function(app, passport) {
 
 						}
 					})
+
 
 
 
@@ -268,6 +275,8 @@ module.exports = function(app, passport) {
 								if(err)console.error(err);
 								else{
 									console.log(res);
+									//End conection
+									con.end();
 								}
 							})
 						}
@@ -308,6 +317,8 @@ module.exports = function(app, passport) {
 										if(err)console.error(err);
 										else{
 											console.log(res);
+											//End conection
+											con.end();
 										}
 									})
 									//Create new sql connection
@@ -340,6 +351,8 @@ module.exports = function(app, passport) {
 												if(err)console.error(err);
 												else{
 													console.log(res);
+													//End conection
+													con.end();
 												}
 											})
 											del_count++;
@@ -387,6 +400,8 @@ module.exports = function(app, passport) {
 									if(err)console.error(err);
 									else{
 										console.log(res);
+										//End conection
+										con.end();
 									}
 								})
 
@@ -399,7 +414,6 @@ module.exports = function(app, passport) {
 
 
   				}
-
 
 
 
