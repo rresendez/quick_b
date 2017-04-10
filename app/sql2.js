@@ -3,6 +3,7 @@ module.exports = function (app,passport){
   var csv = require('fast-csv');
   var mysql = require ("mysql");
   var keys= require('./keys.js')
+  var myModule= require('./sql.js');
 	var password = keys.pass;
 
 //=======================================
@@ -12,6 +13,7 @@ module.exports = function (app,passport){
 //Execute route
 
 app.post('/sql2', isLoggedIn, function(req,res){
+  var log_id=myModule.log;
 
   //Load CSV
   var stream = fs.createReadStream('./upload/testb.csv');
@@ -45,8 +47,24 @@ app.post('/sql2', isLoggedIn, function(req,res){
           updateState(con,state,temp_id,format_date,function(err,result){
             if(err)console.log(err);
             else {
+              //Create SQL connection
+              var con = mysql.createConnection({
+                host: "inartec-db1.caqs6gipj1jl.sa-east-1.rds.amazonaws.com",
+                user:"swe",
+                password:password,
+                database: "it01_db_beta01e_medicalpractice"
+              });
+
+              var query = "UPDATE tbl_log_csv SET state_update=state_update+? WHERE id=?";
+              update_log(con,query,result.affectedRows,log_id,function(err,res){
+                if(err)console.log(err);
+                else{
+                  console.log(res);
+                }
+              })
             console.log("State on db updated");
             console.log(result);
+
             con.end();
           }
           })
@@ -70,9 +88,9 @@ app.post('/sql2', isLoggedIn, function(req,res){
 
 function updateState(con,state,temp_id,format_date,callback){
   con.query("UPDATE tbl_consult SET id_state=? WHERE id_patient=? AND date_consult=? ",[state,temp_id,format_date],function(err,result){
-    if(err)console.log(err);
+    if(err) callback(err,null);
     else{
-      console.log(result);
+      callback(null,result);
     }
   })
 }
@@ -89,7 +107,15 @@ function getID(con,data,callback){
   })
 
 }
-
+//Function update log
+function update_log(con,query,value,id,callback){
+  con.query(query,[value,id],function(err,result){
+    if(err)callback(err,null);
+    else{
+      callback(null,result);
+    }
+  })
+}
 // route middleware to make sure
 function isLoggedIn(req, res, next) {
 

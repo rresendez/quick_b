@@ -1,5 +1,6 @@
 module.exports = function(app, passport) {
 
+	var express = require('express');
 	var fs = require('fs');
 	var csv = require('fast-csv');
 	var mysql = require("mysql");
@@ -10,6 +11,7 @@ module.exports = function(app, passport) {
 	var log_id=0;
 	var keys= require('./keys.js')
 	var password = keys.pass;
+	var exports = module.exports={};
 
 
 
@@ -55,6 +57,7 @@ module.exports = function(app, passport) {
 			else{
 				console.log("Log created ");
 				log_id=result[0].last;
+				exports.log=log_id;
 
 			}
 		})
@@ -132,6 +135,7 @@ module.exports = function(app, passport) {
 						ids[ids_ind]=real_id;
 						ids_ind++;
 					}
+
 					// New conection
 	  			var con = mysql.createConnection({
 	  				host: "inartec-db1.caqs6gipj1jl.sa-east-1.rds.amazonaws.com",
@@ -173,6 +177,14 @@ module.exports = function(app, passport) {
 					console.log("Provider first name: "+ prov_fname);
 					console.log("Provider last name: "+ prov_last);
 					//Retriving real provider id
+
+					//Create new sql connection
+					var con = mysql.createConnection({
+						host: "inartec-db1.caqs6gipj1jl.sa-east-1.rds.amazonaws.com",
+						user:"swe",
+						password:password,
+						database: "it01_db_beta01e_medicalpractice"
+					});
 
 					get_prov(con,prov_fname,prov_last,function(err,id){
 						if(err)console.log(err);
@@ -228,6 +240,13 @@ module.exports = function(app, passport) {
 				//Check for option 1 and 3
   			if(result_b[i].id_state==4){
 					console.log("Option 1 and 3 found, deleting all non 4 states")
+					//Create new sql connection
+					var con = mysql.createConnection({
+						host: "inartec-db1.caqs6gipj1jl.sa-east-1.rds.amazonaws.com",
+						user:"swe",
+						password:password,
+						database: "it01_db_beta01e_medicalpractice"
+					});
 					remove_not(con,real_id,format_date,function(err,result){
 						if(err)console.log(err);
 						else {
@@ -259,6 +278,13 @@ module.exports = function(app, passport) {
 						var temp_id =result_b[i].id;
 						console.log(temp_id);
   					console.log("Option 2, Time from DB does not match CSV");
+						//Create new sql connection
+						var con = mysql.createConnection({
+							host: "inartec-db1.caqs6gipj1jl.sa-east-1.rds.amazonaws.com",
+							user:"swe",
+							password:password,
+							database: "it01_db_beta01e_medicalpractice"
+						});
 				//Call update time
 						update_time (con,data_time,temp_id,function(err,result){
 							if(err)console.log(err);
@@ -273,8 +299,34 @@ module.exports = function(app, passport) {
 					  				database: "it01_db_beta01e_medicalpractice"
 					  			});
 
+									//Query builder
+
+									var qry5="UPDATE tbl_log_csv SET time_non_match=time_non_match+? WHERE id=?";
+									var value= result.affectedRows;
+									console.log("affectedrows: "+ value);
+									update_log(con,qry5,value,log_id,function(err,res){
+										if(err)console.error(err);
+										else{
+											console.log(res);
+										}
+									})
+									//Create new sql connection
+									var con = mysql.createConnection({
+					  				host: "inartec-db1.caqs6gipj1jl.sa-east-1.rds.amazonaws.com",
+					  				user:"swe",
+					  				password:password,
+					  				database: "it01_db_beta01e_medicalpractice"
+					  			});
+
 									//Delete wrong times
 									if(result_b.length>1){
+										//Create new sql connection
+										var con = mysql.createConnection({
+						  				host: "inartec-db1.caqs6gipj1jl.sa-east-1.rds.amazonaws.com",
+						  				user:"swe",
+						  				password:password,
+						  				database: "it01_db_beta01e_medicalpractice"
+						  			});
 									del_two(con,format_date,real_id,temp_id,function(err,result){
 										if(err) console.log(err);
 										else{
@@ -305,6 +357,14 @@ module.exports = function(app, passport) {
 
   					console.log("Time from DB matches CSV");
 						var temp_id_2 =result_b[i].id;
+
+						//Create new sql connection
+						var con = mysql.createConnection({
+							host: "inartec-db1.caqs6gipj1jl.sa-east-1.rds.amazonaws.com",
+							user:"swe",
+							password:password,
+							database: "it01_db_beta01e_medicalpractice"
+						});
 						del_two(con,format_date,real_id,temp_id_2,function(err,result){
 							if(err) console.log(err);
 							else{
@@ -321,6 +381,8 @@ module.exports = function(app, passport) {
 								var qry4="UPDATE tbl_log_csv SET time_match=time_match+? WHERE id=?";
 								var value= result.affectedRows;
 								console.log("affectedrows: "+ value);
+								//Export log id
+
 								update_log(con,qry4,value,log_id,function(err,res){
 									if(err)console.error(err);
 									else{
@@ -352,6 +414,8 @@ module.exports = function(app, passport) {
 
 
     })
+		//End SQL connection
+		con.end();
   		}
 
     })
@@ -381,7 +445,10 @@ module.exports = function(app, passport) {
 
 
   //MYSQL_CONNECTION_END=======================
-  	res.render('sql_done',{log:log_id});
+  	res.render('sql_done');
+
+
+
 
 
   })
