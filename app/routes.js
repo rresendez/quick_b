@@ -149,7 +149,7 @@ app.post('/upload',isLoggedIn, function(req,res){
 	// SIGNUP ==============================
 	// =====================================
 	// show the signup form
-	app.get('/signup', isLoggedIn, function(req, res) {
+	app.get('/signup',  function(req, res) {
 		// render the page and pass in any flash data if it exists
 		console.log(req.user.id);
 		if(req.user.id==1){
