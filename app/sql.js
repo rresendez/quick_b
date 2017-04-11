@@ -38,10 +38,10 @@ module.exports = function(app, passport) {
 
     //Create MySQL connection
     var con = mysql.createConnection({
-      host: "inartec-db1.caqs6gipj1jl.sa-east-1.rds.amazonaws.com",
-      user:"swe",
+      host: "192.168.1.15",
+      user:"practez_modules",
       password:password,
-      database: "it01_db_beta01e_medicalpractice"
+      database: "test_db_BETA02"
     });
 		//Create log
 		var date = new Date();
@@ -140,10 +140,10 @@ module.exports = function(app, passport) {
 
 					// New conection
 	  			var con = mysql.createConnection({
-	  				host: "inartec-db1.caqs6gipj1jl.sa-east-1.rds.amazonaws.com",
-	  				user:"swe",
+	  				host: "192.168.1.15",
+	  				user:"practez_modules",
 	  				password:password,
-	  				database: "it01_db_beta01e_medicalpractice"
+	  				database: "test_db_BETA02"
 	  			});
 					//Insert
 					con.query("INSERT INTO tbl_tmp_id(id,date) VALUES (? ,?)",[real_id,format_date],function(err,resu){
@@ -160,10 +160,10 @@ module.exports = function(app, passport) {
 
   			// New conection
   			var con = mysql.createConnection({
-  				host: "inartec-db1.caqs6gipj1jl.sa-east-1.rds.amazonaws.com",
-  				user:"swe",
+  				host: "192.168.1.15",
+  				user:"practez_modules",
   				password:password,
-  				database: "it01_db_beta01e_medicalpractice"
+  				database: "test_db_BETA02"
   			});
   			//Second query
   			con.query("SELECT * FROM tbl_consult WHERE id_patient=? and date_consult=?",[real_id,format_date],function (err_b,result_b){
@@ -184,10 +184,10 @@ module.exports = function(app, passport) {
 
 					//Create new sql connection
 					var con = mysql.createConnection({
-						host: "inartec-db1.caqs6gipj1jl.sa-east-1.rds.amazonaws.com",
-						user:"swe",
+						host: "192.168.1.15",
+						user:"practez_modules",
 						password:password,
-						database: "it01_db_beta01e_medicalpractice"
+						database: "test_db_BETA02"
 					});
 
 					get_prov(con,prov_fname,prov_last,function(err,id){
@@ -196,10 +196,10 @@ module.exports = function(app, passport) {
 							console.log("Real provider id: "+ id[0].id);
 							//Create new connection for subquery
 							var con = mysql.createConnection({
-			  				host: "inartec-db1.caqs6gipj1jl.sa-east-1.rds.amazonaws.com",
-			  				user:"swe",
+			  				host: "192.168.1.15",
+			  				user:"practez_modules",
 			  				password:password,
-			  				database: "it01_db_beta01e_medicalpractice"
+			  				database: "test_db_BETA02"
 			  			});
 							//Creating new entries
 						add_new(con,format_date,data_time,real_id,id[0].id,function(err,result){
@@ -249,10 +249,10 @@ module.exports = function(app, passport) {
 					console.log("Option 1 and 3 found, deleting all non 4 states")
 					//Create new sql connection
 					var con = mysql.createConnection({
-						host: "inartec-db1.caqs6gipj1jl.sa-east-1.rds.amazonaws.com",
-						user:"swe",
+						host: "192.168.1.15",
+						user:"practez_modules",
 						password:password,
-						database: "it01_db_beta01e_medicalpractice"
+						database: "test_db_BETA02"
 					});
 					remove_not(con,real_id,format_date,function(err,result){
 						if(err)console.log(err);
@@ -262,10 +262,10 @@ module.exports = function(app, passport) {
 							//Create log
 							//New connection needed for log
 							var con = mysql.createConnection({
-			  				host: "inartec-db1.caqs6gipj1jl.sa-east-1.rds.amazonaws.com",
-			  				user:"swe",
+			  				host: "192.168.1.15",
+			  				user:"practez_modules",
 			  				password:password,
-			  				database: "it01_db_beta01e_medicalpractice"
+			  				database: "test_db_BETA02"
 			  			});
 							//Query builder
 							var qry2="UPDATE tbl_log_csv SET del_non_4=del_non_4+? WHERE id=?";
@@ -289,10 +289,10 @@ module.exports = function(app, passport) {
   					console.log("Option 2, Time from DB does not match CSV");
 						//Create new sql connection
 						var con = mysql.createConnection({
-							host: "inartec-db1.caqs6gipj1jl.sa-east-1.rds.amazonaws.com",
-							user:"swe",
+							host: "192.168.1.15",
+							user:"practez_modules",
 							password:password,
-							database: "it01_db_beta01e_medicalpractice"
+							database: "test_db_BETA02"
 						});
 				//Call update time
 						update_time (con,data_time,temp_id,function(err,result){
@@ -302,10 +302,10 @@ module.exports = function(app, passport) {
 									console.log(result);
 									//Create new sql connection
 									var con = mysql.createConnection({
-					  				host: "inartec-db1.caqs6gipj1jl.sa-east-1.rds.amazonaws.com",
-					  				user:"swe",
+					  				host: "192.168.1.15",
+					  				user:"practez_modules",
 					  				password:password,
-					  				database: "it01_db_beta01e_medicalpractice"
+					  				database: "test_db_BETA02"
 					  			});
 
 									//Query builder
@@ -323,20 +323,20 @@ module.exports = function(app, passport) {
 									})
 									//Create new sql connection
 									var con = mysql.createConnection({
-					  				host: "inartec-db1.caqs6gipj1jl.sa-east-1.rds.amazonaws.com",
-					  				user:"swe",
+					  				host: "192.168.1.15",
+					  				user:"practez_modules",
 					  				password:password,
-					  				database: "it01_db_beta01e_medicalpractice"
+					  				database: "test_db_BETA02"
 					  			});
 
 									//Delete wrong times
 									if(result_b.length>1){
 										//Create new sql connection
 										var con = mysql.createConnection({
-						  				host: "inartec-db1.caqs6gipj1jl.sa-east-1.rds.amazonaws.com",
-						  				user:"swe",
+						  				host: "192.168.1.15",
+						  				user:"practez_modules",
 						  				password:password,
-						  				database: "it01_db_beta01e_medicalpractice"
+						  				database: "test_db_BETA02"
 						  			});
 									del_two(con,format_date,real_id,temp_id,function(err,result){
 										if(err) console.log(err);
@@ -373,10 +373,10 @@ module.exports = function(app, passport) {
 
 						//Create new sql connection
 						var con = mysql.createConnection({
-							host: "inartec-db1.caqs6gipj1jl.sa-east-1.rds.amazonaws.com",
-							user:"swe",
+							host: "192.168.1.15",
+							user:"practez_modules",
 							password:password,
-							database: "it01_db_beta01e_medicalpractice"
+							database: "test_db_BETA02"
 						});
 						del_two(con,format_date,real_id,temp_id_2,function(err,result){
 							if(err) console.log(err);
@@ -385,10 +385,10 @@ module.exports = function(app, passport) {
 								console.log(result);
 								//Create new sql connection
 								var con = mysql.createConnection({
-									host: "inartec-db1.caqs6gipj1jl.sa-east-1.rds.amazonaws.com",
-									user:"swe",
+									host: "192.168.1.15",
+									user:"practez_modules",
 									password:password,
-									database: "it01_db_beta01e_medicalpractice"
+									database: "test_db_BETA02"
 								});
 								//Query builder
 								var qry4="UPDATE tbl_log_csv SET time_match=time_match+? WHERE id=?";

@@ -19,10 +19,10 @@ app.post('/sql2', isLoggedIn, function(req,res){
   var stream = fs.createReadStream('./upload/testb.csv');
   //Create SQL connection
   var con = mysql.createConnection({
-    host: "inartec-db1.caqs6gipj1jl.sa-east-1.rds.amazonaws.com",
-    user:"swe",
+    host: "192.168.1.15",
+    user:"practez_modules",
     password:password,
-    database: "it01_db_beta01e_medicalpractice"
+    database: "test_db_BETA02"
   });
   //Open CSV
   csv
@@ -49,10 +49,10 @@ app.post('/sql2', isLoggedIn, function(req,res){
             else {
               //Create SQL connection
               var con = mysql.createConnection({
-                host: "inartec-db1.caqs6gipj1jl.sa-east-1.rds.amazonaws.com",
-                user:"swe",
+                host: "192.168.1.15",
+                user:"practez_modules",
                 password:password,
-                database: "it01_db_beta01e_medicalpractice"
+                database: "test_db_BETA02"
               });
 
               var query = "UPDATE tbl_log_csv SET state_update=state_update+? WHERE id=?";

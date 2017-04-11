@@ -60,10 +60,10 @@ module.exports = function(app, passport) {
 				//MySQL conneciton to db
 
 				var con = mysql.createConnection({
-					host: "inartec-db1.caqs6gipj1jl.sa-east-1.rds.amazonaws.com",
-					user:"swe",
+					host: "192.168.1.15",
+					user:"practez_modules",
 					password:password,
-					database: "it01_db_beta01e_medicalpractice"
+					database: "test_db_BETA02"
 				});
 
 				//Estabilishg connection
@@ -149,10 +149,10 @@ app.post('/upload',isLoggedIn, function(req,res){
 	// SIGNUP ==============================
 	// =====================================
 	// show the signup form
-	app.get('/signup',  function(req, res) {
+	app.get('/signup',isLoggedIn,  function(req, res) {
 		// render the page and pass in any flash data if it exists
 		console.log(req.user.id);
-		if(req.user.id==1){
+		if(req.user.id==1||req.user.id==2||req.user.id==3){
 		res.render('signup.ejs', { message: req.flash('signupMessage') });
 	}
 	else {

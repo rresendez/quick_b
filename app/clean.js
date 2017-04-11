@@ -25,10 +25,10 @@ app.post('/clean',isLoggedIn, function(req,res){
     var log_id = myModule.log;
   //Create connection
   var con = mysql.createConnection({
-	  				host: "inartec-db1.caqs6gipj1jl.sa-east-1.rds.amazonaws.com",
-	  				user:"swe",
+	  				host: "192.168.1.15",
+	  				user:"practez_modules",
 	  				password:password,
-	  				database: "it01_db_beta01e_medicalpractice"
+	  				database: "test_db_BETA02"
 	  			});
 
     // Get ID using function
@@ -39,10 +39,10 @@ app.post('/clean',isLoggedIn, function(req,res){
           else{
             //Create new connection
             var con = mysql.createConnection({
-                      host: "inartec-db1.caqs6gipj1jl.sa-east-1.rds.amazonaws.com",
-                      user:"swe",
+                      host: "192.168.1.15",
+                      user:"practez_modules",
                       password:password,
-                      database: "it01_db_beta01e_medicalpractice"
+                      database: "test_db_BETA02"
                     });
             data.forEach(function(result){
               console.log(result.id);
@@ -53,10 +53,10 @@ app.post('/clean',isLoggedIn, function(req,res){
                   console.log(res);
                   //Create new Mysql connection  //Create connection
                     var con = mysql.createConnection({
-                  	  				host: "inartec-db1.caqs6gipj1jl.sa-east-1.rds.amazonaws.com",
-                  	  				user:"swe",
+                  	  				host: "192.168.1.15",
+                  	  				user:"practez_modules",
                   	  				password:password,
-                  	  				database: "it01_db_beta01e_medicalpractice"
+                  	  				database: "test_db_BETA02"
                   	  			});
                   // Setup query for log
                   var query = "UPDATE tbl_log_csv SET db_orphan=db_orphan+? WHERE id=?";
@@ -73,10 +73,10 @@ app.post('/clean',isLoggedIn, function(req,res){
             con.end();
             //Create new connection
             var con = mysql.createConnection({
-                      host: "inartec-db1.caqs6gipj1jl.sa-east-1.rds.amazonaws.com",
-                      user:"swe",
+                      host: "192.168.1.15",
+                      user:"practez_modules",
                       password:password,
-                      database: "it01_db_beta01e_medicalpractice"
+                      database: "test_db_BETA02"
                     });
             //Delete table after used
 
