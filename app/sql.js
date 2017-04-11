@@ -1,13 +1,17 @@
 module.exports = function(app, passport) {
 
+	var express = require('express');
 	var fs = require('fs');
 	var csv = require('fast-csv');
 	var mysql = require("mysql");
 	var date_ind=0;
 	var ids_ind=0;
 	var call =0;
+	var csv_count =0;
+	var log_id=0;
 	var keys= require('./keys.js')
 	var password = keys.pass;
+	var exports = module.exports={};
 
 
 
@@ -34,11 +38,30 @@ module.exports = function(app, passport) {
 
     //Create MySQL connection
     var con = mysql.createConnection({
-      host: "inartec-db1.caqs6gipj1jl.sa-east-1.rds.amazonaws.com",
-      user:"swe",
+      host: "192.168.1.15",
+      user:"practez_modules",
       password:password,
-      database: "it01_db_beta01e_medicalpractice"
+      database: "test_db_BETA02"
     });
+		//Create log
+		var date = new Date();
+		date =date.toLocaleDateString();
+		var log_date=date.split("/");
+		//Format date
+
+		log_date= log_date[2]+"-"+log_date[0]+"-"+log_date[1];
+		console.log("Lod date: "+log_date);
+		//Create entry for log table
+		create_log(con,req,log_date,function(err,result){
+			if(err) console.error(err);
+			else{
+				console.log("Log created ");
+				log_id=result[0].last;
+				exports.log=log_id;
+				con.end();
+
+			}
+		})
 
 
   	csv
@@ -52,6 +75,7 @@ module.exports = function(app, passport) {
 
 
 
+
   //MYSQL_CONNECTION=======================
 
       //MySQL conneciton to db
@@ -61,13 +85,14 @@ module.exports = function(app, passport) {
 
       //Estabilishg connection
 
-      con.connect(function(err){
+    /*  con.connect(function(err){
         if(err){
           console.log('Error conecting to MySQL');
           return;
         }
         console.log('Connection to MySQL established');
       });
+			*/
 
 
 
@@ -112,12 +137,13 @@ module.exports = function(app, passport) {
 						ids[ids_ind]=real_id;
 						ids_ind++;
 					}
+
 					// New conection
 	  			var con = mysql.createConnection({
-	  				host: "inartec-db1.caqs6gipj1jl.sa-east-1.rds.amazonaws.com",
-	  				user:"swe",
+	  				host: "192.168.1.15",
+	  				user:"practez_modules",
 	  				password:password,
-	  				database: "it01_db_beta01e_medicalpractice"
+	  				database: "test_db_BETA02"
 	  			});
 					//Insert
 					con.query("INSERT INTO tbl_tmp_id(id,date) VALUES (? ,?)",[real_id,format_date],function(err,resu){
@@ -131,19 +157,21 @@ module.exports = function(app, passport) {
 
 
 				}
+
   			// New conection
   			var con = mysql.createConnection({
-  				host: "inartec-db1.caqs6gipj1jl.sa-east-1.rds.amazonaws.com",
-  				user:"swe",
+  				host: "192.168.1.15",
+  				user:"practez_modules",
   				password:password,
-  				database: "it01_db_beta01e_medicalpractice"
+  				database: "test_db_BETA02"
   			});
   			//Second query
   			con.query("SELECT * FROM tbl_consult WHERE id_patient=? and date_consult=?",[real_id,format_date],function (err_b,result_b){
 
-  			if(err_b) throw err_b;
+  			if(err_b) {console.log(err_b);}
+
 				//Check for option 4 no record found
-				if(result_b.length<=0){
+				else if(result_b.length<=0){
 					console.log("Option 4 ,No entries found, creating entry");
 
 					//Formating provider name
@@ -154,16 +182,24 @@ module.exports = function(app, passport) {
 					console.log("Provider last name: "+ prov_last);
 					//Retriving real provider id
 
+					//Create new sql connection
+					var con = mysql.createConnection({
+						host: "192.168.1.15",
+						user:"practez_modules",
+						password:password,
+						database: "test_db_BETA02"
+					});
+
 					get_prov(con,prov_fname,prov_last,function(err,id){
 						if(err)console.log(err);
 						else if (id.length>0){
 							console.log("Real provider id: "+ id[0].id);
 							//Create new connection for subquery
 							var con = mysql.createConnection({
-			  				host: "inartec-db1.caqs6gipj1jl.sa-east-1.rds.amazonaws.com",
-			  				user:"swe",
+			  				host: "192.168.1.15",
+			  				user:"practez_modules",
 			  				password:password,
-			  				database: "it01_db_beta01e_medicalpractice"
+			  				database: "test_db_BETA02"
 			  			});
 							//Creating new entries
 						add_new(con,format_date,data_time,real_id,id[0].id,function(err,result){
@@ -171,11 +207,29 @@ module.exports = function(app, passport) {
 								else{
 									console.log("Result for entry creation");
 									console.log(result);
+									//Create log
+									var qry1="UPDATE tbl_log_csv SET create_entry=create_entry+? WHERE id=?";
+									var value= result.affectedRows;
+									console.log("affectedrows: "+ value);
+									update_log(con,qry1,value,log_id,function(err,res){
+										if(err)console.error(err);
+										else{
+											console.log(res);
+											//End conection
+											con.end();
+										}
+									})
+
+
+
+
+
 								}
 							})
 
 						}
 					})
+
 
 
 
@@ -193,11 +247,38 @@ module.exports = function(app, passport) {
 				//Check for option 1 and 3
   			if(result_b[i].id_state==4){
 					console.log("Option 1 and 3 found, deleting all non 4 states")
+					//Create new sql connection
+					var con = mysql.createConnection({
+						host: "192.168.1.15",
+						user:"practez_modules",
+						password:password,
+						database: "test_db_BETA02"
+					});
 					remove_not(con,real_id,format_date,function(err,result){
 						if(err)console.log(err);
 						else {
 							console.log("Found 4 state result\n");
 							console.log(result);
+							//Create log
+							//New connection needed for log
+							var con = mysql.createConnection({
+			  				host: "192.168.1.15",
+			  				user:"practez_modules",
+			  				password:password,
+			  				database: "test_db_BETA02"
+			  			});
+							//Query builder
+							var qry2="UPDATE tbl_log_csv SET del_non_4=del_non_4+? WHERE id=?";
+							var value= result.affectedRows;
+							console.log("affectedrows: "+ value);
+							update_log(con,qry2,value,log_id,function(err,res){
+								if(err)console.error(err);
+								else{
+									console.log(res);
+									//End conection
+									con.end();
+								}
+							})
 						}
 					})
 				}
@@ -206,6 +287,13 @@ module.exports = function(app, passport) {
 						var temp_id =result_b[i].id;
 						console.log(temp_id);
   					console.log("Option 2, Time from DB does not match CSV");
+						//Create new sql connection
+						var con = mysql.createConnection({
+							host: "192.168.1.15",
+							user:"practez_modules",
+							password:password,
+							database: "test_db_BETA02"
+						});
 				//Call update time
 						update_time (con,data_time,temp_id,function(err,result){
 							if(err)console.log(err);
@@ -214,19 +302,59 @@ module.exports = function(app, passport) {
 									console.log(result);
 									//Create new sql connection
 									var con = mysql.createConnection({
-					  				host: "inartec-db1.caqs6gipj1jl.sa-east-1.rds.amazonaws.com",
-					  				user:"swe",
+					  				host: "192.168.1.15",
+					  				user:"practez_modules",
 					  				password:password,
-					  				database: "it01_db_beta01e_medicalpractice"
+					  				database: "test_db_BETA02"
+					  			});
+
+									//Query builder
+
+									var qry5="UPDATE tbl_log_csv SET time_non_match=time_non_match+? WHERE id=?";
+									var value= result.affectedRows;
+									console.log("affectedrows: "+ value);
+									update_log(con,qry5,value,log_id,function(err,res){
+										if(err)console.error(err);
+										else{
+											console.log(res);
+											//End conection
+											con.end();
+										}
+									})
+									//Create new sql connection
+									var con = mysql.createConnection({
+					  				host: "192.168.1.15",
+					  				user:"practez_modules",
+					  				password:password,
+					  				database: "test_db_BETA02"
 					  			});
 
 									//Delete wrong times
 									if(result_b.length>1){
+										//Create new sql connection
+										var con = mysql.createConnection({
+						  				host: "192.168.1.15",
+						  				user:"practez_modules",
+						  				password:password,
+						  				database: "test_db_BETA02"
+						  			});
 									del_two(con,format_date,real_id,temp_id,function(err,result){
 										if(err) console.log(err);
 										else{
 											console.log("Delete wrong time result");
 											console.log(result);
+											//Query builder
+											var qry3="UPDATE tbl_log_csv SET time_non_match=time_non_match+? WHERE id=?";
+											var value= result.affectedRows;
+											console.log("affectedrows: "+ value);
+											update_log(con,qry3,value,log_id,function(err,res){
+												if(err)console.error(err);
+												else{
+													console.log(res);
+													//End conection
+													con.end();
+												}
+											})
 											del_count++;
 										}
 									})
@@ -242,11 +370,42 @@ module.exports = function(app, passport) {
 
   					console.log("Time from DB matches CSV");
 						var temp_id_2 =result_b[i].id;
+
+						//Create new sql connection
+						var con = mysql.createConnection({
+							host: "192.168.1.15",
+							user:"practez_modules",
+							password:password,
+							database: "test_db_BETA02"
+						});
 						del_two(con,format_date,real_id,temp_id_2,function(err,result){
 							if(err) console.log(err);
 							else{
 								console.log("Delete all but one matching time");
 								console.log(result);
+								//Create new sql connection
+								var con = mysql.createConnection({
+									host: "192.168.1.15",
+									user:"practez_modules",
+									password:password,
+									database: "test_db_BETA02"
+								});
+								//Query builder
+								var qry4="UPDATE tbl_log_csv SET time_match=time_match+? WHERE id=?";
+								var value= result.affectedRows;
+								console.log("affectedrows: "+ value);
+								//Export log id
+
+								update_log(con,qry4,value,log_id,function(err,res){
+									if(err)console.error(err);
+									else{
+										console.log(res);
+										//End conection
+										con.end();
+									}
+								})
+
+
 							}
 
 
@@ -255,7 +414,6 @@ module.exports = function(app, passport) {
 
 
   				}
-
 
 
 
@@ -268,7 +426,10 @@ module.exports = function(app, passport) {
 
 
 
+
     })
+		//End SQL connection
+		con.end();
   		}
 
     })
@@ -281,6 +442,9 @@ module.exports = function(app, passport) {
 
   		.on("end", function(){
         console.log("CSV file closed");
+
+
+
 
 
       });
@@ -296,6 +460,9 @@ module.exports = function(app, passport) {
 
   //MYSQL_CONNECTION_END=======================
   	res.render('sql_done');
+
+
+
 
 
   })
@@ -339,6 +506,32 @@ module.exports = function(app, passport) {
 		con.query('CALL 00000_Create_APP_RECORD(?,?,?,?)',[format_date,data_time,real_id,id_provider],function(err,result){
 			if(err) callback(err,null);
 			else callback(null,result);
+		})
+	}
+	//Function add log
+
+	function create_log(con,req,date,callback){
+
+		//date = date.toString();
+		con.query('INSERT INTO tbl_log_csv (username,date) VALUES (?,?)',[req.user.username,date],function(err,result){
+			if(err) callback(err,null);
+			else{
+				con.query("SELECT LAST_INSERT_ID() as last",function(err,res){
+					if(err) callback(err,null);
+					else{
+						callback(null,res);
+					}
+				})
+			}
+		})
+	}
+	//Function update log
+	function update_log(con,query,value,id,callback){
+		con.query(query,[value,id],function(err,result){
+			if(err)callback(err,null);
+			else{
+				callback(null,result);
+			}
 		})
 	}
 

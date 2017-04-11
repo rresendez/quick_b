@@ -36,10 +36,10 @@ module.exports = function(app, passport) {
 
     //Create MySQL connection
     var con = mysql.createConnection({
-      host: "inartec-db1.caqs6gipj1jl.sa-east-1.rds.amazonaws.com",
-      user:"swe",
+      host: "192.168.1.15",
+      user:"practez_modules",
       password:"ingenium2015",
-      database: "it01_db_beta01e_medicalpractice"
+      database: "test_db_BETA02"
     });
 
 
@@ -109,10 +109,10 @@ module.exports = function(app, passport) {
 					ids[ids_ind]=real_id;
 					// New conection
 	  			var con = mysql.createConnection({
-	  				host: "inartec-db1.caqs6gipj1jl.sa-east-1.rds.amazonaws.com",
-	  				user:"swe",
+	  				host: "192.168.1.15",
+	  				user:"practez_modules",
 	  				password:"ingenium2015",
-	  				database: "it01_db_beta01e_medicalpractice"
+	  				database: "test_db_BETA02"
 	  			});
 					//Insert
 					con.query("INSERT INTO tbl_tmp_id VALUES (? ,?)",[real_id,format_date],function(err,resu){
@@ -127,10 +127,10 @@ module.exports = function(app, passport) {
 				}
   			// New conection
   			var con = mysql.createConnection({
-  				host: "inartec-db1.caqs6gipj1jl.sa-east-1.rds.amazonaws.com",
-  				user:"swe",
+  				host: "192.168.1.15",
+  				user:"practez_modules",
   				password:"ingenium2015",
-  				database: "it01_db_beta01e_medicalpractice"
+  				database: "test_db_BETA02"
   			});
   			//Second query
   			con.query("SELECT * FROM tbl_consult WHERE id_patient=? and date_consult=?",[real_id,format_date],function (err_b,result_b){

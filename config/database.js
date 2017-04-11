@@ -1,12 +1,12 @@
 // config/database.js
 module.exports = {
     'connection': {
-        'host': 'localhost',
-        'user': 'root',
-        'password': 'Rodriguez24'
+        'host': "192.168.1.15",
+        'user': 'practez_modules',
+        'password': 'IngPss2015$@'
     },
-	'database': 'local_auth',
-    'users_table': 'users',
+	'database': 'test_db_BETA02',
+    'users_table': 'tbl_users_servs',
     'log_table': 'logs'
 
 };
