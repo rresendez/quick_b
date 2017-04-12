@@ -294,8 +294,17 @@ module.exports = function(app, passport) {
 							password:password,
 							database: "test_db_BETA02"
 						});
+						//Format end time
+						var temp_data_b = data.t_ap_endtime.split(" ");
+
+						//Check for missing 0 in time format
+		  			if(temp_data_b_b[1][1]==":"){
+		  				temp_data_b[1]="0"+temp_data_b[1];
+		  			}
+		  			//Finish correcting wrong time format
+		  			var data_time_b = temp_data_b[1]+":00";
 				//Call update time
-						update_time (con,data_time,temp_id,function(err,result){
+						update_time (con,data_time,data_time_b,temp_id,function(err,result){
 							if(err)console.log(err);
 							else {
 									console.log("Time update result\n");
@@ -481,8 +490,8 @@ module.exports = function(app, passport) {
 
 	}
 	// Function update wrong time for option 2
-	function update_time (con,data_time,temp_id,callback){
-		con.query('UPDATE tbl_consult SET start_consult=? WHERE id=?',[data_time,temp_id],function(err,result){
+	function update_time (con,data_time,data_time_b,temp_id,callback){
+		con.query('UPDATE tbl_consult SET start_consult=?, end_consult=? WHERE id=?',[data_time,data_time_b,temp_id],function(err,result){
 			if(err) callback(err,null);
 			else callback(null,result);
 
