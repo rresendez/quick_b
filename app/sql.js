@@ -9,8 +9,8 @@ module.exports = function(app, passport) {
 	var call =0;
 	var csv_count =0;
 	var log_id=0;
-	var keys= require('./keys.js')
-	var password = keys.pass;
+
+	var dbconfig = require('../config/database');
 	var exports = module.exports={};
 
 
@@ -37,12 +37,7 @@ module.exports = function(app, passport) {
   	//CSV fast-csv object setup
 
     //Create MySQL connection
-    var con = mysql.createConnection({
-      host: "192.168.1.15",
-      user:"practez_modules",
-      password:password,
-      database: "test_db_BETA02"
-    });
+    var con = mysql.createConnection(dbconfig.connection);
 		//Create log
 		var date = new Date();
 		date =date.toLocaleDateString();
@@ -139,12 +134,7 @@ module.exports = function(app, passport) {
 					}
 
 					// New conection
-	  			var con = mysql.createConnection({
-	  				host: "192.168.1.15",
-	  				user:"practez_modules",
-	  				password:password,
-	  				database: "test_db_BETA02"
-	  			});
+	  			var con = mysql.createConnection(dbconfig.connection);
 					//Insert
 					con.query("INSERT INTO tbl_tmp_id(id,date) VALUES (? ,?)",[real_id,format_date],function(err,resu){
 						if(err){
@@ -159,12 +149,7 @@ module.exports = function(app, passport) {
 				}
 
   			// New conection
-  			var con = mysql.createConnection({
-  				host: "192.168.1.15",
-  				user:"practez_modules",
-  				password:password,
-  				database: "test_db_BETA02"
-  			});
+  			var con = mysql.createConnection(dbconfig.connection);
   			//Second query
   			con.query("SELECT * FROM tbl_consult WHERE id_patient=? and date_consult=?",[real_id,format_date],function (err_b,result_b){
 
@@ -183,24 +168,14 @@ module.exports = function(app, passport) {
 					//Retriving real provider id
 
 					//Create new sql connection
-					var con = mysql.createConnection({
-						host: "192.168.1.15",
-						user:"practez_modules",
-						password:password,
-						database: "test_db_BETA02"
-					});
+					var con = mysql.createConnection(dbconfig.connection);
 
 					get_prov(con,prov_fname,prov_last,function(err,id){
 						if(err)console.log(err);
 						else if (id.length>0){
 							console.log("Real provider id: "+ id[0].id);
 							//Create new connection for subquery
-							var con = mysql.createConnection({
-			  				host: "192.168.1.15",
-			  				user:"practez_modules",
-			  				password:password,
-			  				database: "test_db_BETA02"
-			  			});
+							var con = mysql.createConnection(dbconfig.connection);
 							//Creating new entries
 						add_new(con,format_date,data_time,real_id,id[0].id,function(err,result){
 								if(err) console.log(err);
@@ -248,12 +223,7 @@ module.exports = function(app, passport) {
   			if(result_b[i].id_state==4){
 					console.log("Option 1 and 3 found, deleting all non 4 states")
 					//Create new sql connection
-					var con = mysql.createConnection({
-						host: "192.168.1.15",
-						user:"practez_modules",
-						password:password,
-						database: "test_db_BETA02"
-					});
+					var con = mysql.createConnection(dbconfig.connection);
 					remove_not(con,real_id,format_date,function(err,result){
 						if(err)console.log(err);
 						else {
@@ -261,12 +231,7 @@ module.exports = function(app, passport) {
 							console.log(result);
 							//Create log
 							//New connection needed for log
-							var con = mysql.createConnection({
-			  				host: "192.168.1.15",
-			  				user:"practez_modules",
-			  				password:password,
-			  				database: "test_db_BETA02"
-			  			});
+							var con = mysql.createConnection(dbconfig.connection);
 							//Query builder
 							var qry2="UPDATE tbl_log_csv SET del_non_4=del_non_4+? WHERE id=?";
 							var value= result.affectedRows;
@@ -288,25 +253,24 @@ module.exports = function(app, passport) {
 						console.log(temp_id);
   					console.log("Option 2, Time from DB does not match CSV");
 						//Create new sql connection
-						var con = mysql.createConnection({
-							host: "192.168.1.15",
-							user:"practez_modules",
-							password:password,
-							database: "test_db_BETA02"
-						});
+						var con = mysql.createConnection(dbconfig.connection);
+						//Format end time
+						var temp_data_b = data.t_ap_endtime.split(" ");
+
+						//Check for missing 0 in time format
+		  			if(temp_data_b[1][1]==":"){
+		  				temp_data_b[1]="0"+temp_data_b[1];
+		  			}
+		  			//Finish correcting wrong time format
+		  			var data_time_b = temp_data_b[1]+":00";
 				//Call update time
-						update_time (con,data_time,temp_id,function(err,result){
+						update_time (con,data_time,data_time_b,temp_id,function(err,result){
 							if(err)console.log(err);
 							else {
 									console.log("Time update result\n");
 									console.log(result);
 									//Create new sql connection
-									var con = mysql.createConnection({
-					  				host: "192.168.1.15",
-					  				user:"practez_modules",
-					  				password:password,
-					  				database: "test_db_BETA02"
-					  			});
+									var con = mysql.createConnection(dbconfig.connection);
 
 									//Query builder
 
@@ -322,22 +286,12 @@ module.exports = function(app, passport) {
 										}
 									})
 									//Create new sql connection
-									var con = mysql.createConnection({
-					  				host: "192.168.1.15",
-					  				user:"practez_modules",
-					  				password:password,
-					  				database: "test_db_BETA02"
-					  			});
+									var con = mysql.createConnection(dbconfig.connection);
 
 									//Delete wrong times
 									if(result_b.length>1){
 										//Create new sql connection
-										var con = mysql.createConnection({
-						  				host: "192.168.1.15",
-						  				user:"practez_modules",
-						  				password:password,
-						  				database: "test_db_BETA02"
-						  			});
+										var con = mysql.createConnection(dbconfig.connection);
 									del_two(con,format_date,real_id,temp_id,function(err,result){
 										if(err) console.log(err);
 										else{
@@ -372,24 +326,14 @@ module.exports = function(app, passport) {
 						var temp_id_2 =result_b[i].id;
 
 						//Create new sql connection
-						var con = mysql.createConnection({
-							host: "192.168.1.15",
-							user:"practez_modules",
-							password:password,
-							database: "test_db_BETA02"
-						});
+						var con = mysql.createConnection(dbconfig.connection);
 						del_two(con,format_date,real_id,temp_id_2,function(err,result){
 							if(err) console.log(err);
 							else{
 								console.log("Delete all but one matching time");
 								console.log(result);
 								//Create new sql connection
-								var con = mysql.createConnection({
-									host: "192.168.1.15",
-									user:"practez_modules",
-									password:password,
-									database: "test_db_BETA02"
-								});
+								var con = mysql.createConnection(dbconfig.connection);
 								//Query builder
 								var qry4="UPDATE tbl_log_csv SET time_match=time_match+? WHERE id=?";
 								var value= result.affectedRows;
@@ -481,8 +425,8 @@ module.exports = function(app, passport) {
 
 	}
 	// Function update wrong time for option 2
-	function update_time (con,data_time,temp_id,callback){
-		con.query('UPDATE tbl_consult SET start_consult=? WHERE id=?',[data_time,temp_id],function(err,result){
+	function update_time (con,data_time,data_time_b,temp_id,callback){
+		con.query('UPDATE tbl_consult SET start_consult=?, end_consult=? WHERE id=?',[data_time,data_time_b,temp_id],function(err,result){
 			if(err) callback(err,null);
 			else callback(null,result);
 

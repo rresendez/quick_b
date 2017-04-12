@@ -2,9 +2,9 @@ module.exports = function (app,passport){
   var fs= require('fs');
   var csv = require('fast-csv');
   var mysql = require ("mysql");
-  var keys= require('./keys.js')
+
   var myModule= require('./sql.js');
-	var password = keys.pass;
+	var dbconfig = require('../config/database');
 
 //=======================================
 //Second stage csv===========================
@@ -18,12 +18,7 @@ app.post('/sql2', isLoggedIn, function(req,res){
   //Load CSV
   var stream = fs.createReadStream('./upload/testb.csv');
   //Create SQL connection
-  var con = mysql.createConnection({
-    host: "192.168.1.15",
-    user:"practez_modules",
-    password:password,
-    database: "test_db_BETA02"
-  });
+  var con = mysql.createConnection(dbconfig.connection);
   //Open CSV
   csv
     .fromStream(stream,{headers:true})
@@ -48,12 +43,7 @@ app.post('/sql2', isLoggedIn, function(req,res){
             if(err)console.log(err);
             else {
               //Create SQL connection
-              var con = mysql.createConnection({
-                host: "192.168.1.15",
-                user:"practez_modules",
-                password:password,
-                database: "test_db_BETA02"
-              });
+              var con = mmysql.createConnection(dbconfig.connection);
 
               var query = "UPDATE tbl_log_csv SET state_update=state_update+? WHERE id=?";
               update_log(con,query,result.affectedRows,log_id,function(err,res){
