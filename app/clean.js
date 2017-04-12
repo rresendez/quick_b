@@ -3,6 +3,7 @@ var mysql = require('mysql');
 
 var myModule= require('./sql.js');
 var dbconfig = require('../config/database');
+var errors = false;
 
 
 
