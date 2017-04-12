@@ -1,8 +1,8 @@
 module.exports = function (app, passport){
 var mysql = require('mysql');
-var keys= require('./keys.js');
+
 var myModule= require('./sql.js');
-var password = keys.pass;
+var dbconfig = require('../config/database');
 
 
 
@@ -24,12 +24,7 @@ app.post('/clean',isLoggedIn, function(req,res){
   //Define log id
     var log_id = myModule.log;
   //Create connection
-  var con = mysql.createConnection({
-	  				host: "192.168.1.15",
-	  				user:"practez_modules",
-	  				password:password,
-	  				database: "test_db_BETA02"
-	  			});
+  var con = mmysql.createConnection(dbconfig.connection);
 
     // Get ID using function
         getID(con, function(err,data){
@@ -38,12 +33,7 @@ app.post('/clean',isLoggedIn, function(req,res){
           }
           else{
             //Create new connection
-            var con = mysql.createConnection({
-                      host: "192.168.1.15",
-                      user:"practez_modules",
-                      password:password,
-                      database: "test_db_BETA02"
-                    });
+            var con = mysql.createConnection(dbconfig.connection);
             data.forEach(function(result){
               console.log(result.id);
               remove(con,result,function(err,res){
@@ -52,12 +42,7 @@ app.post('/clean',isLoggedIn, function(req,res){
                   console.log("Deleted orphan");
                   console.log(res);
                   //Create new Mysql connection  //Create connection
-                    var con = mysql.createConnection({
-                  	  				host: "192.168.1.15",
-                  	  				user:"practez_modules",
-                  	  				password:password,
-                  	  				database: "test_db_BETA02"
-                  	  			});
+                    var con = mysql.createConnection(dbconfig.connection);
                   // Setup query for log
                   var query = "UPDATE tbl_log_csv SET db_orphan=db_orphan+? WHERE id=?";
                   update_log(con,query,res.affectedRows,log_id,function(err,result){
@@ -72,12 +57,7 @@ app.post('/clean',isLoggedIn, function(req,res){
             //End connection
             con.end();
             //Create new connection
-            var con = mysql.createConnection({
-                      host: "192.168.1.15",
-                      user:"practez_modules",
-                      password:password,
-                      database: "test_db_BETA02"
-                    });
+            var con = mysql.createConnection(dbconfig.connection);
             //Delete table after used
 
             del_table(con,function(err,result){
