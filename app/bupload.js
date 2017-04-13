@@ -1,7 +1,7 @@
 module.exports = function (app, passport){
   var multer = require('multer');
   var dialog = require('dialog');
-  
+
   const csv_b="apptdate,statusdate,patid,patname,status,hphone,wphone,ext,apptcode,purpose,note,n_pe_id,c_of_id,c_of_name,c_st_id,c_st_name,c_crc_desc";
 
   // Configure multer for file name and location
@@ -26,6 +26,7 @@ module.exports = function (app, passport){
   	uploadB(req,res, function (err){
   		if(err){
   			console.log(err);
+        res.render('fail');
 
 
   		}
@@ -45,6 +46,7 @@ module.exports = function (app, passport){
   	upload(req,res, function (err){
   		if(err){
   			console.log(err);
+        res.render('fail');
   		}
 
   		 console.log("Inside");

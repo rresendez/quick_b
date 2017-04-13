@@ -25,7 +25,7 @@ app.post('/clean',isLoggedIn, function(req,res){
   //Define log id
     var log_id = myModule.log;
   //Create connection
-  var con = mmysql.createConnection(dbconfig.connection);
+  var con = mysql.createConnection(dbconfig.connection);
 
     // Get ID using function
         getID(con, function(err,data){
