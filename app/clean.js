@@ -3,7 +3,7 @@ var mysql = require('mysql');
 
 var myModule= require('./sql.js');
 var dbconfig = require('../config/database');
-var errors = false;
+
 
 
 
@@ -31,6 +31,7 @@ app.post('/clean',isLoggedIn, function(req,res){
         getID(con, function(err,data){
           if(err){
             console.log(err);
+            pop_err();
           }
           else{
             //Create new connection
@@ -38,7 +39,10 @@ app.post('/clean',isLoggedIn, function(req,res){
             data.forEach(function(result){
               console.log(result.id);
               remove(con,result,function(err,res){
-                if(err)console.log(err);
+                if(err){
+                  console.log(err);
+                  pop_err();
+                }
                 else{
                   console.log("Deleted orphan");
                   console.log(res);
@@ -47,7 +51,10 @@ app.post('/clean',isLoggedIn, function(req,res){
                   // Setup query for log
                   var query = "UPDATE tbl_log_csv SET db_orphan=db_orphan+? WHERE id=?";
                   update_log(con,query,res.affectedRows,log_id,function(err,result){
-                    if(err)console.log(err);
+                    if(err){
+                      console.log(err);
+                      pop_err();
+                    }
                     else{
                       console.log(result);
                     }
@@ -62,7 +69,10 @@ app.post('/clean',isLoggedIn, function(req,res){
             //Delete table after used
 
             del_table(con,function(err,result){
-              if(err)console.log(err);
+              if(err){
+                console.log(err);
+                pop_err();
+              }
               else{
                 console.log(result);
               }
@@ -134,6 +144,12 @@ function update_log(con,query,value,id,callback){
       callback(null,result);
     }
   })
+}
+//Error text box function
+
+function pop_err(){
+  var dialog = require('dialog');
+  dialog.warn("There was an error!,\nPlease reference to console for more details.");
 }
 
 // route middleware to make sure

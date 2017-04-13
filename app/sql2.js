@@ -24,7 +24,10 @@ app.post('/sql2', isLoggedIn, function(req,res){
     .fromStream(stream,{headers:true})
     .on("data",function (data){
       getID(con,data,function(err,resu){
-        if(err) console.log(err);
+        if(err) {
+          console.log(err);
+          pop_err();
+        }
         else{
           //Get real id
           var temp_id = resu[0].id;
@@ -40,14 +43,20 @@ app.post('/sql2', isLoggedIn, function(req,res){
           console.log("Status:" + state);
           //Call update funciton
           updateState(con,state,temp_id,format_date,function(err,result){
-            if(err)console.log(err);
+            if(err){
+              console.log(err);
+              pop_err();
+            }
             else {
               //Create SQL connection
-              var con = mmysql.createConnection(dbconfig.connection);
+              var con = mysql.createConnection(dbconfig.connection);
 
               var query = "UPDATE tbl_log_csv SET state_update=state_update+? WHERE id=?";
               update_log(con,query,result.affectedRows,log_id,function(err,res){
-                if(err)console.log(err);
+                if(err){
+                  console.log(err);
+                  pop_err();
+                }
                 else{
                   console.log(res);
                 }
@@ -105,6 +114,12 @@ function update_log(con,query,value,id,callback){
       callback(null,result);
     }
   })
+}
+//Error text box function
+
+function pop_err(){
+  var dialog = require('dialog');
+  dialog.warn("There was an error!,\nPlease reference to console for more details.");
 }
 // route middleware to make sure
 function isLoggedIn(req, res, next) {

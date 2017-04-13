@@ -4,6 +4,7 @@ module.exports = function(app, passport) {
 	var fs = require('fs');
 	var csv = require('fast-csv');
 	var mysql = require("mysql");
+	var dialog = require('dialog');
 	var date_ind=0;
 	var ids_ind=0;
 	var call =0;
@@ -48,7 +49,11 @@ module.exports = function(app, passport) {
 		console.log("Lod date: "+log_date);
 		//Create entry for log table
 		create_log(con,req,log_date,function(err,result){
-			if(err) console.error(err);
+			if(err) {
+				 console.error(err);
+				 pop_err();
+
+			 }
 			else{
 				console.log("Log created ");
 				log_id=result[0].last;
@@ -93,7 +98,10 @@ module.exports = function(app, passport) {
 
   		console.log("Patient id: "+data.c_pe_patient_id);
   		con.query("SELECT * FROM tbl_patient WHERE numid_patient=?",[data.c_pe_patient_id], function(err,result){
-  			if(err) throw err;
+  			if(err) {
+					console.log(err);
+					pop_err();
+				}
   			if(result.length>0){
   			console.log("Real id: "+result[0].id);
   			var real_id=result[0].id;
@@ -139,7 +147,8 @@ module.exports = function(app, passport) {
 					con.query("INSERT INTO tbl_tmp_id(id,date) VALUES (? ,?)",[real_id,format_date],function(err,resu){
 						if(err){
 							console.log(err);
-						};
+							pop_err();
+						}
 						console.log("Temp table result");
 						console.log(resu);
 					});
@@ -153,7 +162,10 @@ module.exports = function(app, passport) {
   			//Second query
   			con.query("SELECT * FROM tbl_consult WHERE id_patient=? and date_consult=?",[real_id,format_date],function (err_b,result_b){
 
-  			if(err_b) {console.log(err_b);}
+  			if(err_b) {
+					console.log(err_b);
+					pop_err();
+				}
 
 				//Check for option 4 no record found
 				else if(result_b.length<=0){
@@ -171,14 +183,20 @@ module.exports = function(app, passport) {
 					var con = mysql.createConnection(dbconfig.connection);
 
 					get_prov(con,prov_fname,prov_last,function(err,id){
-						if(err)console.log(err);
+						if(err){
+							console.log(err);
+							pop_err();
+						}
 						else if (id.length>0){
 							console.log("Real provider id: "+ id[0].id);
 							//Create new connection for subquery
 							var con = mysql.createConnection(dbconfig.connection);
 							//Creating new entries
 						add_new(con,format_date,data_time,real_id,id[0].id,function(err,result){
-								if(err) console.log(err);
+								if(err) {
+									console.log(err);
+									pop_err();
+								}
 								else{
 									console.log("Result for entry creation");
 									console.log(result);
@@ -225,7 +243,10 @@ module.exports = function(app, passport) {
 					//Create new sql connection
 					var con = mysql.createConnection(dbconfig.connection);
 					remove_not(con,real_id,format_date,function(err,result){
-						if(err)console.log(err);
+						if(err){
+							console.log(err);
+							pop_err();
+						}
 						else {
 							console.log("Found 4 state result\n");
 							console.log(result);
@@ -237,7 +258,10 @@ module.exports = function(app, passport) {
 							var value= result.affectedRows;
 							console.log("affectedrows: "+ value);
 							update_log(con,qry2,value,log_id,function(err,res){
-								if(err)console.error(err);
+								if(err){
+									console.log(err);
+									pop_err();
+								}
 								else{
 									console.log(res);
 									//End conection
@@ -265,7 +289,10 @@ module.exports = function(app, passport) {
 		  			var data_time_b = temp_data_b[1]+":00";
 				//Call update time
 						update_time (con,data_time,data_time_b,temp_id,function(err,result){
-							if(err)console.log(err);
+							if(err){
+								console.log(err);
+								pop_err();
+							}
 							else {
 									console.log("Time update result\n");
 									console.log(result);
@@ -278,7 +305,10 @@ module.exports = function(app, passport) {
 									var value= result.affectedRows;
 									console.log("affectedrows: "+ value);
 									update_log(con,qry5,value,log_id,function(err,res){
-										if(err)console.error(err);
+										if(err){
+											console.log(err);
+											pop_err();
+										}
 										else{
 											console.log(res);
 											//End conection
@@ -293,7 +323,10 @@ module.exports = function(app, passport) {
 										//Create new sql connection
 										var con = mysql.createConnection(dbconfig.connection);
 									del_two(con,format_date,real_id,temp_id,function(err,result){
-										if(err) console.log(err);
+										if(err) {
+											console.log(err);
+											pop_err();
+										}
 										else{
 											console.log("Delete wrong time result");
 											console.log(result);
@@ -328,7 +361,10 @@ module.exports = function(app, passport) {
 						//Create new sql connection
 						var con = mysql.createConnection(dbconfig.connection);
 						del_two(con,format_date,real_id,temp_id_2,function(err,result){
-							if(err) console.log(err);
+							if(err) {
+								console.log(err);
+								pop_err();
+							}
 							else{
 								console.log("Delete all but one matching time");
 								console.log(result);
@@ -341,7 +377,10 @@ module.exports = function(app, passport) {
 								//Export log id
 
 								update_log(con,qry4,value,log_id,function(err,res){
-									if(err)console.error(err);
+									if(err){
+										console.log(err);
+										pop_err();
+									}
 									else{
 										console.log(res);
 										//End conection
@@ -480,7 +519,12 @@ module.exports = function(app, passport) {
 	}
 
 
+//Error text box function
 
+function pop_err(){
+	var dialog = require('dialog');
+	dialog.warn("There was an error!,\nPlease reference to console for more details.");
+}
 
   // route middleware to make sure
   function isLoggedIn(req, res, next) {

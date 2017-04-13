@@ -93,6 +93,7 @@ app.post('/upload',isLoggedIn, function(req,res){
 	uploadB(req,res, function (err){
 		if(err){
 			console.log(err);
+			pop_err();
 		}
 
 		 console.log("Buffer");
@@ -110,6 +111,7 @@ app.post('/upload',isLoggedIn, function(req,res){
 	upload(req,res, function (err){
 		if(err){
 			console.log(err);
+			pop_err();
 		}
 
 		 console.log("Inside");
@@ -180,7 +182,12 @@ app.post('/upload',isLoggedIn, function(req,res){
 		res.redirect('/');
 	});
 };
+//Error text box function
 
+function pop_err(){
+  var dialog = require('dialog');
+  dialog.warn("There was an error!,\nPlease reference to console for more details.");
+}
 // route middleware to make sure
 function isLoggedIn(req, res, next) {
 

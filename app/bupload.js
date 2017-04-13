@@ -26,7 +26,7 @@ module.exports = function (app, passport){
   	uploadB(req,res, function (err){
   		if(err){
   			console.log(err);
-        res.render('fail');
+        pop_err();
 
 
   		}
@@ -46,7 +46,7 @@ module.exports = function (app, passport){
   	upload(req,res, function (err){
   		if(err){
   			console.log(err);
-        res.render('fail');
+        pop_err();
   		}
 
   		 console.log("Inside");
@@ -54,7 +54,12 @@ module.exports = function (app, passport){
   			res.render('2csv_done.ejs', { file: req.file });
   	})
   });
+  //Error text box function
 
+  function pop_err(){
+  	var dialog = require('dialog');
+  	dialog.warn("There was an error!,\nPlease reference to console for more details.");
+  }
   // route middleware to make sure
   function isLoggedIn(req, res, next) {
 
