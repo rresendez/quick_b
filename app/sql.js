@@ -10,6 +10,7 @@ module.exports = function(app, passport) {
 	var call =0;
 	var csv_count =0;
 	var log_id=0;
+	var real_id=[];
 
 	var dbconfig = require('../config/database');
 	var exports = module.exports={};
@@ -102,9 +103,40 @@ module.exports = function(app, passport) {
 					console.log(err);
 					pop_err();
 				}
-  			if(result.length>0){
+				if(result.length==0){
+					var con = mysql.createConnection(dbconfig.connection);
+					add_patient(con,data,function(err,result){
+						if(err){
+							console.log(err);
+							pop_err();
+						}
+						else{
+							console.log("New patient created");
+							console.log(result);
+							real_id.push(result[0].last);
+							console.log("New patient id: "+real_id[0]);
+							var temp_id_date= format_date_fn(data);
+							console.log(temp_id_date);
+							var con = mysql.createConnection(dbconfig.connection);
+							con.query("INSERT INTO tbl_tmp_id(id,date) VALUES (? ,?)",[result[0].last,temp_id_date],function(err,resu){
+								if(err){
+									console.log(err);
+									pop_err();
+								}
+								console.log("Temp table result");
+								console.log(resu);
+							});
+
+						}
+					})
+
+				}
+  			if(true){
+					//If there is real id use it else use one from created entry
+					if(result.length>0){
   			console.log("Real id: "+result[0].id);
-  			var real_id=result[0].id;
+  			real_id.push(result[0].id);
+															}
 
 
 
@@ -131,20 +163,23 @@ module.exports = function(app, passport) {
   			// Testing for correct splitashion XD
   			console.log("Date: "+ format_date + " Time: "+ data_time);
 				//Add entry of ids on table
-				if(!dates.includes(format_date)||!ids.includes(real_id)){
+				console.log("real_id status");
+				console.log(typeof real_id[0]);
+				if(!dates.includes(format_date)||!ids.includes(real_id[0])){
 					if(!dates.includes(format_date)){
 					dates[date_ind]=format_date;
 					date_ind++;
 					}
 					else{
-						ids[ids_ind]=real_id;
+						ids[ids_ind]=real_id[0];
 						ids_ind++;
 					}
 
 					// New conection
 	  			var con = mysql.createConnection(dbconfig.connection);
 					//Insert
-					con.query("INSERT INTO tbl_tmp_id(id,date) VALUES (? ,?)",[real_id,format_date],function(err,resu){
+					if(typeof real_id[0]!='undefined'){
+					con.query("INSERT INTO tbl_tmp_id(id,date) VALUES (? ,?)",[real_id[0],format_date],function(err,resu){
 						if(err){
 							console.log(err);
 							pop_err();
@@ -152,6 +187,7 @@ module.exports = function(app, passport) {
 						console.log("Temp table result");
 						console.log(resu);
 					});
+				}
 					con.end();
 
 
@@ -160,7 +196,7 @@ module.exports = function(app, passport) {
   			// New conection
   			var con = mysql.createConnection(dbconfig.connection);
   			//Second query
-  			con.query("SELECT * FROM tbl_consult WHERE id_patient=? and date_consult=?",[real_id,format_date],function (err_b,result_b){
+  			con.query("SELECT * FROM tbl_consult WHERE id_patient=? and date_consult=?",[real_id[0],format_date],function (err_b,result_b){
 
   			if(err_b) {
 					console.log(err_b);
@@ -191,8 +227,11 @@ module.exports = function(app, passport) {
 							console.log("Real provider id: "+ id[0].id);
 							//Create new connection for subquery
 							var con = mysql.createConnection(dbconfig.connection);
+
 							//Creating new entries
-						add_new(con,format_date,data_time,real_id,id[0].id,function(err,result){
+							var insert_real_id=real_id.shift();
+
+						add_new(con,format_date,data_time,insert_real_id,id[0].id,function(err,result){
 								if(err) {
 									console.log(err);
 									pop_err();
@@ -242,7 +281,7 @@ module.exports = function(app, passport) {
 					console.log("Option 1 and 3 found, deleting all non 4 states")
 					//Create new sql connection
 					var con = mysql.createConnection(dbconfig.connection);
-					remove_not(con,real_id,format_date,function(err,result){
+					remove_not(con,real_id[0],format_date,function(err,result){
 						if(err){
 							console.log(err);
 							pop_err();
@@ -322,7 +361,7 @@ module.exports = function(app, passport) {
 									if(result_b.length>1){
 										//Create new sql connection
 										var con = mysql.createConnection(dbconfig.connection);
-									del_two(con,format_date,real_id,temp_id,function(err,result){
+									del_two(con,format_date,real_id[0],temp_id,function(err,result){
 										if(err) {
 											console.log(err);
 											pop_err();
@@ -360,7 +399,7 @@ module.exports = function(app, passport) {
 
 						//Create new sql connection
 						var con = mysql.createConnection(dbconfig.connection);
-						del_two(con,format_date,real_id,temp_id_2,function(err,result){
+						del_two(con,format_date,real_id[0],temp_id_2,function(err,result){
 							if(err) {
 								console.log(err);
 								pop_err();
@@ -508,6 +547,25 @@ module.exports = function(app, passport) {
 			}
 		})
 	}
+	//Function add Patient
+	function add_patient(con,data,callback){
+		var name = data.c_pe_name.split(",");
+		var dob = data.d_pe_dob.split(" ");
+		dob = dob[0];
+		dob= dob.split("/");
+		dob= dob[2]+"-"+dob[0]+"-"+dob[1];
+		con.query('INSERT INTO tbl_patient (numid_patient,firstname_patient,lastname_patient,gender_patient,datebirth_patient) VALUES(?,?,?,?,?)',[data.c_pe_patient_id,name[1],name[0],"M",dob],function(err,result){
+			if(err) callback(err,null);
+			else{
+				con.query("SELECT LAST_INSERT_ID() as last",function(err,res){
+					if(err) callback(err,null);
+					else{
+						callback(null,res);
+					}
+				})
+			}
+		})
+	}
 	//Function update log
 	function update_log(con,query,value,id,callback){
 		con.query(query,[value,id],function(err,result){
@@ -524,6 +582,31 @@ module.exports = function(app, passport) {
 function pop_err(){
 	var dialog = require('dialog');
 	dialog.warn("There was an error!,\nPlease reference to console for more details.");
+}
+//Function formart date_ind
+
+function format_date_fn (data){
+	//Split csv date into date and time
+	var temp_data = data.t_ap_starttime.split(" ");
+
+	//Check for missing 0 in date format
+	if(temp_data[0][1]=="/"){
+		temp_data[0]="0"+temp_data[0];
+	}
+	//Assing date to variable
+	var data_date = temp_data[0];
+
+	//Check for missing 0 in time format
+	if(temp_data[1][1]==":"){
+		temp_data[1]="0"+temp_data[1];
+	}
+	//Finish correcting wrong time format
+	var data_time = temp_data[1]+":00";
+	//Correct CSV date format
+	var format_date=data_date.split("/");
+
+ format_date= format_date[2]+"-"+format_date[0]+"-"+format_date[1];
+ return format_date;
 }
 
   // route middleware to make sure
