@@ -114,7 +114,7 @@ module.exports = function(app, passport) {
 							console.log("New patient created");
 							console.log(result);
 							real_id.push(result[0].last);
-							console.log("New patient id: "+real_id[0]);
+							console.log("New patient id: "+result[0].last);
 							var temp_id_date= format_date_fn(data);
 							console.log(temp_id_date);
 							var con = mysql.createConnection(dbconfig.connection);
@@ -125,6 +125,7 @@ module.exports = function(app, passport) {
 								}
 								console.log("Temp table result");
 								console.log(resu);
+								con.end();
 							});
 
 						}
