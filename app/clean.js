@@ -147,10 +147,12 @@ function update_log(con,query,value,id,callback){
 }
 //Error text box function
 
-function pop_err(){
-  var dialog = require('dialog');
-  dialog.warn("There was an error!,\nPlease reference to console for more details.");
-}
+  function pop_err(){
+    var fs = require('fs-extra');
+  	var dialog = require('dialog');
+  	dialog.warn("There was an error!,\nPlease reference to console for more details.");
+    fs.unlinkSync("./upload/test.csv");
+  }
 
 // route middleware to make sure
   function isLoggedIn(req, res, next) {

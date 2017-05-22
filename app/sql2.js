@@ -80,6 +80,7 @@ app.post('/sql2', isLoggedIn, function(req,res){
     })
 
 
+  final_clean(res);
   res.render('sql2_done');
 
 })
@@ -118,8 +119,21 @@ function update_log(con,query,value,id,callback){
 //Error text box function
 
 function pop_err(){
+  var fs = require('fs-extra');
   var dialog = require('dialog');
   dialog.warn("There was an error!,\nPlease reference to console for more details.");
+  fs.unlinkSync("./upload/testb.csv");
+}
+function final_clean(){
+  var path="./upload/test.csv";
+  var pathB="upload/testb.csv";
+  if(fs.existsSync(pathB)&&fs.existsSync(path)){
+
+  fs.unlinkSync(path);
+  fs.unlinkSync(pathB);
+}
+
+
 }
 // route middleware to make sure
 function isLoggedIn(req, res, next) {

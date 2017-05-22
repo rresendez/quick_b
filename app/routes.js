@@ -5,7 +5,6 @@ module.exports = function(app, passport) {
 
 
 	var multer = require('multer');
-	var fs = require('fs');
 	var csv = require('fast-csv');
 	var mysql = require("mysql");
 	var dialog = require('dialog');
@@ -186,7 +185,17 @@ app.post('/upload',isLoggedIn, function(req,res){
 
 function pop_err(){
   var dialog = require('dialog');
+	var fs = require('fs-extra');
   dialog.warn("There was an error!,\nPlease reference to console for more details.");
+	var path="upload/test.csv";
+
+	if(fs.existsSync(path)){
+	fs.unlinkSync(path);
+	
+}
+
+
+
 }
 // route middleware to make sure
 function isLoggedIn(req, res, next) {

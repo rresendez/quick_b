@@ -2,6 +2,7 @@ module.exports = function (app, passport){
   var multer = require('multer');
   var dialog = require('dialog');
 
+
   const csv_b="apptdate,statusdate,patid,patname,status,hphone,wphone,ext,apptcode,purpose,note,n_pe_id,c_of_id,c_of_name,c_st_id,c_st_name,c_crc_desc";
 
   // Configure multer for file name and location
@@ -54,11 +55,18 @@ module.exports = function (app, passport){
   			res.render('2csv_done.ejs', { file: req.file });
   	})
   });
-  //Error text box function
+  //Error test box function
 
   function pop_err(){
+    var fs = require('fs-extra');
   	var dialog = require('dialog');
   	dialog.warn("There was an error!,\nPlease reference to console for more details.");
+
+    var pathB="upload/testb.csv"
+    if(fs.existsSync(pathB)){
+
+    fs.unlinkSync(pathB);
+  }
   }
   // route middleware to make sure
   function isLoggedIn(req, res, next) {

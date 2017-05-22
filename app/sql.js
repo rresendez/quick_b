@@ -1,7 +1,7 @@
 module.exports = function(app, passport) {
 
 	var express = require('express');
-	var fs = require('fs');
+	var fs = require('fs-extra');
 	var csv = require('fast-csv');
 	var mysql = require("mysql");
 	var dialog = require('dialog');
@@ -555,7 +555,7 @@ module.exports = function(app, passport) {
 		dob = dob[0];
 		dob= dob.split("/");
 		dob= dob[2]+"-"+dob[0]+"-"+dob[1];
-		con.query('INSERT INTO tbl_patient (numid_patient,firstname_patient,lastname_patient,gender_patient,datebirth_patient) VALUES(?,?,?,?,?)',[data.c_pe_patient_id,name[1],name[0],"M",dob],function(err,result){
+		con.query('INSERT INTO tbl_patient (numid_patient,firstname_patient,lastname_patient,gender_patient,datebirth_patient) VALUES(?,?,?,?,?)',[data.c_pe_patient_id,name[1][1],name[0][0],"M",dob],function(err,result){
 			if(err) callback(err,null);
 			else{
 				con.query("SELECT LAST_INSERT_ID() as last",function(err,res){
@@ -578,11 +578,17 @@ module.exports = function(app, passport) {
 	}
 
 
-//Error text box function
+//Error test box function
 
 function pop_err(){
 	var dialog = require('dialog');
 	dialog.warn("There was an error!,\nPlease reference to console for more details.");
+	var path="upload/test.csv";
+	var pathB="upload/testb.csv"
+	if(fs.existsSync(path)){
+	fs.unlinkSync(path);
+
+}
 }
 //Function formart date_ind
 
