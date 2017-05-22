@@ -9,9 +9,9 @@
 	</style>
 </head>
 <body>
-	<% include ./partials/logos %>
+	<% include ./partials/logo %>
 	<div class="page-header text-center">
-		<h1><span class="fa fa-upload"></span> CSV Upload</h1>
+		<h1><span class="fa fa-upload"></span>  Schedulle File Upload</h1>
 		<a href="/logout" class="btn btn-default btn-sm">Logout</a>
 	</div>
 <div class="container">
@@ -26,13 +26,13 @@
 	<!-- LOGIN FORM -->
 	<form action='/upload' method="post" enctype="multipart/form-data">
 		<div class="form-group">
-			<label>CSV</label>
+			<label>CSV Schedulle</label>
 			<input type="file" name="csv" accept=".csv"/>
 
 		</div>
 
 
-		<input type="submit" class="btn btn-warning btn-lg" />
+		<input type="submit" class="btn btn-danger btn-lg" />
 	</form>
 
 	<hr>

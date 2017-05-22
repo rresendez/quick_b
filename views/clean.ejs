@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
 <head>
-	<title>DB Clean up</title>
+	<title>Database Clean up</title>
 	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css"> <!-- load bootstrap css -->
 	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"> <!-- load fontawesome -->
 	<style>
@@ -9,9 +9,9 @@
 	</style>
 </head>
 <body>
-	<% include ./partials/logos %>
+	<% include ./partials/logo %>
 	<div class="page-header text-center">
-		<h1><span class="fa fa-trash-o"></span> DB Clean up</h1>
+		<h1><span class="fa fa-trash-o"></span> Database Clean up</h1>
 		<a href="/logout" class="btn btn-default btn-sm">Logout</a>
 	</div>
 <div class="container">
@@ -25,15 +25,16 @@
 
 	<!-- LOGIN FORM -->
 	<form action='/clean' method="post" >
-		<div class="form-group">
-			<label>DB clean up</label>
+		<div class="form-group " align="center">
+		
 
 
-		</div>
 
 
-		<input type="submit" class="btn btn-warning btn-lg" value="Clean"/>
+
+		<input type="submit" class="btn btn-danger btn-lg" value="Clean"/>
 	</form>
+	</div>
 
 	<hr>
 

@@ -9,30 +9,44 @@
 		body 		{ padding-top:80px; word-wrap:break-word; }
 	</style>
 </head>
-<body>
-	<% include ./partials/logos %>
-<div class="container">
+<body >
+	<% include ./partials/logo %>
+<div class="container" >
 
 	<div class="page-header text-center">
-		<h1><span class="fa fa-anchor"></span> Profile Page</h1>
+		<h1> Profile Page</h1>
 
 	</div>
 
-	<div class="row">
+	<div class="row" >
 
 		<!-- LOCAL INFORMATION -->
-		<div class="col-sm-6">
+		<div class="col-sm-8" >
 			<div class="well">
 				<h3><span class="fa fa-user"></span> Local</h3>
 
 					<p>
-						<strong>id</strong>: <%= user.id %><br>
-						<strong>username</strong>: <%= user.username %><br>
+						<strong>ID</strong>: <%= user.id %><br>
+						<strong>Username</strong>: <%= user.username %><br>
 
 					</p>
+					<Strong  >
+						Welcome to Sync Module follow the steps below to sync Database.
+					</Strong></br>
+				</br>
+					<p> 1) Click Upload CSV to begin, click choose file and select  your schedulle CSV and submit  it.</p>
+					<p> 2) Once the file is uploaded , proceed to execute the sync. Be sure to wait a minute or so for the sync to finish.</p>
+					<p> 3) Proceed with Database clean up , this will delete orphan entries in the Database.</p>
+					<p> 4) After clean operation is done ,its time to upload the appointment state CSV. </p>
+					<p> 5) Once the file is uploaded , proceed to execute the appointment state update. </p>
+					<p> 6) If you reach Final step completed page and there is NO pop up windows , sync is completed.</p>
+
+
 
 			</div>
+			<% if(user.id<3) { %>
 			<a href="/signup" class="btn btn-default btn-sm">Signup</a>
+			<% } %>
 			<a href="/upload" class="btn btn-default btn-sm">Upload CSV</a>
 			<a href="/clean" class="btn btn-default btn-sm">DB Clean Up</a>
 			<a href="/logout" class="btn btn-default btn-sm">Logout</a>
