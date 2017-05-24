@@ -18,7 +18,12 @@ app.post('/sql2', isLoggedIn, function(req,res){
   //Load CSV
   var stream = fs.createReadStream('./upload/testb.csv');
   //Create SQL connection
-  var con = mysql.createConnection(dbconfig.connection);
+  var pool = mysql.createPool(dbconfig.connection);
+
+  pool.getConnection(function (err, con){
+    if(err){
+      console.log(err);
+    }
   //Open CSV
   csv
     .fromStream(stream,{headers:true})
@@ -49,7 +54,7 @@ app.post('/sql2', isLoggedIn, function(req,res){
             }
             else {
               //Create SQL connection
-              var con = mysql.createConnection(dbconfig.connection);
+              //var con = mysql.createConnection(dbconfig.connection);
 
               var query = "UPDATE tbl_log_csv SET state_update=state_update+? WHERE id=?";
               update_log(con,query,result.affectedRows,log_id,function(err,res){
@@ -64,7 +69,7 @@ app.post('/sql2', isLoggedIn, function(req,res){
             console.log("State on db updated");
             console.log(result);
 
-            con.end();
+
           }
           })
 
@@ -78,6 +83,7 @@ app.post('/sql2', isLoggedIn, function(req,res){
     .on("end", function(){
       console.log("CSV file closed");
     })
+  })
 
 
   final_clean(res);
