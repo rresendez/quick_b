@@ -25,7 +25,11 @@ app.post('/clean',isLoggedIn, function(req,res){
   //Define log id
     var log_id = myModule.log;
   //Create connection
-  var con = mysql.createConnection(dbconfig.connection);
+  var pool = mysql.createPool(dbconfig.connection);
+  pool.getConnection(function (err, con){
+    if(err){
+      console.log(err);
+    }
 
     // Get ID using function
         getID(con, function(err,data){
@@ -35,7 +39,7 @@ app.post('/clean',isLoggedIn, function(req,res){
           }
           else{
             //Create new connection
-            var con = mysql.createConnection(dbconfig.connection);
+
             data.forEach(function(result){
               console.log(result.id);
               remove(con,result,function(err,res){
@@ -47,7 +51,7 @@ app.post('/clean',isLoggedIn, function(req,res){
                   console.log("Deleted orphan");
                   console.log(res);
                   //Create new Mysql connection  //Create connection
-                    var con = mysql.createConnection(dbconfig.connection);
+
                   // Setup query for log
                   var query = "UPDATE tbl_log_csv SET db_orphan=db_orphan+? WHERE id=?";
                   update_log(con,query,res.affectedRows,log_id,function(err,result){
@@ -63,9 +67,9 @@ app.post('/clean',isLoggedIn, function(req,res){
               })
             });
             //End connection
-            con.end();
+
             //Create new connection
-            var con = mysql.createConnection(dbconfig.connection);
+
             //Delete table after used
 
             del_table(con,function(err,result){
@@ -77,14 +81,15 @@ app.post('/clean',isLoggedIn, function(req,res){
                 console.log(result);
               }
             })
-            con.end();
+
             res.render('clean_done');
+
           }
         })
         //Close connection
 
 
-
+})
 
 });
 
