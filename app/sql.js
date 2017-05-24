@@ -50,7 +50,7 @@ module.exports = function(app, passport) {
 		log_date= log_date[2]+"-"+log_date[0]+"-"+log_date[1];
 		console.log("Lod date: "+log_date);
 		//Create entry for log table
-		var con = mysql.createPool(dbconfig.connection);
+		var con = mysql.createConnection(dbconfig.connection);
 		create_log(con,req,log_date,function(err,result){
 			if(err) {
 				 console.error(err);
@@ -60,6 +60,7 @@ module.exports = function(app, passport) {
 			else{
 				console.log("Log created ");
 				log_id=result[0].last;
+				console.log("Log number : "+ log_id);
 				exports.log=log_id;
 				con.end();
 
@@ -588,16 +589,17 @@ module.exports = function(app, passport) {
 	}
 	//Function update log
 	function update_log(con,query,value,id,callback){
-		var mysql = require('mysql');
-		var dbconfig = require('../config/database');
-		var con = mysql.createConnection(dbconfig.connection);
+		//var mysql = require('mysql');
+		//var dbconfig = require('../config/database');
+		//var con = mysql.createConnection(dbconfig.connection);
 		con.query(query,[value,id],function(err,result){
 			if(err)callback(err,null);
 			else{
+				console.log("Log updated");
 				callback(null,result);
 			}
 		})
-		con.end();
+
 	}
 
 
