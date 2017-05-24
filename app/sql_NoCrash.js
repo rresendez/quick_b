@@ -480,7 +480,6 @@ module.exports = function(app, passport) {
 
   		.on("end", function(){
         console.log("CSV file closed");
-				con.release();
 
 
 
@@ -588,16 +587,12 @@ module.exports = function(app, passport) {
 	}
 	//Function update log
 	function update_log(con,query,value,id,callback){
-		var mysql = require('mysql');
-		var dbconfig = require('../config/database');
-		var con = mysql.createConnection(dbconfig.connection);
 		con.query(query,[value,id],function(err,result){
 			if(err)callback(err,null);
 			else{
 				callback(null,result);
 			}
 		})
-		con.end();
 	}
 
 
