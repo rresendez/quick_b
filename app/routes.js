@@ -75,6 +75,7 @@ module.exports = function(app, passport) {
 					if(err)console.log(err);
 					else{
          console.log(rows);
+				 con.end();
 				 res.render('logs.ejs',{data:rows});
 			 		}
 				})

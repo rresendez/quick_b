@@ -13,18 +13,25 @@
 	<% include ./partials/logo %>
 <div class="container">
 
-<div class="col-sm-6 col-sm-offset-3">
+<div class="col-sm-100 col-sm-offset-3">
 
 	<h1><span class="fa fa-check-circle"></span>Logs</h1>
-  <table border="2">
-    <col width="120">
-    <col width="100">
+
+  <table border="2" align="left">
+
+
+
 
     <thead>
       <tr>
-        <th>User</th>
-        <th>Affected Rows </th>
-        <th>Date</th>
+        <th style="text-align:center" width="150">User</th>
+        <th style="text-align:center" width="150" >Date</th>
+        <th style="text-align:center" width="150">Create entry </th>
+        <th style="text-align:center" width="150">Deleted non 4 </th>
+        <th style="text-align:center" width="150">Time not match </th>
+        <th style="text-align:center" width="150">Time match </th>
+        <th style="text-align:center" width="150">Database Orphan</th>
+        <th style="text-align:center" width="150">State Upadete</th>
       </tr>
     </thead>
   <tbody>
@@ -32,19 +39,21 @@
     <% data.forEach(function(row){ %>
       <tr>
       <td align="center"><%= row.username %> </td>
-     <td align="center"><%= row.rows_affected %> </td>
      <td align="center"><%= row.date %> </td>
+     <td align="center"><%= row.create_entry %> </td>
+      <td align="center"><%= row.del_non_4 %> </td>
+        <td align="center"><%= row.time_non_match %> </td>
+        <td align="center"><%= row.time_match %> </td>
+        <td align="center"><%= row.db_orphan %> </td>
+        <td align="center"><%= row.state_update %> </td>
    </tr>
     <% }); %>
-
-
-
-
-
-	<p>Go back <a href="/profile">profile</a></p>
+  </table>
 
 </div>
 
 </div>
+</br>
+ <p align="center" >Go back to <a href="/profile">profile</a></p>
 </body>
 </html>
