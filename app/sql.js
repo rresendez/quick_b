@@ -120,26 +120,27 @@ module.exports = function(app, passport) {
 				}
 				if(result.length==0){
 
-					add_patient(con,data,function(err,result){
+					add_patient(con,data,function(err,resu){
 						if(err){
 							console.log(err);
 							pop_err();
 						}
 						else{
 							console.log("New patient created");
-							console.log(result);
-							real_id.push(result[0].last);
-							console.log("New patient id: "+result[0].last);
+							console.log(resu);
+							real_id.push(resu[0].last);
+							console.log("New patient id: "+resu[0].last);
 							var temp_id_date= format_date_fn(data);
 							console.log(temp_id_date);
 
-							con.query("INSERT INTO tbl_tmp_id(id,date) VALUES (? ,?)",[result[0].id,temp_id_date],function(err,resu){
+
+							con.query("INSERT INTO tbl_tmp_id(id,date) VALUES (? ,?)",[resu[0].id,temp_id_date],function(err,resul){
 								if(err){
 									console.log(err);
 									pop_err();
 								}
 								console.log("Temp table result");
-								console.log(resu);
+								console.log(resul);
 
 							});
 
@@ -194,7 +195,7 @@ module.exports = function(app, passport) {
 					// New conection
 
 					//Insert
-					if(typeof real_id[0]!='undefined'){
+					if(typeof result[0]!='undefined'){
 					con.query("INSERT INTO tbl_tmp_id(id,date) VALUES (? ,?)",[result[0].id,format_date],function(err,resu){
 						if(err){
 							console.log(err);
@@ -208,11 +209,23 @@ module.exports = function(app, passport) {
 
 
 				}
+				var temp_id_3;
+				if(typeof result[0]=='undefined'){
+					console.log("empty result form first query");
+					get_new_id(con,data,function(err,res){
+						if(err) console.log(err);
+						else{
+							temp_id_3=res[0].id;
+						}
+					})
+				}else{
+					temp_id_3=result[0].id;
+				}
 
-  			// New conection
+
 
   			//Second query
-  			con.query("SELECT * FROM tbl_consult WHERE id_patient=? and date_consult=?",[result[0].id,format_date],function (err_b,result_b){
+  			con.query("SELECT * FROM tbl_consult WHERE id_patient=? and date_consult=?",[temp_id_3,format_date],function (err_b,result_b){
 
   			if(err_b) {
 					console.log(err_b);
@@ -241,56 +254,47 @@ module.exports = function(app, passport) {
 						}
 						else if (id.length>0){
 							console.log("Real provider id: "+ id[0].id);
+
 							//Create new connection for subquery
-							//Create temp real id
+							get_new_id(con,data,function(err,result){
+								if(err) console.log(err);
+								else{
+									//Creating new entries
+									insert_real_id=result[0].id;
 
+									add_new(con,format_date,data_time,insert_real_id,id[0].id,function(err,result){
+											if(err) {
+												console.log(err);
+												pop_err();
+											}
+											else{
+												console.log("Result for entry creation");
+												console.log(result);
+												//Create log
+												var qry1="UPDATE tbl_log_csv SET create_entry=create_entry+? WHERE id=?";
+												var value= result.affectedRows;
+												console.log("affectedrows: "+ value);
+												update_log(con,qry1,value,log_id,function(err,res){
+													if(err)console.error(err);
+													else{
+														console.log(res);
+														//End conection
 
-								//Check for new entry no real id
-								get_new_id(con,data,function(err,result){
-									if(err)console.log(err);
-									else{
-										console.log("Real new id:");
-										console.log(result[0].id);
-										insert_real_id=result[0].id;
-										add_new(con,format_date,data_time,insert_real_id,id[0].id,function(err,result){
-												if(err) {
-													console.log(err);
-													pop_err();
-												}
-												else{
-													console.log("Result for entry creation");
-													console.log(result);
-													//Create log
-													var qry1="UPDATE tbl_log_csv SET create_entry=create_entry+? WHERE id=?";
-													var value= result.affectedRows;
-													console.log("affectedrows: "+ value);
-													update_log(con,qry1,value,log_id,function(err,res){
-														if(err)console.error(err);
-														else{
-															console.log(res);
-															//End conection
-
-														}
-													})
+													}
+												})
 
 
 
 
 
-												}
-											})
-									}
-								})
+											}
+										})
+
+								}
+							})
 
 
 
-
-
-						}
-//No provider found
-						else{
-							console.log("Provider doesn't exist in table.");
-							pop_err();
 						}
 					})
 
@@ -596,23 +600,13 @@ module.exports = function(app, passport) {
 			if(err) callback(err,null);
 			else{
 				get_new_id(con,data,function(err,result){
-					if(err)console.log(err);
+					if(err) callback(err,null);
 					else{
 						callback(null,result);
 					}
 				})
-
 			}
 		})
-	}
-	function get_new_id (con,data,callback){
-		con.query("SELECT id FROM tbl_patient WHERE numid_patient=? ",[data.c_pe_patient_id],function(err,res){
-			if(err) callback(err,null);
-			else{
-				callback(null,res);
-			}})
-
-
 	}
 	//Function update log
 	function update_log(con,query,value,id,callback){
@@ -643,6 +637,16 @@ function pop_err(){
 
 }
 }
+//Function get new id
+function get_new_id (con,data,callback){
+		con.query("SELECT id FROM tbl_patient WHERE numid_patient=? ",[data.c_pe_patient_id],function(err,res){
+			if (err) callback(err,null);
+			else{
+				callback(null,res);
+			}})
+
+
+	}
 //Function formart date_ind
 
 function format_date_fn (data){
