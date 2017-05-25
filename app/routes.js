@@ -68,10 +68,15 @@ module.exports = function(app, passport) {
 					}
 					console.log('Connection to MySQL established');
 				});
-				con.query("SELECT * FROM logs ORDER BY date DESC ",function(err,rows){
+
+				var userN =req.user.username;
+				console.log(userN);
+				con.query("SELECT * FROM tbl_log_csv WHERE username=? ",[userN],function(err,rows){
+					if(err)console.log(err);
+					else{
          console.log(rows);
 				 res.render('logs.ejs',{data:rows});
-
+			 		}
 				})
 
 
@@ -180,7 +185,17 @@ app.post('/upload',isLoggedIn, function(req,res){
 		req.logout();
 		res.redirect('/');
 	});
+  // =====================================
+	// SECOND STAGE ========================
+	// =====================================
+  app.get('/second', function(req,res){
+    res.render('clean_done');
+  });
+
+
+
 };
+
 //Error text box function
 
 function pop_err(){
@@ -191,7 +206,7 @@ function pop_err(){
 
 	if(fs.existsSync(path)){
 	fs.unlinkSync(path);
-	
+
 }
 
 

@@ -52,7 +52,7 @@ module.exports = function(app, passport) {
 		console.log("Lod date: "+log_date);
 		//Create entry for log table
 		var con = mysql.createConnection(dbconfig.connection);
-		create_log(con,req,log_date,function(err,result){
+		create_log(con,req,function(err,result){
 			if(err) {
 				 console.error(err);
 				 pop_err();
@@ -569,11 +569,11 @@ module.exports = function(app, passport) {
 	}
 	//Function add log
 
-	function create_log(con,req,date,callback){
+	function create_log(con,req,callback){
 
 
 		//date = date.toString();
-		con.query('INSERT INTO tbl_log_csv (username,date) VALUES (?,?)',[req.user.username,date],function(err,result){
+		con.query('INSERT INTO tbl_log_csv (username,date) VALUES (?,NOW())',[req.user.username],function(err,result){
 			if(err) callback(err,null);
 			else{
 				con.query("SELECT LAST_INSERT_ID() as last",function(err,res){
