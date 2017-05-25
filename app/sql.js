@@ -11,6 +11,7 @@ module.exports = function(app, passport) {
 	var csv_count =0;
 	var log_id=0;
 	var real_id=[];
+	var insert_real_id;
 
 	var dbconfig = require('../config/database');
 	var exports = module.exports={};
@@ -132,7 +133,7 @@ module.exports = function(app, passport) {
 							var temp_id_date= format_date_fn(data);
 							console.log(temp_id_date);
 
-							con.query("INSERT INTO tbl_tmp_id(id,date) VALUES (? ,?)",[result[0].last,temp_id_date],function(err,resu){
+							con.query("INSERT INTO tbl_tmp_id(id,date) VALUES (? ,?)",[result[0].id,temp_id_date],function(err,resu){
 								if(err){
 									console.log(err);
 									pop_err();
@@ -194,7 +195,7 @@ module.exports = function(app, passport) {
 
 					//Insert
 					if(typeof real_id[0]!='undefined'){
-					con.query("INSERT INTO tbl_tmp_id(id,date) VALUES (? ,?)",[real_id[0],format_date],function(err,resu){
+					con.query("INSERT INTO tbl_tmp_id(id,date) VALUES (? ,?)",[result[0].id,format_date],function(err,resu){
 						if(err){
 							console.log(err);
 							pop_err();
@@ -211,7 +212,7 @@ module.exports = function(app, passport) {
   			// New conection
 
   			//Second query
-  			con.query("SELECT * FROM tbl_consult WHERE id_patient=? and date_consult=?",[real_id[0],format_date],function (err_b,result_b){
+  			con.query("SELECT * FROM tbl_consult WHERE id_patient=? and date_consult=?",[result[0].id,format_date],function (err_b,result_b){
 
   			if(err_b) {
 					console.log(err_b);
@@ -241,39 +242,55 @@ module.exports = function(app, passport) {
 						else if (id.length>0){
 							console.log("Real provider id: "+ id[0].id);
 							//Create new connection for subquery
+							//Create temp real id
 
 
-							//Creating new entries
-							var insert_real_id=real_id.shift();
+								//Check for new entry no real id
+								get_new_id(con,data,function(err,result){
+									if(err)console.log(err);
+									else{
+										console.log("Real new id:");
+										console.log(result[0].id);
+										insert_real_id=result[0].id;
+										add_new(con,format_date,data_time,insert_real_id,id[0].id,function(err,result){
+												if(err) {
+													console.log(err);
+													pop_err();
+												}
+												else{
+													console.log("Result for entry creation");
+													console.log(result);
+													//Create log
+													var qry1="UPDATE tbl_log_csv SET create_entry=create_entry+? WHERE id=?";
+													var value= result.affectedRows;
+													console.log("affectedrows: "+ value);
+													update_log(con,qry1,value,log_id,function(err,res){
+														if(err)console.error(err);
+														else{
+															console.log(res);
+															//End conection
 
-						add_new(con,format_date,data_time,insert_real_id,id[0].id,function(err,result){
-								if(err) {
-									console.log(err);
-									pop_err();
-								}
-								else{
-									console.log("Result for entry creation");
-									console.log(result);
-									//Create log
-									var qry1="UPDATE tbl_log_csv SET create_entry=create_entry+? WHERE id=?";
-									var value= result.affectedRows;
-									console.log("affectedrows: "+ value);
-									update_log(con,qry1,value,log_id,function(err,res){
-										if(err)console.error(err);
-										else{
-											console.log(res);
-											//End conection
-
-										}
-									})
+														}
+													})
 
 
 
 
 
-								}
-							})
+												}
+											})
+									}
+								})
 
+
+
+
+
+						}
+//No provider found
+						else{
+							console.log("Provider doesn't exist in table.");
+							pop_err();
 						}
 					})
 
@@ -296,7 +313,7 @@ module.exports = function(app, passport) {
 					console.log("Option 1 and 3 found, deleting all non 4 states")
 					//Create new sql connection
 
-					remove_not(con,real_id[0],format_date,function(err,result){
+					remove_not(con,result[0].id,format_date,function(err,result){
 						if(err){
 							console.log(err);
 							pop_err();
@@ -376,7 +393,7 @@ module.exports = function(app, passport) {
 									if(result_b.length>1){
 										//Create new sql connection
 
-									del_two(con,format_date,real_id[0],temp_id,function(err,result){
+									del_two(con,format_date,result[0].id,temp_id,function(err,result){
 										if(err) {
 											console.log(err);
 											pop_err();
@@ -414,7 +431,7 @@ module.exports = function(app, passport) {
 
 						//Create new sql connection
 
-						del_two(con,format_date,real_id[0],temp_id_2,function(err,result){
+						del_two(con,format_date,result[0].id,temp_id_2,function(err,result){
 							if(err) {
 								console.log(err);
 								pop_err();
@@ -578,14 +595,24 @@ module.exports = function(app, passport) {
 		con.query('INSERT INTO tbl_patient (numid_patient,firstname_patient,lastname_patient,gender_patient,datebirth_patient) VALUES(?,?,?,?,?)',[data.c_pe_patient_id,name[1][1],name[0][0],"M",dob],function(err,result){
 			if(err) callback(err,null);
 			else{
-				con.query("SELECT LAST_INSERT_ID() as last",function(err,res){
-					if(err) callback(err,null);
+				get_new_id(con,data,function(err,result){
+					if(err)console.log(err);
 					else{
-						callback(null,res);
+						callback(null,result);
 					}
 				})
+
 			}
 		})
+	}
+	function get_new_id (con,data,callback){
+		con.query("SELECT id FROM tbl_patient WHERE numid_patient=? ",[data.c_pe_patient_id],function(err,res){
+			if(err) callback(err,null);
+			else{
+				callback(null,res);
+			}})
+
+
 	}
 	//Function update log
 	function update_log(con,query,value,id,callback){
