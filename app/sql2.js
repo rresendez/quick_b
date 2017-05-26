@@ -93,10 +93,10 @@ app.post('/sql2', isLoggedIn, function(req,res){
 // Function update state
 
 function updateState(con,state,temp_id,format_date,callback){
-  if(state==5){
-    state=3;
-  }
-  con.query("UPDATE tbl_consult SET id_state=? WHERE id_patient=? AND date_consult=? ",[state,temp_id,format_date],function(err,result){
+  console.log("incoming state "+state);
+  var fixedS=state_correct(state);
+  console.log(fixedS);
+  con.query("UPDATE tbl_consult SET id_state=? WHERE id_patient=? AND date_consult=? ",[fixedS,temp_id,format_date],function(err,result){
     if(err) callback(err,null);
     else{
       callback(null,result);
@@ -143,6 +143,28 @@ function final_clean(){
 }
 
 
+}
+// function state corrector
+function state_correct(state){
+    var initialState=0;
+    var fixedState;
+    initialState=state;
+  switch (initialState) {
+    case '1':
+    fixedState=3;
+      break;
+    case '2':
+    fixedState=5;
+      break;
+    case '3':
+    fixedState=6;
+      break;
+    default:
+    fixedState=8;
+    break;
+
+  }
+  return fixedState;
 }
 // route middleware to make sure
 function isLoggedIn(req, res, next) {
