@@ -93,6 +93,9 @@ app.post('/sql2', isLoggedIn, function(req,res){
 // Function update state
 
 function updateState(con,state,temp_id,format_date,callback){
+  if(state==5){
+    state=3;
+  }
   con.query("UPDATE tbl_consult SET id_state=? WHERE id_patient=? AND date_consult=? ",[state,temp_id,format_date],function(err,result){
     if(err) callback(err,null);
     else{
