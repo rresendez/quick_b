@@ -92,7 +92,7 @@ module.exports = function(app, passport) {
   //MYSQL_CONNECTION=======================
 
       //MySQL conneciton to db
-  	if(data.c_pe_patient_id!=""){
+  	if(data.c_pe_patient_id!=""&& ! (isNaN(data.c_pe_patient_id))){
 
 
 
@@ -159,14 +159,7 @@ module.exports = function(app, passport) {
 
   			//Split csv date into date and time
   			var temp_data = data.t_ap_starttime.split(" ");
-
-  			//Check for missing 0 in date format
-  			if(temp_data[0][1]=="/"){
-  				temp_data[0]="0"+temp_data[0];
-  			}
-  			//Assing date to variable
-  			var data_date = temp_data[0];
-
+				//Format time first from start time
   			//Check for missing 0 in time format
   			if(temp_data[1][1]==":"){
   				temp_data[1]="0"+temp_data[1];
@@ -174,6 +167,14 @@ module.exports = function(app, passport) {
   			//Finish correcting wrong time format
   			var data_time = temp_data[1]+":00";
   			//Correct CSV date format
+				//Get date from date appoinment
+						temp_data = data.d_ap_date.split(" ");
+				//Check for missing 0 in date format
+				if(temp_data[0][1]=="/"){
+					temp_data[0]="0"+temp_data[0];
+				}
+				//Assing date to variable
+				var data_date = temp_data[0];
   			var format_date=data_date.split("/");
 
   			format_date= format_date[2]+"-"+format_date[0]+"-"+format_date[1];
@@ -295,6 +296,10 @@ module.exports = function(app, passport) {
 
 
 
+						}
+						else{
+							console.log("There is no provier mathing the csv");
+							pop_err();
 						}
 					})
 

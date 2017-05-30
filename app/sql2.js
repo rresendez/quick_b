@@ -34,6 +34,71 @@ app.post('/sql2', isLoggedIn, function(req,res){
           pop_err();
         }
         else{
+          // Test for no id on patient table AKA create new patient
+          console.log(resu.length);
+
+          if(resu.length==0){
+            console.log("No patient found");
+            //Declare new patient ID and provider ID var
+            var newPID;
+            var proID;
+            var format_date
+            var state = data.status[0];
+            //Add patient that doesn't exists
+            add_patient(con,data,function(err,patID){
+              if(err)console.log(err);
+              else{
+                console.log(patID);
+
+                //Assgin new idd and get provider ID
+                newPID= patID[0].id;
+                console.log("New patient added, patient id is:"+ newPID);
+                get_prov(con,data,function(err,provID){
+                  if(err)console.log(err);
+                  else{
+                    console.log(provID);
+
+                    //Get provider ID
+                    proID=provID[0].id;
+                    console.log("Provider ID: "+ proID);
+                    //Format date
+                    format_date = format_date_fn(data);
+                    add_new(con,format_date,newPID,proID,function(err,entry){
+                      if(err)console.log(err);
+                      else{
+                        console.log("New consult added");
+                        updateState(con,state,newPID,format_date,function(err,updateState){
+                          if(err)console.lo(err);
+                          else{
+                            console.log("State updated");
+                            var query = "UPDATE tbl_log_csv SET state_update=state_update+? WHERE id=?";
+                            update_log(con,query,updateState.affectedRows,log_id,function(err,res){
+                              if(err)console.log(err);
+                              else{
+                                console.log(res);
+                                console.log("Log updated");
+                              }
+                            })
+
+                          }
+
+                        })
+
+                      }
+
+                    })
+
+                  }
+                })
+
+              }
+
+
+            })
+
+
+        }
+          else{
           //Get real id
           var temp_id = resu[0].id;
           //Get status
@@ -72,8 +137,9 @@ app.post('/sql2', isLoggedIn, function(req,res){
 
           }
           })
-
         }
+        }
+
       })
 
 
@@ -109,7 +175,7 @@ function updateState(con,state,temp_id,format_date,callback){
 function getID(con,data,callback){
   con.query("SELECT * FROM tbl_patient WHERE numid_patient=?",[data.patid],function(err,result){
     if(err)callback(err,null);
-    else if (result.length>0){
+    else{
 
         callback(null,result);
     }
@@ -166,6 +232,78 @@ function state_correct(state){
   }
   return fixedState;
 }
+//Function get provider
+
+function get_prov(con,data,callback){
+  //Formating provider name
+  var prov_name = data.c_st_name.split(",");
+
+  var prov_fname = prov_name[1].slice(1);
+  console.log("Provider first name: "+ prov_fname);
+
+
+  con.query('SELECT id FROM tbl_user WHERE fristname_user=?',[prov_fname],function(err,id){
+    if(err) callback(err,null);
+    else if(id.length>0){
+       callback(null,id);}
+       else{
+         console.log("No provider found");
+         pop_err();
+       }
+
+  })
+}
+
+//Function add Patient
+function add_patient(con,data,callback){
+  var name = data.patname.split(",");
+  con.query('INSERT INTO tbl_patient (numid_patient,firstname_patient,lastname_patient,gender_patient) VALUES(?,?,?,?)',[data.patid,name[1][1],name[0][0],"M"],function(err,result){
+    if(err) callback(err,null);
+    else{
+      get_new_id(con,data,function(err,result){
+        if(err) callback(err,null);
+        else{
+          callback(null,result);
+        }
+      })
+    }
+  })
+}
+//Function get new id
+function get_new_id (con,data,callback){
+		con.query("SELECT id FROM tbl_patient WHERE numid_patient=? ",[data.patid],function(err,res){
+			if (err) callback(err,null);
+			else{
+				callback(null,res);
+			}})
+
+
+	}
+  //Function to add new entry
+	function add_new(con,format_date,real_id,id_provider,callback){
+		con.query('CALL 00000_Create_APP_RECORD(?,?,?,?)',[format_date,"08:00",real_id,id_provider],function(err,result){
+			if(err) callback(err,null);
+			else callback(null,result);
+		})
+	}
+  // Function format date
+  function format_date_fn (data){
+  	//Split csv date into date and time
+  	var temp_data = data.apptdate.split(" ");
+
+  	//Check for missing 0 in date format
+  	if(temp_data[0][1]=="/"){
+  		temp_data[0]="0"+temp_data[0];
+  	}
+  	//Assing date to variable
+  	var data_date = temp_data[0];
+
+  	//Correct CSV date format
+  	var format_date=data_date.split("/");
+
+   format_date= format_date[2]+"-"+format_date[0]+"-"+format_date[1];
+   return format_date;
+  }
 // route middleware to make sure
 function isLoggedIn(req, res, next) {
 
