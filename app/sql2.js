@@ -42,7 +42,7 @@ app.post('/sql2', isLoggedIn, function(req,res){
             //Declare new patient ID and provider ID var
             var newPID;
             var proID;
-            var format_date
+            var format_date;
             var state = data.status[0];
             //Add patient that doesn't exists
             add_patient(con,data,function(err,patID){
@@ -71,6 +71,7 @@ app.post('/sql2', isLoggedIn, function(req,res){
                           if(err)console.lo(err);
                           else{
                             console.log("State updated");
+                            console.log("Log id: "+ log_id);
                             var query = "UPDATE tbl_log_csv SET state_update=state_update+? WHERE id=?";
                             update_log(con,query,updateState.affectedRows,log_id,function(err,res){
                               if(err)console.log(err);

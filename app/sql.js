@@ -92,7 +92,7 @@ module.exports = function(app, passport) {
   //MYSQL_CONNECTION=======================
 
       //MySQL conneciton to db
-  	if(data.c_pe_patient_id!=""&& ! (isNaN(data.c_pe_patient_id))){
+  	if(data.c_pe_patient_id!="" && ! (isNaN(data.c_pe_patient_id))){
 
 
 
