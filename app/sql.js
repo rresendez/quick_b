@@ -92,6 +92,7 @@ module.exports = function(app, passport) {
   //MYSQL_CONNECTION=======================
 
       //MySQL conneciton to db
+
   	if(data.c_pe_patient_id!="" && ! (isNaN(data.c_pe_patient_id))){
 
 
@@ -298,7 +299,7 @@ module.exports = function(app, passport) {
 
 						}
 						else{
-							console.log("There is no provier mathing the csv");
+							console.log("There is no provier matching the csv");
 							pop_err();
 						}
 					})

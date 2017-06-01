@@ -46,7 +46,7 @@ app.post('/sql2', isLoggedIn, function(req,res){
             var state = data.status[0];
             //Add patient that doesn't exists
             add_patient(con,data,function(err,patID){
-              if(err)console.log(err);
+              if(err){ console.log(err); pop_err();}
               else{
                 console.log(patID);
 
@@ -54,7 +54,10 @@ app.post('/sql2', isLoggedIn, function(req,res){
                 newPID= patID[0].id;
                 console.log("New patient added, patient id is:"+ newPID);
                 get_prov(con,data,function(err,provID){
-                  if(err)console.log(err);
+                  if(err){
+                    console.log(err);
+                    pop_err();
+                  }
                   else{
                     console.log(provID);
 
@@ -64,7 +67,7 @@ app.post('/sql2', isLoggedIn, function(req,res){
                     //Format date
                     format_date = format_date_fn(data);
                     add_new(con,format_date,newPID,proID,function(err,entry){
-                      if(err)console.log(err);
+                      if(err){ console.log(err); pop_err();}
                       else{
                         console.log("New consult added");
                         updateState(con,state,newPID,format_date,function(err,updateState){
@@ -74,7 +77,7 @@ app.post('/sql2', isLoggedIn, function(req,res){
                             console.log("Log id: "+ log_id);
                             var query = "UPDATE tbl_log_csv SET state_update=state_update+? WHERE id=?";
                             update_log(con,query,updateState.affectedRows,log_id,function(err,res){
-                              if(err)console.log(err);
+                              if(err){ console.log(err); pop_err();}
                               else{
                                 console.log(res);
                                 console.log("Log updated");
