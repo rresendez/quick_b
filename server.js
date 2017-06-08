@@ -32,6 +32,7 @@ app.use(bodyParser.json());
 
 app.set('view engine', 'ejs'); // set up ejs for templating
 
+//Sets the static files reference for the program when requesting for static files on the html
 app.use(express.static("public"));
 
 // required for passport

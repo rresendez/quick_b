@@ -2,7 +2,7 @@
 
 // app/routes.js
 module.exports = function(app, passport) {
-
+//Dependencies
 
 	var multer = require('multer');
 	var csv = require('fast-csv');
@@ -68,7 +68,7 @@ module.exports = function(app, passport) {
 					}
 					console.log('Connection to MySQL established');
 				});
-
+				// Get user name from session in order to find corresponding logs
 				var userN =req.user.username;
 				console.log(userN);
 				con.query("SELECT * FROM tbl_log_csv WHERE username=? ",[userN],function(err,rows){
@@ -76,6 +76,7 @@ module.exports = function(app, passport) {
 					else{
          console.log(rows);
 				 con.end();
+				 //Rendering logs and passing the data of results from query as data
 				 res.render('logs.ejs',{data:rows});
 			 		}
 				})
@@ -102,6 +103,7 @@ app.post('/upload',isLoggedIn, function(req,res){
 		}
 
 		 console.log("Buffer");
+		 //Ensures the uploaded file matches the fromat from the csv
 		 var buff = req.file.buffer.toString('utf-8',0,312)
      if(csv_a!=buff){
 			 dialog.warn("The file you uploaded, does not match the csv format, please try again.");
@@ -121,6 +123,7 @@ app.post('/upload',isLoggedIn, function(req,res){
 
 		 console.log("Inside");
 		  console.log(req.file);
+			//Render execution page and passes file information to ensure the file is correct
 			res.render('sql.ejs', { file: req.file });
 	})
 });
@@ -153,6 +156,7 @@ app.post('/upload',isLoggedIn, function(req,res){
 	app.get('/signup',isLoggedIn,  function(req, res) {
 		// render the page and pass in any flash data if it exists
 		console.log(req.user.id);
+		//This ensures that only the first 3 users can create new users
 		if(req.user.id==1||req.user.id==2||req.user.id==3){
 		res.render('signup.ejs', { message: req.flash('signupMessage') });
 	}

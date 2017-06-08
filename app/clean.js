@@ -1,6 +1,6 @@
 module.exports = function (app, passport){
+//Dependencies
 var mysql = require('mysql');
-
 var myModule= require('./sql.js');
 var dbconfig = require('../config/database');
 
@@ -22,7 +22,7 @@ app.get('/clean',isLoggedIn, function(req,res){
 //Post clean ejs
 
 app.post('/clean',isLoggedIn, function(req,res){
-  //Define log id
+  //Define log id this gets the logs id from the previous stage
     var log_id = myModule.log;
   //Create connection
   var pool = mysql.createPool(dbconfig.connection);
@@ -31,7 +31,7 @@ app.post('/clean',isLoggedIn, function(req,res){
       console.log(err);
     }
 
-    // Get ID using function
+    // Get ID's for non delition using function
         getID(con, function(err,data){
           if(err){
             console.log(err);
@@ -39,9 +39,10 @@ app.post('/clean',isLoggedIn, function(req,res){
           }
           else{
             //Create new connection
-
+            //Iteration trough results
             data.forEach(function(result){
               console.log(result.id);
+              //function to remove non wanted entries 
               remove(con,result,function(err,res){
                 if(err){
                   console.log(err);

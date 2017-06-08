@@ -1,8 +1,9 @@
 module.exports = function (app, passport){
+  //Dependencies
   var multer = require('multer');
   var dialog = require('dialog');
 
-
+//This variable holds the fields for the csv this ensure that the format of the file is the right one.
   const csv_b="apptdate,statusdate,patid,patname,status,hphone,wphone,ext,apptcode,purpose,note,n_pe_id,c_of_id,c_of_name,c_st_id,c_st_name,c_crc_desc";
 
   // Configure multer for file name and location
@@ -23,7 +24,7 @@ module.exports = function (app, passport){
 
   app.post('/bupload',isLoggedIn, function(req,res){
   //Check buffer to ensure csv format match
-
+//Upload function which uploads file
   	uploadB(req,res, function (err){
   		if(err){
   			console.log(err);
@@ -33,6 +34,7 @@ module.exports = function (app, passport){
   		}
 
   		 console.log("Buffer");
+       //Takes a a
   		 var buff = req.file.buffer.toString('utf-8',0,135)
        if(csv_b!=buff){
   			 dialog.warn("The file you uploaded, does not match the csv format, please try again.");

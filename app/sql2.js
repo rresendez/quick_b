@@ -1,4 +1,5 @@
 module.exports = function (app,passport){
+  //Dependencies
   var fs= require('fs');
   var csv = require('fast-csv');
   var mysql = require ("mysql");
@@ -13,6 +14,7 @@ module.exports = function (app,passport){
 //Execute route
 
 app.post('/sql2', isLoggedIn, function(req,res){
+  //Retrive log id
   var log_id=myModule.log;
 
   //Load CSV
@@ -35,8 +37,6 @@ app.post('/sql2', isLoggedIn, function(req,res){
         }
         else{
           // Test for no id on patient table AKA create new patient
-          console.log(resu.length);
-
           if(resu.length==0){
             console.log("No patient found");
             //Declare new patient ID and provider ID var
@@ -102,6 +102,7 @@ app.post('/sql2', isLoggedIn, function(req,res){
 
 
         }
+        //Else if real id exists just use that one
           else{
           //Get real id
           var temp_id = resu[0].id;
@@ -201,7 +202,10 @@ function pop_err(){
   var fs = require('fs-extra');
   var dialog = require('dialog');
   dialog.warn("There was an error!,\nPlease reference to console for more details.");
+  var pathB="upload/testb.csv";
+  if(fs.existsSync(pathB)){
   fs.unlinkSync("./upload/testb.csv");
+}
 }
 function final_clean(){
   var path="./upload/test.csv";
