@@ -155,7 +155,7 @@ app.post('/upload',isLoggedIn, function(req,res){
 	// show the signup form
 	app.get('/signup',isLoggedIn,  function(req, res) {
 		// render the page and pass in any flash data if it exists
-		console.log(req.user.id);
+		
 		//This ensures that only the first 3 users can create new users
 		if(req.user.id==1||req.user.id==2||req.user.id==3){
 		res.render('signup.ejs', { message: req.flash('signupMessage') });
