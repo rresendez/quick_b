@@ -398,7 +398,7 @@ module.exports = function(app, passport) {
 									if(result_b.length>1){
 										//Create new sql connection
 
-									del_two(con,format_date,result[0].id,temp_id,function(err,result){
+									del_two(con,format_date,result_b[0].id,temp_id,function(err,result){
 										if(err) {
 											console.log(err);
 											pop_err();
