@@ -95,7 +95,7 @@ app.get('/upload',isLoggedIn, function(req, res){
 // show result from input
 app.post('/upload',isLoggedIn, function(req,res){
 //Check buffer to ensure csv format match
-
+var con = mysql.createConnection(dbconfig.connection);
 	uploadB(req,res, function (err){
 		if(err){
 			console.log(err);
@@ -113,7 +113,13 @@ app.post('/upload',isLoggedIn, function(req,res){
 
 	})
 // If the format matches go ahead an upload the file
-
+del_table(con,function(err,res){
+	if(err) {console.log(err);
+						pop_err();}else{
+							console.log("Truncating temp id table");
+							console.log(res);
+						}
+})
 
 	upload(req,res, function (err){
 		if(err){
@@ -127,11 +133,6 @@ app.post('/upload',isLoggedIn, function(req,res){
 			res.render('sql.ejs', { file: req.file });
 	})
 });
-
-
-
-
-
 	// process the login form
 	app.post('/login', passport.authenticate('local-login', {
             successRedirect : '/profile', // redirect to the secure profile section
@@ -148,15 +149,14 @@ app.post('/upload',isLoggedIn, function(req,res){
             }
         res.redirect('/');
     });
-
 	// =====================================
 	// SIGNUP ==============================
 	// =====================================
 	// show the signup form
 	app.get('/signup',isLoggedIn,  function(req, res) {
 		// render the page and pass in any flash data if it exists
-		
-		//This ensures that only the first 3 users can create new users
+		console.log(req.user.id);
+		//This ensures that only admins
 		if(req.user.id==1||req.user.id==2||req.user.id==3){
 		res.render('signup.ejs', { message: req.flash('signupMessage') });
 	}
@@ -212,10 +212,16 @@ function pop_err(){
 	if(fs.existsSync(path)){
 	fs.unlinkSync(path);
 
-}
-
-
-
+}}
+//Function drop table
+function del_table (con,callback){
+  con.query('TRUNCATE tbl_tmp_id ',function(err,result){
+    if(err)callback(err,null);
+    else{
+      console.log("Table tbl_tmp_id deleted");
+      callback(null,result);
+    }
+  })
 }
 // route middleware to make sure
 function isLoggedIn(req, res, next) {

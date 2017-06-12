@@ -671,7 +671,6 @@ function format_date_fn (data){
  format_date= format_date[2]+"-"+format_date[0]+"-"+format_date[1];
  return format_date;
 }
-
   // route middleware to make sure
   function isLoggedIn(req, res, next) {
 
