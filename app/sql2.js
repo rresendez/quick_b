@@ -35,10 +35,11 @@ app.post('/sql2', isLoggedIn, function(req,res){
           console.log(err);
           pop_err();
         }
-        else{
+        else if(data.patname!=""){
           // Test for no id on patient table AKA create new patient
           if(resu.length==0){
             console.log("No patient found");
+            console.log("Printing patient name: " + data.patname);
             //Declare new patient ID and provider ID var
             var newPID;
             var proID;
@@ -264,6 +265,7 @@ function get_prov(con,data,callback){
 
 //Function add Patient
 function add_patient(con,data,callback){
+  console.log(data.patname);
   var name = data.patname.split(",");
   con.query('INSERT INTO tbl_patient (numid_patient,firstname_patient,lastname_patient,gender_patient) VALUES(?,?,?,?)',[data.patid,name[1][1],name[0][0],"M"],function(err,result){
     if(err) callback(err,null);
