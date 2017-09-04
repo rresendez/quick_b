@@ -267,7 +267,7 @@ function get_prov(con,data,callback){
 function add_patient(con,data,callback){
   console.log(data.patname);
   var name = data.patname.split(",");
-  con.query('INSERT INTO tbl_patient (numid_patient,firstname_patient,lastname_patient,gender_patient) VALUES(?,?,?,?)',[data.patid,name[1][1],name[0][0],"M"],function(err,result){
+  con.query('INSERT INTO tbl_patient (numid_patient,firstname_patient,lastname_patient,gender_patient) VALUES(?,?,?,?)',[data.patid,name[1].slice(0,2),name[0][0],"M"],function(err,result){
     if(err) callback(err,null);
     else{
       get_new_id(con,data,function(err,result){
