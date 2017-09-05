@@ -683,6 +683,8 @@ function pop_err(){
 	fs.unlinkSync(path);
 
 }
+}
+// function deactivate fk
 function pop_dea(){
 	var dialog = require('dialog');
 	var fs = require('fs-extra');
@@ -690,6 +692,7 @@ function pop_dea(){
 
 
 }
+// function re-eactivate fk
 function pop_rea(){
 	var dialog = require('dialog');
 	var fs = require('fs-extra');
@@ -697,7 +700,7 @@ function pop_rea(){
 
 
 }
-}
+
 //Function get new id
 function get_new_id (con,data,callback){
 		con.query("SELECT id FROM tbl_patient WHERE numid_patient=? ",[data.c_pe_patient_id],function(err,res){
