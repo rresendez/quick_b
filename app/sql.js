@@ -87,7 +87,7 @@ module.exports = function(app, passport) {
 				else{
 					console.log("Foreign key restriction deactivated");
 					console.log(res);
-					pop_dea();
+					
 				}
 			})
 
@@ -695,7 +695,7 @@ function pop_dea(){
 // function re-eactivate fk
 function pop_rea(){
 	var dialog = require('dialog');
-	
+
 	dialog.warn("Foreign key re-deactivated.");
 
 
