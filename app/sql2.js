@@ -351,7 +351,7 @@ function get_new_id (con,data,callback){
 	}
   //Function check if cosult exists
   function exist(con,temp_id,format_date,callback){
-    con.query("SELECT * FROM tbl_patient WHERE  date_consult=? AND id_patient=?",[format_date,temp_id],function(err,result){
+    con.query("SELECT * FROM tbl_consult WHERE  date_consult=? AND id_patient=?",[format_date,temp_id],function(err,result){
       if(err)callback(err,null);
 
     else{
