@@ -87,7 +87,7 @@ module.exports = function(app, passport) {
 				else{
 					console.log("Foreign key restriction deactivated");
 					console.log(res);
-					
+
 				}
 			})
 
@@ -521,7 +521,7 @@ module.exports = function(app, passport) {
 					else{
 						console.log("Foreign key restriction reactivated!");
 						console.log(res);
-						pop_rea();
+
 					}
 				})
 				con.release();
@@ -684,23 +684,6 @@ function pop_err(){
 
 }
 }
-// function deactivate fk
-function pop_dea(){
-	var dialog = require('dialog');
-
-	dialog.warn("Foreign key deactivated.");
-
-
-}
-// function re-eactivate fk
-function pop_rea(){
-	var dialog = require('dialog');
-
-	dialog.warn("Foreign key re-deactivated.");
-
-
-}
-
 //Function get new id
 function get_new_id (con,data,callback){
 		con.query("SELECT id FROM tbl_patient WHERE numid_patient=? ",[data.c_pe_patient_id],function(err,res){
