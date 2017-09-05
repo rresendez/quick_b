@@ -79,6 +79,17 @@ module.exports = function(app, passport) {
 			if(err){
 				console.log(err);
 			}
+			//Deactive foreign key checking
+			foreign(con,function(err,res){
+				if(err){
+					console.log(err);
+				}
+				else{
+					console.log("Foreign key restriction deactivated";)
+					console.log(res);
+				}
+			})
+
   	csv
   	  .fromStream(stream, {headers: true})
 
@@ -501,6 +512,16 @@ module.exports = function(app, passport) {
 //Close csv
   		.on("end", function(){
         console.log("CSV file closed");
+				foreignE(con,function(err,res){
+					if(err){
+						console.log(err);
+						pop_err();
+					}
+					else{
+						console.log("Foreign key restriction reactivated!");
+						console.log(res);
+					}
+				})
 				con.release();
 
 
@@ -522,6 +543,7 @@ module.exports = function(app, passport) {
 
   //MYSQL_CONNECTION_END=======================
   	res.render('sql_done');
+
 
 
 
@@ -621,6 +643,30 @@ module.exports = function(app, passport) {
 		})
 
 	}
+//Function disable foregin key
+function foreign(con,callback){
+	con.query("SET foreign_key_checks = 0",function(err,res){
+		if(err){
+			callback(err,null);
+
+		}
+		else{
+			callback(null,res);
+		}
+	})
+}
+//Function to re-enable foregin key restrain
+function foreignE(con,callback){
+	con.query("SET foreign_key_checks = 1",function(err,res){
+		if(err){
+			callback(err,null);
+
+		}
+		else{
+			callback(null,res);
+		}
+	})
+}
 
 
 //Error test box function
@@ -646,6 +692,9 @@ function get_new_id (con,data,callback){
 
 
 	}
+
+	//Function
+
 //Function formart date_ind
 
 function format_date_fn (data){
