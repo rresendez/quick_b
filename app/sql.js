@@ -87,6 +87,7 @@ module.exports = function(app, passport) {
 				else{
 					console.log("Foreign key restriction deactivated");
 					console.log(res);
+					pop_dea();
 				}
 			})
 
@@ -520,6 +521,7 @@ module.exports = function(app, passport) {
 					else{
 						console.log("Foreign key restriction reactivated!");
 						console.log(res);
+						pop_rea();
 					}
 				})
 				con.release();
@@ -679,6 +681,20 @@ function pop_err(){
 	var pathB="upload/testb.csv"
 	if(fs.existsSync(path)){
 	fs.unlinkSync(path);
+
+}
+function pop_dea(){
+	var dialog = require('dialog');
+	var fs = require('fs-extra');
+	dialog.warn("Foreign key deactivated.");
+
+
+}
+function pop_rea(){
+	var dialog = require('dialog');
+	var fs = require('fs-extra');
+	dialog.warn("Foreign key re-deactivated.");
+
 
 }
 }
