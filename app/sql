@@ -85,7 +85,7 @@ module.exports = function(app, passport) {
 					console.log(err);
 				}
 				else{
-					console.log("Foreign key restriction deactivated");
+					console.log("Foreign key restriction deactivated";)
 					console.log(res);
 				}
 			})

@@ -117,6 +117,66 @@ app.post('/sql2', isLoggedIn, function(req,res){
 
           console.log("Real id: " + temp_id);
           console.log("Status:" + state);
+          // Check for non existing appoinment
+          exist(con,temp_id,format_date,function(err,result){
+            if(err){
+              console.log(err);
+              pop_err();
+            }
+            else{
+              if(result.length==0){
+                //If the appoinment on the csv doesn't exist ,create it
+                get_prov(con,data,function(err,provID){
+                  if(err){
+                    console.log(err);
+                    pop_err();
+                  }
+                  else{
+                    console.log(provID);
+                    //Get state
+                    var state = data.status[0];
+
+                    //Get provider ID
+                    var proID=provID[0].id;
+                    console.log("Provider ID: "+ proID);
+                    //Format date
+                     var format_date = format_date_fn(data);
+                    add_new(con,format_date,temp_id,proID,function(err,entry){
+                      if(err){
+                        console.log(err);
+                        pop_err();}
+                      else{
+                        console.log("New consult added");
+                        updateState(con,state,temp_id,format_date,function(err,updateState){
+                          if(err)console.lo(err);
+                          else{
+                            console.log("State updated");
+                            console.log("Log id: "+ log_id);
+                            var query = "UPDATE tbl_log_csv SET state_update=state_update+? WHERE id=?";
+                            update_log(con,query,updateState.affectedRows,log_id,function(err,res){
+                              if(err){ console.log(err); pop_err();}
+                              else{
+                                console.log(res);
+                                console.log("Log updated");
+                              }
+                            })
+
+                          }
+
+                        })
+
+                      }
+
+                    })
+
+                  }
+                })
+
+
+              }
+            }
+          })
+
           //Call update funciton
           updateState(con,state,temp_id,format_date,function(err,result){
             if(err){
@@ -289,6 +349,17 @@ function get_new_id (con,data,callback){
 
 
 	}
+  //Function check if cosult exists
+  function exist(con,temp_id,format_date,callback){
+    con.query("SELECT * FROM tbl_patient WHERE  date_consult=? AND id_patient=?",[format_date,temp_id],function(err,result){
+      if(err)callback(err,null);
+
+    else{
+      callback(null,result);
+    }
+  })
+  }
+
   //Function to add new entry
 	function add_new(con,format_date,real_id,id_provider,callback){
 		con.query('CALL 00000_Create_APP_RECORD(?,?,?,?)',[format_date,"08:00",real_id,id_provider],function(err,result){
