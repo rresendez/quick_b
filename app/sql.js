@@ -687,7 +687,7 @@ function pop_err(){
 // function deactivate fk
 function pop_dea(){
 	var dialog = require('dialog');
-	var fs = require('fs-extra');
+
 	dialog.warn("Foreign key deactivated.");
 
 
@@ -695,7 +695,7 @@ function pop_dea(){
 // function re-eactivate fk
 function pop_rea(){
 	var dialog = require('dialog');
-	var fs = require('fs-extra');
+	
 	dialog.warn("Foreign key re-deactivated.");
 
 
