@@ -153,6 +153,18 @@ module.exports = function(app, passport) {
 				}
 				//It used to be a control statement but now is just code to run
   			if(true){
+					//Insert resulting id to temporay table
+					var temp_id_date= format_date_fn(data);
+					con.query("INSERT INTO tbl_tmp_id(id,date) VALUES (? ,?)",[result[0].id,temp_id_date],function(err,resul){
+						if(err){
+							console.log(err);
+							pop_err();
+						}
+						console.log("Temp table result");
+						console.log(resul);
+
+					});
+
 					//If there is real id use it else use one from created entry
 					if(result.length>0){
   			console.log("Real id: "+result[0].id);
