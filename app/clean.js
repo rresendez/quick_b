@@ -30,6 +30,17 @@ app.post('/clean',isLoggedIn, function(req,res){
     if(err){
       console.log(err);
     }
+    //Deactivate foreign key restrain
+    foreign(con,function(err,res){
+      if(err){
+        console.log(err);
+      }
+      else{
+        console.log("Foreign key restriction deactivated");
+        console.log(res);
+
+      }
+    })
 
     // Get ID's for non delition using function
         getID(con, function(err,data){
@@ -42,7 +53,7 @@ app.post('/clean',isLoggedIn, function(req,res){
             //Iteration trough results
             data.forEach(function(result){
               console.log(result.id);
-              //function to remove non wanted entries 
+              //function to remove non wanted entries
               remove(con,result,function(err,res){
                 if(err){
                   console.log(err);
@@ -80,6 +91,17 @@ app.post('/clean',isLoggedIn, function(req,res){
               }
               else{
                 console.log(result);
+                foreignE(con,function(err,res){
+        					if(err){
+        						console.log(err);
+        						pop_err();
+        					}
+        					else{
+        						console.log("Foreign key restriction reactivated!");
+        						console.log(res);
+
+        					}
+        				})
               }
             })
 
@@ -158,6 +180,30 @@ function update_log(con,query,value,id,callback){
   	var dialog = require('dialog');
   	dialog.warn("There was an error!,\nPlease reference to console for more details.");
     fs.unlinkSync("./upload/test.csv");
+  }
+  //Function disable foregin key
+  function foreign(con,callback){
+  	con.query("SET foreign_key_checks = 0",function(err,res){
+  		if(err){
+  			callback(err,null);
+
+  		}
+  		else{
+  			callback(null,res);
+  		}
+  	})
+  }
+  //Function to re-enable foregin key restrain
+  function foreignE(con,callback){
+  	con.query("SET foreign_key_checks = 1",function(err,res){
+  		if(err){
+  			callback(err,null);
+
+  		}
+  		else{
+  			callback(null,res);
+  		}
+  	})
   }
 
 // route middleware to make sure
