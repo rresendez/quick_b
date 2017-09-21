@@ -2,17 +2,17 @@
 module.exports = {
     'connection': {
         'host': "localhost",
-        'user': 'practez_modules',
-        'password': 'IngPss2015$@',
-        'database': 'test_db_BETA02',
+        'user': 'root',
+        'password': 'Rodriguez24',
+        'database': 'local_auth',
         'connectionLimit':20000,
         'connectTimeout':100000,
         'acquireTimeout':100000,
         'poolSize':10000,
         'queueLimit':1000
     },
-	'database': 'test_db_BETA02',
-    'users_table': 'tbl_users_servs',
+	'database': 'local_auth',
+    'users_table': 'users',
     'log_table': 'logs'
 
 };

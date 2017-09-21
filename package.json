@@ -16,6 +16,7 @@
     "express-session": "^1.11.3",
     "fast-csv": "^2.4.0",
     "fs-extra": "^3.0.1",
+    "mongodb": "^2.2.31",
     "morgan": "^1.6.0",
     "multer": "^1.3.0",
     "mysql": "^2.13.0",
